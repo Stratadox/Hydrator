@@ -23,6 +23,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": ">=6.3",
+        "rpkamp/fancy-testdox-printer": "^0.1.1",
+        "satooshi/php-coveralls": "^1.0",
         "stratadox/immutable-collection": ">=1.0"
     }
 }
