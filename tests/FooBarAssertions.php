@@ -21,5 +21,9 @@ trait FooBarAssertions
     }
 
     /** @see Assert::assertSame */
-    abstract public static function assertSame($expected, $actual, $message = '');
+    abstract public static function assertSame(
+        $expected,
+        $actual,
+        $message = ''
+    );
 }

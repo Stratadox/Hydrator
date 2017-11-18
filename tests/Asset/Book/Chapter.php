@@ -17,7 +17,10 @@ class Chapter extends ImmutableCollection
         parent::__construct(...$elements);
     }
 
-    public static function titled(string $title, Element ...$elements) : Chapter
+    public static function titled(
+        string $title,
+        Element ...$elements
+    ) : Chapter
     {
         return new static(new Title($title), ...$elements);
     }
