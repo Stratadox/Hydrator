@@ -34,8 +34,7 @@ class MappedHydrator implements Hydrates
         Closure $setter = null
     ) : MappedHydrator
     {
-        return new static(
-            $mapped,
+        return new static($mapped,
             new ReflectionClass($mapped->className()),
             $setter
         );
