@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stratadox\Hydration\Test\Asset\Book;
 
 use Stratadox\ImmutableCollection\ImmutableCollection;

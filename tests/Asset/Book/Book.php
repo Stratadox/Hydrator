@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stratadox\Hydration\Test\Asset\Book;
 
 use function sprintf;
@@ -34,7 +36,7 @@ class Book
 
     public function hasInItsTitle(string $searchText)
     {
-        return strpos($this->title, $searchText) !== false;
+        return strpos((string) $this->title, $searchText) !== false;
     }
 
     public function hasIsbnVersion10()
