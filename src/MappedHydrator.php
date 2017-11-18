@@ -14,10 +14,10 @@ class MappedHydrator implements Hydrates
     private $mapper;
     private $setter;
 
-    public function __construct(MapsObject $mapped, Closure $setter = null)
+    public function __construct(MapsObject $mapped, ReflectionClass $reflector, Closure $setter = null)
     {
         $this->mapper = $mapped;
-        $this->class = new ReflectionClass($mapped->className());
+        $this->class = $reflector;
         $this->setter = $setter ?: function (string $attribute, $value) {
             $this->$attribute = $value;
         };
@@ -25,7 +25,7 @@ class MappedHydrator implements Hydrates
 
     public static function fromThis(MapsObject $mapped, Closure $setter = null) : MappedHydrator
     {
-        return new static($mapped, $setter);
+        return new static($mapped, new ReflectionClass($mapped->className()), $setter);
     }
 
     public function fromArray(array $data)

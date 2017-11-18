@@ -11,17 +11,17 @@ class SimpleHydrator implements Hydrates
     private $class;
     private $setter;
 
-    public function __construct(string $forTheClass, Closure $setter = null)
+    public function __construct(ReflectionClass $reflector, Closure $setter = null)
     {
-        $this->class = new ReflectionClass($forTheClass);
+        $this->class = $reflector;
         $this->setter = $setter ?: function (string $attribute, $value) {
             $this->$attribute = $value;
         };
     }
 
-    public static function forThe(string $theClass, Closure $setter = null) : SimpleHydrator
+    public static function forThe(string $class, Closure $setter = null) : SimpleHydrator
     {
-        return new static($theClass, $setter);
+        return new static(new ReflectionClass($class), $setter);
     }
 
     public function fromArray(array $data)

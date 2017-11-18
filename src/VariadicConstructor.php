@@ -13,9 +13,9 @@ class VariadicConstructor implements Hydrates
         $this->class = $forTheClass;
     }
 
-    public static function forThe(string $theClass) : VariadicConstructor
+    public static function forThe(string $class) : VariadicConstructor
     {
-        return new static($theClass);
+        return new static($class);
     }
 
     public function fromArray(array $input)
