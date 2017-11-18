@@ -14,7 +14,7 @@ class MappedHydrator implements Hydrates
     private $mapper;
     private $setter;
 
-    public function __construct(MapsObject $mapped, ReflectionClass $reflector, Closure $setter = null)
+    private function __construct(MapsObject $mapped, ReflectionClass $reflector, Closure $setter = null)
     {
         $this->mapper = $mapped;
         $this->class = $reflector;

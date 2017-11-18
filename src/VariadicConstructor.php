@@ -8,7 +8,7 @@ class VariadicConstructor implements Hydrates
 {
     private $class;
 
-    public function __construct(string $forTheClass)
+    private function __construct(string $forTheClass)
     {
         $this->class = $forTheClass;
     }

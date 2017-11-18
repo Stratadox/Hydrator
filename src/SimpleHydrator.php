@@ -11,7 +11,7 @@ class SimpleHydrator implements Hydrates
     private $class;
     private $setter;
 
-    public function __construct(ReflectionClass $reflector, Closure $setter = null)
+    private function __construct(ReflectionClass $reflector, Closure $setter = null)
     {
         $this->class = $reflector;
         $this->setter = $setter ?: function (string $attribute, $value) {
