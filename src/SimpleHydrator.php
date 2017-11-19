@@ -8,6 +8,12 @@ use Closure;
 use ReflectionClass;
 use Stratadox\Hydration\Hydrates;
 
+/**
+ * Hydrates an object from array input.
+ *
+ * @package Stratadox\Hydrate
+ * @author Stratadox
+ */
 class SimpleHydrator implements Hydrates
 {
     private $class;

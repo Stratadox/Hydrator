@@ -10,6 +10,12 @@ use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\MapsObject;
 use Stratadox\Hydration\MapsProperty;
 
+/**
+ * Hydrates an object from mapped array input.
+ *
+ * @package Stratadox\Hydrate
+ * @author Stratadox
+ */
 class MappedHydrator implements Hydrates
 {
     private $class;

@@ -6,6 +6,12 @@ namespace Stratadox\Hydration\Hydrator;
 
 use Stratadox\Hydration\Hydrates;
 
+/**
+ * Hydrates an object by calling its constructor with squashed array input.
+ *
+ * @package Stratadox\Hydrate
+ * @author Stratadox
+ */
 class VariadicConstructor implements Hydrates
 {
     private $class;
