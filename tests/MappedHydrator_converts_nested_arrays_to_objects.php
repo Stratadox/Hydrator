@@ -18,7 +18,10 @@ use Stratadox\Hydration\Test\Asset\Book\Contents;
 use Stratadox\Hydration\Test\Asset\Book\Isbn;
 use Stratadox\Hydration\Test\Asset\Book\Title;
 
-class I_want_to_convert_nested_arrays_to_objects extends TestCase
+/**
+ * @covers \Stratadox\Hydration\Hydrator\MappedHydrator
+ */
+class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 {
     /** @var Hydrates */
     private $makeNewBook;

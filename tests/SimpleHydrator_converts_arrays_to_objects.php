@@ -12,7 +12,10 @@ use Stratadox\Hydration\Test\Asset\FooBar\Bar;
 use Stratadox\Hydration\Test\Asset\FooBar\Foo;
 use Stratadox\Hydration\Test\Asset\FooBar\FooCollection;
 
-class I_want_to_convert_arrays_to_objects extends TestCase
+/**
+ * @covers \Stratadox\Hydration\Hydrator\SimpleHydrator
+ */
+class SimpleHydrator_converts_arrays_to_objects extends TestCase
 {
     use FooBarAssertions;
 

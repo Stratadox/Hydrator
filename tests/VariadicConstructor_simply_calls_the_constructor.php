@@ -8,7 +8,10 @@ use PHPUnit\Framework\TestCase;
 use Stratadox\Hydration\Hydrator\VariadicConstructor;
 use Stratadox\Hydration\Test\Asset\Numbers\CollectionOfIntegers;
 
-class I_want_to_sometimes_call_the_constructor extends TestCase
+/**
+ * @covers \Stratadox\Hydration\Hydrator\VariadicConstructor
+ */
+class VariadicConstructor_simply_calls_the_constructor extends TestCase
 {
     /**
      * Although we can instantiate an ImmutableCollection without calling its
