@@ -7,7 +7,6 @@ namespace Stratadox\Hydrator\Test;
 use PHPUnit\Framework\TestCase;
 use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\Hydrator\SimpleHydrator;
-use Stratadox\Hydration\Test\Asset\Book\Title;
 use Stratadox\Hydration\Test\Asset\FooBar\Bar;
 use Stratadox\Hydration\Test\Asset\FooBar\Foo;
 use Stratadox\Hydration\Test\Asset\FooBar\FooCollection;
@@ -24,9 +23,6 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
 
     /** @var Hydrates */
     private $makeNewBar;
-
-    /** @var Hydrates */
-    private $makeNewTitle;
 
     /**
      * Checks that the [@see SimpleHydrator] can create an instance of the
@@ -105,6 +101,5 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     {
         $this->makeNewFoo = SimpleHydrator::forThe(Foo::class);
         $this->makeNewBar = SimpleHydrator::forThe(Bar::class);
-        $this->makeNewTitle = SimpleHydrator::forThe(Title::class);
     }
 }
