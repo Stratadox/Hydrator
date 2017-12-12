@@ -7,6 +7,12 @@ namespace Stratadox\Hydration\Hydrator;
 use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\UnmappableInput;
 
+/**
+ * Delegates hydration, selecting a hydrator based on an input value.
+ *
+ * @package Stratadox\Hydrate
+ * @author Stratadox
+ */
 class OneOfTheseHydrators implements Hydrates
 {
     private $decisionKey;
