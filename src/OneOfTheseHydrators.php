@@ -52,7 +52,7 @@ class OneOfTheseHydrators implements Hydrates
         if (!isset($this->hydratorMap[$key])) {
             throw CannotDecideOnAHydrator::withThis($key);
         }
-        return $this->hydratorMap[$key] ?? null;
+        return $this->hydratorMap[$key];
     }
 
     /** @throws UnmappableInput */
