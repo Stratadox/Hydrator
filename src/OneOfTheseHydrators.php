@@ -33,6 +33,10 @@ class OneOfTheseHydrators implements Hydrates
         return new static($key, $map);
     }
 
+    /**
+     * @throws UnmappableInput
+     * @inheritdoc
+     */
     public function fromArray(array $input)
     {
         return $this->hydrateAnInstanceUsing(
