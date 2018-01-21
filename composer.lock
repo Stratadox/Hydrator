@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d03fa49d776eb8522c9be0e6cf47366e",
+    "content-hash": "2b0292f1b3e7624ab387dd3944c571fb",
     "packages": [
         {
             "name": "stratadox/hydration",
-            "version": "v1.4",
+            "version": "v1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Stratadox/Hydration.git",
-                "reference": "91b517a17e6a3797b7cfb8ab86e83e94bd2b278a"
+                "reference": "32534656962a9d6a0bbf21c5e972cc200a55ee43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Stratadox/Hydration/zipball/91b517a17e6a3797b7cfb8ab86e83e94bd2b278a",
-                "reference": "91b517a17e6a3797b7cfb8ab86e83e94bd2b278a",
+                "url": "https://api.github.com/repos/Stratadox/Hydration/zipball/32534656962a9d6a0bbf21c5e972cc200a55ee43",
+                "reference": "32534656962a9d6a0bbf21c5e972cc200a55ee43",
                 "shasum": ""
             },
             "require": {
@@ -39,7 +39,7 @@
                     "homepage": "http://www.stratadox.com/"
                 }
             ],
-            "time": "2017-11-23T23:43:11+00:00"
+            "time": "2018-01-21T14:46:11+00:00"
         }
     ],
     "packages-dev": [
@@ -1131,16 +1131,16 @@
         },
         {
             "name": "rpkamp/fancy-testdox-printer",
-            "version": "0.1.1",
+            "version": "0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rpkamp/fancy-testdox-printer.git",
-                "reference": "89d49736921ddcf73785e39db4fed6219a813d91"
+                "reference": "dc126b1a2a0969a247908fbcdbe80cd4f72999ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rpkamp/fancy-testdox-printer/zipball/89d49736921ddcf73785e39db4fed6219a813d91",
-                "reference": "89d49736921ddcf73785e39db4fed6219a813d91",
+                "url": "https://api.github.com/repos/rpkamp/fancy-testdox-printer/zipball/dc126b1a2a0969a247908fbcdbe80cd4f72999ae",
+                "reference": "dc126b1a2a0969a247908fbcdbe80cd4f72999ae",
                 "shasum": ""
             },
             "require": {
@@ -1172,7 +1172,7 @@
                 "printer",
                 "testdox"
             ],
-            "time": "2017-10-12T20:20:32+00:00"
+            "time": "2018-01-20T09:11:53+00:00"
         },
         {
             "name": "satooshi/php-coveralls",

@@ -19,12 +19,12 @@
     },
     "require": {
         "php": ">=7.1",
-        "stratadox/hydration": "^1.4"
+        "stratadox/hydration": "^1.6"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
-        "rpkamp/fancy-testdox-printer": "^0.1.1",
         "satooshi/php-coveralls": "^2.0",
-        "stratadox/immutable-collection": "^1.0"
+        "stratadox/immutable-collection": "^1.0",
+        "rpkamp/fancy-testdox-printer": "^0.2.5"
     }
 }
