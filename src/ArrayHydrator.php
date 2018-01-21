@@ -6,7 +6,7 @@ namespace Stratadox\Hydration\Hydrator;
 
 use Stratadox\Hydration\Hydrates;
 
-class ArrayHydrator implements Hydrates
+final class ArrayHydrator implements Hydrates
 {
     public static function create() : Hydrates
     {

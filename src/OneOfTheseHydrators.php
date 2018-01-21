@@ -13,7 +13,7 @@ use Stratadox\Hydration\UnmappableInput;
  * @package Stratadox\Hydrate
  * @author Stratadox
  */
-class OneOfTheseHydrators implements Hydrates
+final class OneOfTheseHydrators implements Hydrates
 {
     private $decisionKey;
     private $hydratorMap;

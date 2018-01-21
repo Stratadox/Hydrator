@@ -7,7 +7,7 @@ namespace Stratadox\Hydration\Hydrator;
 use InvalidArgumentException;
 use Stratadox\Hydration\UnmappableInput;
 
-class CannotDecideOnAHydrator extends InvalidArgumentException implements UnmappableInput
+final class CannotDecideOnAHydrator extends InvalidArgumentException implements UnmappableInput
 {
     public static function withThis(string $hydratorKey) : UnmappableInput
     {

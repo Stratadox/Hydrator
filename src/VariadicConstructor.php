@@ -12,7 +12,7 @@ use Stratadox\Hydration\Hydrates;
  * @package Stratadox\Hydrate
  * @author Stratadox
  */
-class VariadicConstructor implements Hydrates
+final class VariadicConstructor implements Hydrates
 {
     private $class;
 

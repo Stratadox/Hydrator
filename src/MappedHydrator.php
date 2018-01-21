@@ -16,7 +16,7 @@ use Stratadox\Hydration\MapsProperty;
  * @package Stratadox\Hydrate
  * @author Stratadox
  */
-class MappedHydrator implements Hydrates
+final class MappedHydrator implements Hydrates
 {
     private $class;
     private $mapper;

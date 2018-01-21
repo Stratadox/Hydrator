@@ -14,7 +14,7 @@ use Stratadox\Hydration\Hydrates;
  * @package Stratadox\Hydrate
  * @author Stratadox
  */
-class SimpleHydrator implements Hydrates
+final class SimpleHydrator implements Hydrates
 {
     private $class;
     private $setter;
