@@ -33,9 +33,9 @@ final class SimpleHydrator implements Hydrates
     public static function forThe(
         string $class,
         Closure $setter = null
-    ) : SimpleHydrator
+    ) : Hydrates
     {
-        return new static(new ReflectionClass($class), $setter);
+        return new SimpleHydrator(new ReflectionClass($class), $setter);
     }
 
     public function fromArray(array $data)

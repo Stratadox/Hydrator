@@ -38,9 +38,9 @@ final class MappedHydrator implements Hydrates
     public static function fromThis(
         MapsObject $mapped,
         Closure $setter = null
-    ) : MappedHydrator
+    ) : Hydrates
     {
-        return new static($mapped,
+        return new MappedHydrator($mapped,
             new ReflectionClass($mapped->className()),
             $setter
         );

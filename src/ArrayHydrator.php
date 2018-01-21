@@ -10,7 +10,7 @@ final class ArrayHydrator implements Hydrates
 {
     public static function create() : Hydrates
     {
-        return new self;
+        return new ArrayHydrator;
     }
 
     public function fromArray(array $input)

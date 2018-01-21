@@ -30,7 +30,7 @@ final class OneOfTheseHydrators implements Hydrates
 
     public static function decideBasedOnThe(string $key, array $map) : Hydrates
     {
-        return new static($key, $map);
+        return new OneOfTheseHydrators($key, $map);
     }
 
     /**
