@@ -21,6 +21,7 @@ final class MappedHydrator implements Hydrates
     private $class;
     private $mapper;
     private $setter;
+    private $object;
 
     private function __construct(
         MapsObject $mapped,
@@ -48,22 +49,30 @@ final class MappedHydrator implements Hydrates
 
     public function fromArray(array $data)
     {
-        $object = $this->class->newInstanceWithoutConstructor();
-        foreach ($this->mapper->properties() as $mapped) {
-            $this->writeTo($object, $mapped, $data);
+        try {
+            $this->object = $this->class->newInstanceWithoutConstructor();
+            foreach ($this->mapper->properties() as $mapped) {
+                $this->write($mapped, $data);
+            }
+            return $this->object;
+        } finally {
+            $this->object = null;
         }
-        return $object;
     }
 
-    private function writeTo(
-        $entity,
+    public function currentInstance()
+    {
+        return $this->object;
+    }
+
+    private function write(
         MapsProperty $mapped,
         array $data
     ) : void
     {
-        $this->setter->call($entity,
+        $this->setter->call($this->object,
             $mapped->name(),
-            $mapped->value($data, $entity)
+            $mapped->value($data, $this->object)
         );
     }
 }

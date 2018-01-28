@@ -18,6 +18,7 @@ final class SimpleHydrator implements Hydrates
 {
     private $class;
     private $setter;
+    private $object;
 
     private function __construct(
         ReflectionClass $reflector,
@@ -40,10 +41,19 @@ final class SimpleHydrator implements Hydrates
 
     public function fromArray(array $data)
     {
-        $entity = $this->class->newInstanceWithoutConstructor();
-        foreach ($data as $attribute => $value) {
-            $this->setter->call($entity, $attribute, $value);
+        try {
+            $this->object = $this->class->newInstanceWithoutConstructor();
+            foreach ($data as $attribute => $value) {
+                $this->setter->call($this->object, $attribute, $value);
+            }
+            return $this->object;
+        } finally {
+            $this->object = null;
         }
-        return $entity;
+    }
+
+    public function currentInstance()
+    {
+        return $this->object;
     }
 }

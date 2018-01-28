@@ -23,4 +23,6 @@ final class ArrayHydrator implements Hydrates
     {
         return $input;
     }
+
+    public function currentInstance() {}
 }

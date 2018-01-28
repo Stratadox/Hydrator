@@ -17,6 +17,7 @@ final class OneOfTheseHydrators implements Hydrates
 {
     private $decisionKey;
     private $hydratorMap;
+    private $current;
 
     private function __construct(string $decisionKey, array $hydratorMap)
     {
@@ -39,10 +40,20 @@ final class OneOfTheseHydrators implements Hydrates
      */
     public function fromArray(array $input)
     {
-        return $this->hydrateAnInstanceUsing(
-            $this->hydratorBasedOn($this->keyFromThe($input)),
-            $input
-        );
+        try {
+            $this->current = $this->hydratorBasedOn($this->keyFromThe($input));
+            return $this->hydrateAnInstanceUsing($this->current, $input);
+        } finally {
+            $this->current = null;
+        }
+    }
+
+    public function currentInstance()
+    {
+        if (!$this->current instanceof Hydrates) {
+            return null;
+        }
+        return $this->current->currentInstance();
     }
 
     private function hydrateAnInstanceUsing(Hydrates $hydrator, array $input)
