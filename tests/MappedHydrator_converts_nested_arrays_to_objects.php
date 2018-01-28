@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Stratadox\Hydrator\Test;
 
+use Closure;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as Mock;
@@ -11,7 +12,7 @@ use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\Hydrator\MappedHydrator;
 use Stratadox\Hydration\Hydrator\SimpleHydrator;
 use Stratadox\Hydration\Hydrator\VariadicConstructor;
-use Stratadox\Hydration\MapsObject;
+use Stratadox\Hydration\MapsProperties;
 use Stratadox\Hydration\MapsProperty;
 use Stratadox\Hydration\Test\Asset\Book\Author;
 use Stratadox\Hydration\Test\Asset\Book\Book;
@@ -83,12 +84,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
     {
         $spy = SpyOnCurrentInstanceAsPropertyMapping::expectThe(Book::class);
 
-        /** @var MockObject|MapsObject $map */
-        $map = $this->createMock(MapsObject::class);
-        $map->expects($this->once())->method('className')->willReturn(Book::class);
-        $map->expects($this->once())->method('properties')->willReturn([$spy]);
-
-        $hydrator = MappedHydrator::fromThis($map);
+        $hydrator = MappedHydrator::forThe(Book::class, $spy);
 
         $spy->onThe($hydrator);
 
@@ -109,17 +105,13 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
     function throwing_a_custom_exception_when_mapping_failed()
     {
         $exception = new Unmappable('Original exception message here.');
-        /** @var MockObject|MapsProperty $throw */
-        $throw = $this->createMock(MapsProperty::class);
-        $throw->expects($this->once())->method('value')->willReturnCallback(function () use ($exception) {
+        /** @var MockObject|MapsProperties $throw */
+        $throw = $this->createMock(MapsProperties::class);
+        $throw->expects($this->once())->method('writeData')->willReturnCallback(function () use ($exception) {
             throw $exception;
         });
-        /** @var MockObject|MapsObject $map */
-        $map = $this->createMock(MapsObject::class);
-        $map->expects($this->once())->method('className')->willReturn(Book::class);
-        $map->expects($this->once())->method('properties')->willReturn([$throw]);
 
-        $hydrator = MappedHydrator::fromThis($map);
+        $hydrator = MappedHydrator::forThe(Book::class, $throw);
 
         $this->expectException(UnmappableInput::class);
         $this->expectExceptionMessage(
@@ -138,50 +130,51 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
      */
     private function bookHydrator() : Hydrates
     {
-        return MappedHydrator::fromThis($this->bookMapping());
+        return MappedHydrator::forThe(Book::class, $this->bookMapping());
     }
 
     /**
      * Since mapping itself is out of scope for this unit test, the mapping is
      * defined through mocking the interfaces.
      *
-     * @return MapsObject|Mock
+     * @return MapsProperties|Mock
      */
     private function bookMapping() : Mock
     {
-        $map = $this->createMock(MapsObject::class);
-
+        $properties = [
+            $this->mapObjectProperty('isbn',
+                SimpleHydrator::forThe(Isbn::class),
+                ['code' => 'id']
+            ),
+            $this->mapObjectProperty('title',
+                SimpleHydrator::forThe(Title::class),
+                ['title' => 'book_title']
+            ),
+            $this->mapObjectProperty('title',
+                SimpleHydrator::forThe(Title::class),
+                ['title' => 'book_title']
+            ),
+            $this->mapObjectProperty('author',
+                SimpleHydrator::forThe(Author::class),
+                [
+                    'firstName' => 'author_first_name',
+                    'lastName' => 'author_last_name',
+                ]
+            ),
+            $this->mapEmptyObjectProperty('contents',
+                VariadicConstructor::forThe(Contents::class)
+            ),
+            $this->mapScalarProperty('format', 'format')
+        ];
+        $map = $this->createMock(MapsProperties::class);
         $map->expects($this->once())
-            ->method('className')
-            ->willReturn(Book::class);
-
-        $map->expects($this->once())
-            ->method('properties')
-            ->willReturn([
-                $this->mapObjectProperty('isbn',
-                    SimpleHydrator::forThe(Isbn::class),
-                    ['code' => 'id']
-                ),
-                $this->mapObjectProperty('title',
-                    SimpleHydrator::forThe(Title::class),
-                    ['title' => 'book_title']
-                ),
-                $this->mapObjectProperty('title',
-                    SimpleHydrator::forThe(Title::class),
-                    ['title' => 'book_title']
-                ),
-                $this->mapObjectProperty('author',
-                    SimpleHydrator::forThe(Author::class),
-                    [
-                        'firstName' => 'author_first_name',
-                        'lastName' => 'author_last_name',
-                    ]
-                ),
-                $this->mapEmptyObjectProperty('contents',
-                    VariadicConstructor::forThe(Contents::class)
-                ),
-                $this->mapScalarProperty('format', 'format')
-            ]);
+            ->method('writeData')
+            ->willReturnCallback(function ($object, Closure $setter, array $data) use ($properties) {
+                /** @var MapsProperty $property */
+                foreach ($properties as $property) {
+                    $setter->call($object, $property->name(), $property->value($data));
+                }
+            });
 
         return $map;
     }

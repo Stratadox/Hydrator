@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Stratadox\Hydration\Test\Asset\Spy;
 
+use Closure;
 use PHPUnit\Framework\TestCase;
-use Stratadox\Hydration\MapsProperty;
+use Stratadox\Hydration\MapsProperties;
 
-class SpyOnCurrentInstanceAsPropertyMapping extends SpyOnCurrentInstance implements MapsProperty
+class SpyOnCurrentInstanceAsPropertyMapping extends SpyOnCurrentInstance implements MapsProperties
 {
-    public function name() : string
-    {
-        return '';
-    }
-
-    public function value(array $data, $owner = null)
+    public function writeData($object, Closure $setter, array $data) : void
     {
         TestCase::assertInstanceOf($this->expectedClass,
             $this->target->currentInstance()

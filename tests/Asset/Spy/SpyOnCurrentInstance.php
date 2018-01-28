@@ -17,6 +17,11 @@ abstract class SpyOnCurrentInstance
         $this->target = $target;
     }
 
+    /**
+     * @param string        $class
+     * @param Hydrates|null $target
+     * @return static|SpyOnCurrentInstance
+     */
     public static function expectThe(string $class, Hydrates $target = null) : self
     {
         return new static($class, $target);
