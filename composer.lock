@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Stratadox/Hydration.git",
-                "reference": "62ed1fc20dcfb0b9e6d989540325d959b9a92c73"
+                "reference": "f72ac0a28f25bc4346cf5f694fc80e2237e765c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Stratadox/Hydration/zipball/62ed1fc20dcfb0b9e6d989540325d959b9a92c73",
-                "reference": "62ed1fc20dcfb0b9e6d989540325d959b9a92c73",
+                "url": "https://api.github.com/repos/Stratadox/Hydration/zipball/f72ac0a28f25bc4346cf5f694fc80e2237e765c4",
+                "reference": "f72ac0a28f25bc4346cf5f694fc80e2237e765c4",
                 "shasum": ""
             },
             "require": {
@@ -39,7 +39,7 @@
                     "homepage": "http://www.stratadox.com/"
                 }
             ],
-            "time": "2018-01-28T06:32:38+00:00"
+            "time": "2018-01-28T11:59:38+00:00"
         }
     ],
     "packages-dev": [
