@@ -19,8 +19,9 @@
     },
     "require": {
         "php": ">=7.1",
-        "stratadox/hydration": "^1.6"
+        "stratadox/hydration": "v2.x-dev"
     },
+    "minimum-stability": "dev",
     "require-dev": {
         "phpunit/phpunit": "^6.5",
         "satooshi/php-coveralls": "^2.0",
