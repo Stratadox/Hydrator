@@ -28,4 +28,6 @@ $foo = $hydrator->fromArray([
 ]);
 assert($foo instanceof Foo);
 ```
+## More information
 
+For more information, view the [Hydrate repository](https://github.com/Stratadox/Hydrate)
