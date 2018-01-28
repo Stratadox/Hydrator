@@ -9,6 +9,7 @@ use ReflectionClass;
 use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\MapsObject;
 use Stratadox\Hydration\MapsProperty;
+use Stratadox\Hydration\UnmappableInput;
 
 /**
  * Hydrates an object from mapped array input.
@@ -55,6 +56,8 @@ final class MappedHydrator implements Hydrates
                 $this->write($mapped, $data);
             }
             return $this->object;
+        } catch (UnmappableInput $exception) {
+            throw CouldNotMap::encountered($exception, $this->class);
         } finally {
             $this->object = null;
         }
