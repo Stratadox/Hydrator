@@ -19,9 +19,12 @@ use Stratadox\Hydration\Test\Asset\Book\Contents;
 use Stratadox\Hydration\Test\Asset\Book\Isbn;
 use Stratadox\Hydration\Test\Asset\Book\Title;
 use Stratadox\Hydration\Test\Asset\Spy\SpyOnCurrentInstanceAsPropertyMapping;
+use Stratadox\Hydration\Test\Asset\Unmappable;
+use Stratadox\Hydration\UnmappableInput;
 
 /**
  * @covers \Stratadox\Hydration\Hydrator\MappedHydrator
+ * @covers \Stratadox\Hydration\Hydrator\CouldNotMap
  */
 class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 {
@@ -100,6 +103,30 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
             $hydrator->currentInstance(),
             'Not expecting a current instance anymore.'
         );
+    }
+
+    /** @scenario */
+    function throwing_a_custom_exception_when_mapping_failed()
+    {
+        $exception = new Unmappable('Original exception message here.');
+        /** @var MockObject|MapsProperty $throw */
+        $throw = $this->createMock(MapsProperty::class);
+        $throw->expects($this->once())->method('value')->willReturnCallback(function () use ($exception) {
+            throw $exception;
+        });
+        /** @var MockObject|MapsObject $map */
+        $map = $this->createMock(MapsObject::class);
+        $map->expects($this->once())->method('className')->willReturn(Book::class);
+        $map->expects($this->once())->method('properties')->willReturn([$throw]);
+
+        $hydrator = MappedHydrator::fromThis($map);
+
+        $this->expectException(UnmappableInput::class);
+        $this->expectExceptionMessage(
+            'Could not map the class `'.Book::class. '`: Original exception message here.'
+        );
+
+        $hydrator->fromArray(['foo' => 'bar']);
     }
 
     /**
