@@ -7,8 +7,7 @@ namespace Stratadox\Hydration\Hydrator;
 use Closure;
 use ReflectionClass;
 use Stratadox\Hydration\Hydrates;
-use Stratadox\Hydration\MapsObject;
-use Stratadox\Hydration\MapsProperty;
+use Stratadox\Hydration\MapsProperties;
 use Stratadox\Hydration\UnmappableInput;
 
 /**
@@ -20,41 +19,37 @@ use Stratadox\Hydration\UnmappableInput;
 final class MappedHydrator implements Hydrates
 {
     private $class;
-    private $mapper;
+    private $properties;
     private $setter;
     private $object;
 
     private function __construct(
-        MapsObject $mapped,
         ReflectionClass $reflector,
+        MapsProperties $mapped,
         Closure $setter = null
     ) {
-        $this->mapper = $mapped;
         $this->class = $reflector;
+        $this->properties = $mapped;
         $this->setter = $setter ?: function (string $attribute, $value)
         {
             $this->$attribute = $value;
         };
     }
 
-    public static function fromThis(
-        MapsObject $mapped,
+    public static function forThe(
+        string $class,
+        MapsProperties $mapped,
         Closure $setter = null
     ) : Hydrates
     {
-        return new MappedHydrator($mapped,
-            new ReflectionClass($mapped->className()),
-            $setter
-        );
+        return new MappedHydrator(new ReflectionClass($class), $mapped, $setter);
     }
 
     public function fromArray(array $data)
     {
         try {
             $this->object = $this->class->newInstanceWithoutConstructor();
-            foreach ($this->mapper->properties() as $mapped) {
-                $this->write($mapped, $data);
-            }
+            $this->properties->writeData($this->object, $this->setter, $data);
             return $this->object;
         } catch (UnmappableInput $exception) {
             throw CouldNotMap::encountered($exception, $this->class);
@@ -66,16 +61,5 @@ final class MappedHydrator implements Hydrates
     public function currentInstance()
     {
         return $this->object;
-    }
-
-    private function write(
-        MapsProperty $mapped,
-        array $data
-    ) : void
-    {
-        $this->setter->call($this->object,
-            $mapped->name(),
-            $mapped->value($data, $this->object)
-        );
     }
 }
