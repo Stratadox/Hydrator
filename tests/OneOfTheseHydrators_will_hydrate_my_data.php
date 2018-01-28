@@ -8,8 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\Hydrator\OneOfTheseHydrators;
 use Stratadox\Hydration\Hydrator\SimpleHydrator;
+use Stratadox\Hydration\Test\Asset\Book\Book;
 use Stratadox\Hydration\Test\Asset\Book\Image;
 use Stratadox\Hydration\Test\Asset\Book\Text;
+use Stratadox\Hydration\Test\Asset\Spy\SpyOnCurrentInstanceAsHydrator;
+use Stratadox\Hydration\Test\Asset\Spy\SpyOnCurrentInstanceAsPropertyMapping;
 use Stratadox\Hydration\UnmappableInput;
 use TypeError;
 
@@ -19,14 +22,11 @@ use TypeError;
  */
 class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
 {
-    /** @var Hydrates */
-    private $makeElement;
-
     /** @scenario */
     function making_a_Text_Element()
     {
         /** @var Text $element */
-        $element = $this->makeElement->fromArray([
+        $element = $this->makeElement()->fromArray([
             'type' => 'text',
             'text' => 'Hello World'
         ]);
@@ -39,7 +39,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
     function making_an_Image_Element()
     {
         /** @var Image $element */
-        $element = $this->makeElement->fromArray([
+        $element = $this->makeElement()->fromArray([
             'type' => 'image',
             'src' => 'hello.jpg'
         ]);
@@ -54,7 +54,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         $this->expectException(UnmappableInput::class);
         $this->expectExceptionMessage('Invalid class decision key: `invalid`.');
 
-        $this->makeElement->fromArray(['type' => 'invalid']);
+        $this->makeElement()->fromArray(['type' => 'invalid']);
     }
 
     /** @scenario */
@@ -63,7 +63,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         $this->expectException(UnmappableInput::class);
         $this->expectExceptionMessage('Missing class decision key: `type`.');
 
-        $this->makeElement->fromArray(['text' => 'irrelevant']);
+        $this->makeElement()->fromArray(['text' => 'irrelevant']);
     }
 
     /** @scenario */
@@ -76,9 +76,32 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         ]);
     }
 
-    protected function setUp()
+    /** @scenario */
+    function retrieving_the_currently_hydrating_instance()
     {
-        $this->makeElement = OneOfTheseHydrators::decideBasedOnThe('type', [
+        $spy = SpyOnCurrentInstanceAsHydrator::expectThe(Image::class);
+        $hydrator = OneOfTheseHydrators::decideBasedOnThe('type', [
+            'text' => $this->createMock(Hydrates::class),
+            'image' => $spy,
+        ]);
+        $spy->onThe($hydrator);
+
+        $this->assertNull(
+            $hydrator->currentInstance(),
+            'Not expecting a current instance yet.'
+        );
+
+        $hydrator->fromArray(['type' => 'image']);
+
+        $this->assertNull(
+            $hydrator->currentInstance(),
+            'Not expecting a current instance anymore.'
+        );
+    }
+
+    private function makeElement() : Hydrates
+    {
+        return OneOfTheseHydrators::decideBasedOnThe('type', [
             'text' => SimpleHydrator::forThe(Text::class),
             'image' => SimpleHydrator::forThe(Image::class),
         ]);

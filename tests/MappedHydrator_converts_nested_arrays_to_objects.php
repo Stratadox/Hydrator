@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Stratadox\Hydrator\Test;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as Mock;
 use Stratadox\Hydration\Hydrates;
@@ -17,15 +18,13 @@ use Stratadox\Hydration\Test\Asset\Book\Book;
 use Stratadox\Hydration\Test\Asset\Book\Contents;
 use Stratadox\Hydration\Test\Asset\Book\Isbn;
 use Stratadox\Hydration\Test\Asset\Book\Title;
+use Stratadox\Hydration\Test\Asset\Spy\SpyOnCurrentInstanceAsPropertyMapping;
 
 /**
  * @covers \Stratadox\Hydration\Hydrator\MappedHydrator
  */
 class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 {
-    /** @var Hydrates */
-    private $makeNewBook;
-
     /**
      * Checks that the [@see MappedHydrator] can create an instance of the
      * [@see Book] class.
@@ -40,7 +39,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         $title = "Fruit Infused Water: 50 Quick & Easy Recipes for Delicious & Healthy Hydration";
 
         /** @var Book $ourBook */
-        $ourBook = $this->makeNewBook->fromArray([
+        $ourBook = $this->bookHydrator()->fromArray([
             "id" => '9781493634149',
             "book_title" => $title,
             "author_first_name" => "Elle",
@@ -56,6 +55,53 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         $this->assertTrue($ourBook->hasInItsTitle("Healthy Hydration"));
     }
 
+    /** @scenario */
+    function making_another_Book()
+    {
+        /** @var Book $ourBook */
+        $ourBook = $this->bookHydrator()->fromArray([
+            "id" => '9781420922530',
+            "book_title" => 'Hamlet',
+            "author_first_name" => "William",
+            "author_last_name" => "Shakespeare",
+            "format" => "%s (by %s, ISBN %s)",
+        ]);
+
+        $this->assertSame(
+            "Hamlet (by William Shakespeare, ISBN 9781420922530)",
+            (string) $ourBook
+        );
+        $this->assertTrue($ourBook->wasWrittenByThe(Author::named("William", "Shakespeare")));
+        $this->assertTrue($ourBook->hasInItsTitle("Hamlet"));
+    }
+
+    /** @scenario */
+    function retrieving_the_currently_hydrating_instance()
+    {
+        $spy = SpyOnCurrentInstanceAsPropertyMapping::expectThe(Book::class);
+
+        /** @var MockObject|MapsObject $map */
+        $map = $this->createMock(MapsObject::class);
+        $map->expects($this->once())->method('className')->willReturn(Book::class);
+        $map->expects($this->once())->method('properties')->willReturn([$spy]);
+
+        $hydrator = MappedHydrator::fromThis($map);
+
+        $spy->onThe($hydrator);
+
+        $this->assertNull(
+            $hydrator->currentInstance(),
+            'Not expecting a current instance yet.'
+        );
+
+        $hydrator->fromArray([]);
+
+        $this->assertNull(
+            $hydrator->currentInstance(),
+            'Not expecting a current instance anymore.'
+        );
+    }
+
     /**
      * Sets up the hydrator.
      *
@@ -63,9 +109,9 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
      * several [@see SimpleHydrator]s, one for each of the test assets that are
      * needed to fully hydrate the [@see Book] class.
      */
-    protected function setUp()
+    private function bookHydrator() : Hydrates
     {
-        $this->makeNewBook = MappedHydrator::fromThis($this->bookMapping());
+        return MappedHydrator::fromThis($this->bookMapping());
     }
 
     /**
@@ -130,8 +176,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
             ->method('name')->willReturn($property);
         $mapper->expects($this->atLeastOnce())
             ->method('value')
-            ->willReturnCallback(function (array $data) use ($hydrator, $map)
-            {
+            ->willReturnCallback(function (array $data) use ($hydrator, $map) {
                 $array = [];
                 foreach ($map as $property => $key) {
                     $array[$property] = $data[$key];
@@ -153,8 +198,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
             ->method('name')->willReturn($property);
         $mapper->expects($this->atLeastOnce())
             ->method('value')
-            ->willReturnCallback(function (array $data) use ($key)
-            {
+            ->willReturnCallback(function (array $data) use ($key) {
                 return $data[$key];
             });
         return $mapper;
@@ -177,8 +221,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
             ->method('name')->willReturn($property);
         $mapper->expects($this->atLeastOnce())
             ->method('value')
-            ->willReturnCallback(function () use ($hydrator, $hydrationData)
-            {
+            ->willReturnCallback(function () use ($hydrator, $hydrationData) {
                 return $hydrator->fromArray($hydrationData);
             });
         return $mapper;

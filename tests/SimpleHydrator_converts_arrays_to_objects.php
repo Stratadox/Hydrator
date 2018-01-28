@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Stratadox\Hydrator\Test;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\Hydrator\SimpleHydrator;
@@ -23,6 +24,9 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
 
     /** @var Hydrates */
     private $makeNewBar;
+
+    /** @var Hydrates */
+    private $hydrator;
 
     /**
      * Checks that the [@see SimpleHydrator] can create an instance of the
@@ -89,6 +93,36 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
         $this->assertBaz('Baz 3', $bar->foos()[1],
             'The bar object should contain foo objects with the right baz value.'
         );
+    }
+
+    /** @scenario */
+    function retrieving_the_currently_hydrating_instance()
+    {
+        $test = $this;
+        $spyingSetter = function () use ($test) {
+            Assert::assertInstanceOf(
+                Foo::class,
+                $test->hydrator()->currentInstance()
+            );
+        };
+        $this->hydrator = SimpleHydrator::forThe(Foo::class, $spyingSetter);
+
+        $this->assertNull(
+            $this->hydrator->currentInstance(),
+            'Not expecting a current instance yet.'
+        );
+
+        $this->hydrator->fromArray(['foo' => 'bar']);
+
+        $this->assertNull(
+            $this->hydrator->currentInstance(),
+            'Not expecting a current instance anymore.'
+        );
+    }
+
+    public function hydrator() : Hydrates
+    {
+        return $this->hydrator;
     }
 
     /**
