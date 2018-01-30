@@ -40,20 +40,10 @@ final class OneOfTheseHydrators implements Hydrates
      */
     public function fromArray(array $input)
     {
-        try {
-            $this->current = $this->hydratorBasedOn($this->keyFromThe($input));
-            return $this->hydrateAnInstanceUsing($this->current, $input);
-        } finally {
-            $this->current = null;
-        }
-    }
-
-    public function currentInstance()
-    {
-        if (!$this->current instanceof Hydrates) {
-            return null;
-        }
-        return $this->current->currentInstance();
+        return $this->hydrateAnInstanceUsing(
+            $this->hydratorBasedOn($this->keyFromThe($input)),
+            $input
+        );
     }
 
     private function hydrateAnInstanceUsing(Hydrates $hydrator, array $input)

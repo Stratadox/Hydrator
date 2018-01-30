@@ -22,7 +22,6 @@ final class MappedHydrator implements Hydrates
     private $class;
     private $properties;
     private $setter;
-    private $object;
     private $observer;
 
     private function __construct(
@@ -55,21 +54,14 @@ final class MappedHydrator implements Hydrates
     public function fromArray(array $data)
     {
         try {
-            $this->object = $this->class->newInstanceWithoutConstructor();
+            $object = $this->class->newInstanceWithoutConstructor();
             if ($this->observer) {
-                $this->observer->hydrating($this->object);
+                $this->observer->hydrating($object);
             }
-            $this->properties->writeData($this->object, $this->setter, $data);
-            return $this->object;
+            $this->properties->writeData($object, $this->setter, $data);
+            return $object;
         } catch (Throwable $exception) {
             throw CouldNotMap::encountered($exception, $this->class);
-        } finally {
-            $this->object = null;
         }
-    }
-
-    public function currentInstance()
-    {
-        return $this->object;
     }
 }

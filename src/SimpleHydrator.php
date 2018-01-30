@@ -19,7 +19,6 @@ final class SimpleHydrator implements Hydrates
 {
     private $class;
     private $setter;
-    private $object;
     private $observer;
 
     private function __construct(
@@ -48,22 +47,13 @@ final class SimpleHydrator implements Hydrates
 
     public function fromArray(array $data)
     {
-        try {
-            $this->object = $this->class->newInstanceWithoutConstructor();
-            if ($this->observer) {
-                $this->observer->hydrating($this->object);
-            }
-            foreach ($data as $attribute => $value) {
-                $this->setter->call($this->object, $attribute, $value);
-            }
-            return $this->object;
-        } finally {
-            $this->object = null;
+        $object = $this->class->newInstanceWithoutConstructor();
+        if ($this->observer) {
+            $this->observer->hydrating($object);
         }
-    }
-
-    public function currentInstance()
-    {
-        return $this->object;
+        foreach ($data as $attribute => $value) {
+            $this->setter->call($object, $attribute, $value);
+        }
+        return $object;
     }
 }

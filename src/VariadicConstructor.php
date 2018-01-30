@@ -31,6 +31,4 @@ final class VariadicConstructor implements Hydrates
         $class = $this->class;
         return new $class(...$input);
     }
-
-    public function currentInstance() {}
 }
