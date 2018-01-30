@@ -52,6 +52,7 @@ final class MappedHydrator implements Hydrates
         );
     }
 
+    /** @inheritdoc */
     public function fromArray(array $data)
     {
         try {

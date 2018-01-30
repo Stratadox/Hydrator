@@ -30,10 +30,7 @@ final class OneOfTheseHydrators implements Hydrates
         return new OneOfTheseHydrators($key, $map);
     }
 
-    /**
-     * @throws CouldNotHydrate
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public function fromArray(array $input)
     {
         return $this->hydrateAnInstanceUsing(

@@ -24,6 +24,7 @@ final class VariadicConstructor implements Hydrates
         return new VariadicConstructor($class);
     }
 
+    /** @inheritdoc */
     public function fromArray(array $input)
     {
         $class = $this->class;

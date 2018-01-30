@@ -45,6 +45,7 @@ final class SimpleHydrator implements Hydrates
         );
     }
 
+    /** @inheritdoc */
     public function fromArray(array $data)
     {
         $object = $this->class->newInstanceWithoutConstructor();

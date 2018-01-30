@@ -17,6 +17,7 @@ final class ArrayHydrator implements Hydrates
         return new ArrayHydrator;
     }
 
+    /** @inheritdoc */
     public function fromArray(array $input)
     {
         return $input;
