@@ -8,7 +8,6 @@ use Closure;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\Hydrator\MappedHydrator;
 use Stratadox\Hydration\Hydrator\SimpleHydrator;
 use Stratadox\Hydration\Hydrator\VariadicConstructor;
@@ -20,7 +19,8 @@ use Stratadox\Hydration\Test\Asset\Book\Contents;
 use Stratadox\Hydration\Test\Asset\Book\Isbn;
 use Stratadox\Hydration\Test\Asset\Book\Title;
 use Stratadox\Hydration\Test\Asset\Unmappable;
-use Stratadox\Hydration\UnmappableInput;
+use Stratadox\Hydrator\CouldNotHydrate;
+use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObservesHydration;
 
 /**
@@ -114,7 +114,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 
         $hydrator = MappedHydrator::forThe(Book::class, $throw);
 
-        $this->expectException(UnmappableInput::class);
+        $this->expectException(CouldNotHydrate::class);
         $this->expectExceptionMessage(
             'Could not map the class `'.Book::class. '`: Original exception message here.'
         );

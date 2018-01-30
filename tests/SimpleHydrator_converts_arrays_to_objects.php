@@ -8,11 +8,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Stratadox\Hydration\Test\Asset\Book\Title;
-use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydration\Hydrator\SimpleHydrator;
 use Stratadox\Hydration\Test\Asset\FooBar\Bar;
 use Stratadox\Hydration\Test\Asset\FooBar\Foo;
 use Stratadox\Hydration\Test\Asset\FooBar\FooCollection;
+use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObservesHydration;
 
 /**
