@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Stratadox\Hydration\Hydrator;
+namespace Stratadox\Hydrator;
 
 use ReflectionClass;
 use RuntimeException;
 use function sprintf;
-use Stratadox\Hydrator\CouldNotHydrate;
 use Throwable;
 
 final class CouldNotMap extends RuntimeException implements CouldNotHydrate

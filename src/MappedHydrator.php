@@ -2,13 +2,11 @@
 
 declare(strict_types = 1);
 
-namespace Stratadox\Hydration\Hydrator;
+namespace Stratadox\Hydrator;
 
 use Closure;
 use ReflectionClass;
 use Stratadox\HydrationMapping\MapsProperties;
-use Stratadox\Hydrator\Hydrates;
-use Stratadox\Hydrator\ObservesHydration;
 use Throwable;
 
 /**

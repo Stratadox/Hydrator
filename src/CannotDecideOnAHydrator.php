@@ -2,10 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace Stratadox\Hydration\Hydrator;
+namespace Stratadox\Hydrator;
 
 use InvalidArgumentException;
-use Stratadox\Hydrator\CouldNotHydrate;
 
 final class CannotDecideOnAHydrator extends InvalidArgumentException implements CouldNotHydrate
 {

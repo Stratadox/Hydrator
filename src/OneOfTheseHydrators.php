@@ -2,10 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Stratadox\Hydration\Hydrator;
-
-use Stratadox\Hydrator\CouldNotHydrate;
-use Stratadox\Hydrator\Hydrates;
+namespace Stratadox\Hydrator;
 
 /**
  * Delegates hydration, selecting a hydrator based on an input value.

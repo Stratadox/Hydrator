@@ -2,9 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Stratadox\Hydration\Hydrator;
-
-use Stratadox\Hydrator\Hydrates;
+namespace Stratadox\Hydrator;
 
 /**
  * Hydrates an object by calling its constructor with squashed array input.

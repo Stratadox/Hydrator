@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Stratadox\Hydration\Hydrator;
-
-use Stratadox\Hydrator\ObservesHydration;
+namespace Stratadox\Hydrator;
 
 class BlindObserver implements ObservesHydration
 {
