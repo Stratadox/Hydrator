@@ -23,8 +23,9 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
+        "rpkamp/fancy-testdox-printer": "^0.2.5",
         "satooshi/php-coveralls": "^2.0",
-        "stratadox/immutable-collection": "^1.0",
-        "rpkamp/fancy-testdox-printer": "^0.2.5"
+        "stratadox/hydration-mapping-contracts": "^0.1.0",
+        "stratadox/immutable-collection": "^1.0"
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a7393f31a15d2869dd5d1790ea78ab30",
+    "content-hash": "c162adc58a15e6455c35e2eda9645087",
     "packages": [
         {
             "name": "stratadox/hydrator-contracts",
@@ -1852,6 +1852,42 @@
             ],
             "description": "Interfaces for the collection classes.",
             "time": "2017-11-06T23:12:22+00:00"
+        },
+        {
+            "name": "stratadox/hydration-mapping-contracts",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Stratadox/HydrationMappingContracts.git",
+                "reference": "b5bd0d28ecaeae071946200ea01c52f8c3487ffb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Stratadox/HydrationMappingContracts/zipball/b5bd0d28ecaeae071946200ea01c52f8c3487ffb",
+                "reference": "b5bd0d28ecaeae071946200ea01c52f8c3487ffb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "stratadox/collection-contracts": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stratadox\\HydrationMapping\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stratadox",
+                    "homepage": "http://www.stratadox.com/"
+                }
+            ],
+            "time": "2018-01-30T19:45:18+00:00"
         },
         {
             "name": "stratadox/immutable-collection",

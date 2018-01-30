@@ -6,7 +6,7 @@ namespace Stratadox\Hydration\Hydrator;
 
 use Closure;
 use ReflectionClass;
-use Stratadox\Hydration\MapsProperties;
+use Stratadox\HydrationMapping\MapsProperties;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObservesHydration;
 use Throwable;
@@ -59,7 +59,9 @@ final class MappedHydrator implements Hydrates
         try {
             $object = $this->class->newInstanceWithoutConstructor();
             $this->observer->hydrating($object);
-            $this->properties->writeData($object, $this->setter, $data);
+            foreach ($this->properties as $property) {
+                $this->setter->call($object, $property->name(), $property->value($data));
+            }
             return $object;
         } catch (Throwable $exception) {
             throw CouldNotMap::encountered($exception, $this->class);
