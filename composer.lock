@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "aee33342ed0a6f48116550cf5850b142",
+    "content-hash": "a1f271e6fc694ef8e98eac209935bfa6",
     "packages": [
         {
             "name": "stratadox/hydration",
@@ -40,6 +40,41 @@
                 }
             ],
             "time": "2018-01-28T17:49:27+00:00"
+        },
+        {
+            "name": "stratadox/hydrator-contracts",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Stratadox/HydratorContracts.git",
+                "reference": "d43b3b8dce6480a44a4f4fecfa7670e92c946f66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Stratadox/HydratorContracts/zipball/d43b3b8dce6480a44a4f4fecfa7670e92c946f66",
+                "reference": "d43b3b8dce6480a44a4f4fecfa7670e92c946f66",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stratadox\\Hydrator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stratadox",
+                    "homepage": "http://www.stratadox.com/"
+                }
+            ],
+            "time": "2018-01-30T16:57:31+00:00"
         }
     ],
     "packages-dev": [

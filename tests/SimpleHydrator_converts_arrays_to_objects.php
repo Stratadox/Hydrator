@@ -4,13 +4,16 @@ declare(strict_types = 1);
 
 namespace Stratadox\Hydrator\Test;
 
-use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Stratadox\Hydration\Hydrates;
+use ReflectionClass;
+use Stratadox\Hydration\Test\Asset\Book\Title;
+use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydration\Hydrator\SimpleHydrator;
 use Stratadox\Hydration\Test\Asset\FooBar\Bar;
 use Stratadox\Hydration\Test\Asset\FooBar\Foo;
 use Stratadox\Hydration\Test\Asset\FooBar\FooCollection;
+use Stratadox\Hydrator\ObservesHydration;
 
 /**
  * @covers \Stratadox\Hydration\Hydrator\SimpleHydrator
@@ -96,28 +99,21 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     }
 
     /** @scenario */
-    function retrieving_the_currently_hydrating_instance()
+    function notifying_the_observers()
     {
-        $test = $this;
-        $spyingSetter = function () use ($test) {
-            Assert::assertInstanceOf(
-                Foo::class,
-                $test->hydrator()->currentInstance()
-            );
-        };
-        $this->hydrator = SimpleHydrator::forThe(Foo::class, $spyingSetter);
+        $emptyObject = (new ReflectionClass(Title::class))->newInstanceWithoutConstructor();
 
-        $this->assertNull(
-            $this->hydrator->currentInstance(),
-            'Not expecting a current instance yet.'
+        /** @var ObservesHydration|MockObject $observer */
+        $observer = $this->createMock(ObservesHydration::class);
+        $observer->expects($this->once())->method('hydrating')->with($emptyObject);
+
+        $hydrator = SimpleHydrator::forThe(
+            Title::class,
+            null,
+            $observer
         );
 
-        $this->hydrator->fromArray(['foo' => 'bar']);
-
-        $this->assertNull(
-            $this->hydrator->currentInstance(),
-            'Not expecting a current instance anymore.'
-        );
+        $hydrator->fromArray(['foo' => 'bar']);
     }
 
     public function hydrator() : Hydrates

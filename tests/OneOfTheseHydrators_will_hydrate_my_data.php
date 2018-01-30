@@ -8,11 +8,8 @@ use PHPUnit\Framework\TestCase;
 use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\Hydrator\OneOfTheseHydrators;
 use Stratadox\Hydration\Hydrator\SimpleHydrator;
-use Stratadox\Hydration\Test\Asset\Book\Book;
 use Stratadox\Hydration\Test\Asset\Book\Image;
 use Stratadox\Hydration\Test\Asset\Book\Text;
-use Stratadox\Hydration\Test\Asset\Spy\SpyOnCurrentInstanceAsHydrator;
-use Stratadox\Hydration\Test\Asset\Spy\SpyOnCurrentInstanceAsPropertyMapping;
 use Stratadox\Hydration\UnmappableInput;
 use TypeError;
 
@@ -74,29 +71,6 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         OneOfTheseHydrators::decideBasedOnThe('type', [
             'not-a-hydrator' => $this,
         ]);
-    }
-
-    /** @scenario */
-    function retrieving_the_currently_hydrating_instance()
-    {
-        $spy = SpyOnCurrentInstanceAsHydrator::expectThe(Image::class);
-        $hydrator = OneOfTheseHydrators::decideBasedOnThe('type', [
-            'text' => $this->createMock(Hydrates::class),
-            'image' => $spy,
-        ]);
-        $spy->onThe($hydrator);
-
-        $this->assertNull(
-            $hydrator->currentInstance(),
-            'Not expecting a current instance yet.'
-        );
-
-        $hydrator->fromArray(['type' => 'image']);
-
-        $this->assertNull(
-            $hydrator->currentInstance(),
-            'Not expecting a current instance anymore.'
-        );
     }
 
     private function makeElement() : Hydrates

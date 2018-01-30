@@ -7,7 +7,7 @@ namespace Stratadox\Hydrator\Test;
 use Closure;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject as Mock;
+use ReflectionClass;
 use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\Hydrator\MappedHydrator;
 use Stratadox\Hydration\Hydrator\SimpleHydrator;
@@ -19,9 +19,9 @@ use Stratadox\Hydration\Test\Asset\Book\Book;
 use Stratadox\Hydration\Test\Asset\Book\Contents;
 use Stratadox\Hydration\Test\Asset\Book\Isbn;
 use Stratadox\Hydration\Test\Asset\Book\Title;
-use Stratadox\Hydration\Test\Asset\Spy\SpyOnCurrentInstanceAsPropertyMapping;
 use Stratadox\Hydration\Test\Asset\Unmappable;
 use Stratadox\Hydration\UnmappableInput;
+use Stratadox\Hydrator\ObservesHydration;
 
 /**
  * @covers \Stratadox\Hydration\Hydrator\MappedHydrator
@@ -80,25 +80,26 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
     }
 
     /** @scenario */
-    function retrieving_the_currently_hydrating_instance()
+    function notifying_the_observers()
     {
-        $spy = SpyOnCurrentInstanceAsPropertyMapping::expectThe(Book::class);
+        $emptyObject = (new ReflectionClass(Title::class))->newInstanceWithoutConstructor();
 
-        $hydrator = MappedHydrator::forThe(Book::class, $spy);
+        /** @var ObservesHydration|MockObject $observer */
+        $observer = $this->createMock(ObservesHydration::class);
+        $observer->expects($this->once())->method('hydrating')->with($emptyObject);
 
-        $spy->onThe($hydrator);
+        /** @var MapsProperties|MockObject $map */
+        $map = $this->createMock(MapsProperties::class);
+        $map->expects($this->once())->method('writeData');
 
-        $this->assertNull(
-            $hydrator->currentInstance(),
-            'Not expecting a current instance yet.'
+        $hydrator = MappedHydrator::forThe(
+            Title::class,
+            $map,
+            null,
+            $observer
         );
 
-        $hydrator->fromArray([]);
-
-        $this->assertNull(
-            $hydrator->currentInstance(),
-            'Not expecting a current instance anymore.'
-        );
+        $hydrator->fromArray(['foo' => 'bar']);
     }
 
     /** @scenario */
@@ -137,9 +138,9 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
      * Since mapping itself is out of scope for this unit test, the mapping is
      * defined through mocking the interfaces.
      *
-     * @return MapsProperties|Mock
+     * @return MapsProperties|MockObject
      */
-    private function bookMapping() : Mock
+    private function bookMapping() : MockObject
     {
         $properties = [
             $this->mapObjectProperty('isbn',
@@ -183,13 +184,13 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
      * @param string   $property    Property of the originally mapped object
      * @param Hydrates $hydrator    Hydrator for the related object
      * @param array    $map
-     * @return MapsProperty|Mock
+     * @return MapsProperty|MockObject
      */
     private function mapObjectProperty(
         string $property,
         Hydrates $hydrator,
         array $map
-    ) : Mock
+    ) : MockObject
     {
         $mapper = $this->createMock(MapsProperty::class);
         $mapper->expects($this->atLeastOnce())
@@ -209,9 +210,9 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
     /**
      * @param string $property
      * @param string $key
-     * @return MapsProperty|Mock
+     * @return MapsProperty|MockObject
      */
-    private function mapScalarProperty(string $property, string $key) : Mock
+    private function mapScalarProperty(string $property, string $key) : MockObject
     {
         $mapper = $this->createMock(MapsProperty::class);
         $mapper->expects($this->atLeastOnce())
@@ -228,13 +229,13 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
      * @param string   $property      Property of the originally mapped object
      * @param Hydrates $hydrator      Hydrator for the related object
      * @param array    $hydrationData
-     * @return MapsProperty|Mock
+     * @return MapsProperty|MockObject
      */
     private function mapEmptyObjectProperty(
         string $property,
         Hydrates $hydrator,
         array $hydrationData = []
-    ) : Mock
+    ) : MockObject
     {
         $mapper = $this->createMock(MapsProperty::class);
         $mapper->expects($this->atLeastOnce())
