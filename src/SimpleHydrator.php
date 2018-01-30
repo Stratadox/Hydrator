@@ -7,6 +7,7 @@ namespace Stratadox\Hydration\Hydrator;
 use Closure;
 use ReflectionClass;
 use Stratadox\Hydration\Hydrates;
+use Stratadox\Hydrator\ObservesHydration;
 
 /**
  * Hydrates an object from array input.
@@ -19,12 +20,15 @@ final class SimpleHydrator implements Hydrates
     private $class;
     private $setter;
     private $object;
+    private $observer;
 
     private function __construct(
         ReflectionClass $reflector,
-        Closure $setter = null
+        ?Closure $setter,
+        ?ObservesHydration $observer
     ) {
         $this->class = $reflector;
+        $this->observer = $observer;
         $this->setter = $setter ?: function (string $attribute, $value)
         {
             $this->$attribute = $value;
@@ -33,16 +37,22 @@ final class SimpleHydrator implements Hydrates
 
     public static function forThe(
         string $class,
-        Closure $setter = null
+        Closure $setter = null,
+        ObservesHydration $observer = null
     ) : Hydrates
     {
-        return new SimpleHydrator(new ReflectionClass($class), $setter);
+        return new SimpleHydrator(
+            new ReflectionClass($class), $setter, $observer
+        );
     }
 
     public function fromArray(array $data)
     {
         try {
             $this->object = $this->class->newInstanceWithoutConstructor();
+            if ($this->observer) {
+                $this->observer->hydrating($this->object);
+            }
             foreach ($data as $attribute => $value) {
                 $this->setter->call($this->object, $attribute, $value);
             }
