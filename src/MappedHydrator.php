@@ -9,6 +9,7 @@ use ReflectionClass;
 use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\MapsProperties;
 use Stratadox\Hydration\UnmappableInput;
+use Stratadox\Hydrator\ObservesHydration;
 
 /**
  * Hydrates an object from mapped array input.
@@ -22,14 +23,17 @@ final class MappedHydrator implements Hydrates
     private $properties;
     private $setter;
     private $object;
+    private $observer;
 
     private function __construct(
         ReflectionClass $reflector,
         MapsProperties $mapped,
-        Closure $setter = null
+        ?Closure $setter,
+        ?ObservesHydration $observer
     ) {
         $this->class = $reflector;
         $this->properties = $mapped;
+        $this->observer = $observer;
         $this->setter = $setter ?: function (string $attribute, $value)
         {
             $this->$attribute = $value;
@@ -39,16 +43,22 @@ final class MappedHydrator implements Hydrates
     public static function forThe(
         string $class,
         MapsProperties $mapped,
-        Closure $setter = null
+        Closure $setter = null,
+        ObservesHydration $observer = null
     ) : Hydrates
     {
-        return new MappedHydrator(new ReflectionClass($class), $mapped, $setter);
+        return new MappedHydrator(
+            new ReflectionClass($class), $mapped, $setter, $observer
+        );
     }
 
     public function fromArray(array $data)
     {
         try {
             $this->object = $this->class->newInstanceWithoutConstructor();
+            if ($this->observer) {
+                $this->observer->hydrating($this->object);
+            }
             $this->properties->writeData($this->object, $this->setter, $data);
             return $this->object;
         } catch (UnmappableInput $exception) {
