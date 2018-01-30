@@ -17,6 +17,7 @@ use Stratadox\Hydrator\ObservesHydration;
 
 /**
  * @covers \Stratadox\Hydration\Hydrator\SimpleHydrator
+ * @covers \Stratadox\Hydration\Hydrator\BlindObserver
  */
 class SimpleHydrator_converts_arrays_to_objects extends TestCase
 {

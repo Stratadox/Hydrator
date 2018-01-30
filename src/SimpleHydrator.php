@@ -23,8 +23,8 @@ final class SimpleHydrator implements Hydrates
 
     private function __construct(
         ReflectionClass $reflector,
-        ?Closure $setter,
-        ?ObservesHydration $observer
+        ObservesHydration $observer,
+        ?Closure $setter
     ) {
         $this->class = $reflector;
         $this->observer = $observer;
@@ -41,16 +41,16 @@ final class SimpleHydrator implements Hydrates
     ) : Hydrates
     {
         return new SimpleHydrator(
-            new ReflectionClass($class), $setter, $observer
+            new ReflectionClass($class),
+            $observer ?: BlindObserver::add(),
+            $setter
         );
     }
 
     public function fromArray(array $data)
     {
         $object = $this->class->newInstanceWithoutConstructor();
-        if ($this->observer) {
-            $this->observer->hydrating($object);
-        }
+        $this->observer->hydrating($object);
         foreach ($data as $attribute => $value) {
             $this->setter->call($object, $attribute, $value);
         }

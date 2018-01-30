@@ -26,6 +26,7 @@ use Stratadox\Hydrator\ObservesHydration;
 /**
  * @covers \Stratadox\Hydration\Hydrator\MappedHydrator
  * @covers \Stratadox\Hydration\Hydrator\CouldNotMap
+ * @covers \Stratadox\Hydration\Hydrator\BlindObserver
  */
 class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 {

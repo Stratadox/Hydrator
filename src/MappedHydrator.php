@@ -27,8 +27,8 @@ final class MappedHydrator implements Hydrates
     private function __construct(
         ReflectionClass $reflector,
         MapsProperties $mapped,
-        ?Closure $setter,
-        ?ObservesHydration $observer
+        ObservesHydration $observer,
+        ?Closure $setter
     ) {
         $this->class = $reflector;
         $this->properties = $mapped;
@@ -47,7 +47,10 @@ final class MappedHydrator implements Hydrates
     ) : Hydrates
     {
         return new MappedHydrator(
-            new ReflectionClass($class), $mapped, $setter, $observer
+            new ReflectionClass($class),
+            $mapped,
+            $observer ?: BlindObserver::add(),
+            $setter
         );
     }
 
@@ -55,9 +58,7 @@ final class MappedHydrator implements Hydrates
     {
         try {
             $object = $this->class->newInstanceWithoutConstructor();
-            if ($this->observer) {
-                $this->observer->hydrating($object);
-            }
+            $this->observer->hydrating($object);
             $this->properties->writeData($object, $this->setter, $data);
             return $object;
         } catch (Throwable $exception) {
