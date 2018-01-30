@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Stratadox\Hydration\Hydrator;
 
-use Stratadox\Hydration\Hydrates;
+use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydration\UnmappableInput;
 
 /**

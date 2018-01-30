@@ -7,10 +7,10 @@ namespace Stratadox\Hydration\Hydrator;
 use ReflectionClass;
 use RuntimeException;
 use function sprintf;
-use Stratadox\Hydration\UnmappableInput;
+use Stratadox\Hydrator\CouldNotHydrate;
 use Throwable;
 
-final class CouldNotMap extends RuntimeException implements UnmappableInput
+final class CouldNotMap extends RuntimeException implements CouldNotHydrate
 {
     public static function encountered(
         Throwable $exception,

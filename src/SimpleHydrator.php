@@ -6,7 +6,7 @@ namespace Stratadox\Hydration\Hydrator;
 
 use Closure;
 use ReflectionClass;
-use Stratadox\Hydration\Hydrates;
+use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObservesHydration;
 
 /**

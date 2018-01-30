@@ -5,21 +5,21 @@ declare(strict_types = 1);
 namespace Stratadox\Hydration\Hydrator;
 
 use InvalidArgumentException;
-use Stratadox\Hydration\UnmappableInput;
+use Stratadox\Hydrator\CouldNotHydrate;
 
-final class CannotDecideOnAHydrator extends InvalidArgumentException implements UnmappableInput
+final class CannotDecideOnAHydrator extends InvalidArgumentException implements CouldNotHydrate
 {
-    public static function withThis(string $hydratorKey) : UnmappableInput
+    public static function withThis(string $hydratorKey) : self
     {
-        return new static(sprintf(
+        return new self(sprintf(
             'Invalid class decision key: `%s`.',
             $hydratorKey
         ));
     }
 
-    public static function without(string $decisionKey) : UnmappableInput
+    public static function without(string $decisionKey) : self
     {
-        return new static(sprintf(
+        return new self(sprintf(
             'Missing class decision key: `%s`.',
             $decisionKey
         ));

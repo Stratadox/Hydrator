@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Stratadox\Hydration\Hydrator;
 
-use Stratadox\Hydration\Hydrates;
+use Stratadox\Hydrator\Hydrates;
 
 /**
  * Hydrates an array. Since the input is already array, do nothing, really.

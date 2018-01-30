@@ -6,10 +6,10 @@ namespace Stratadox\Hydration\Hydrator;
 
 use Closure;
 use ReflectionClass;
-use Stratadox\Hydration\Hydrates;
 use Stratadox\Hydration\MapsProperties;
-use Stratadox\Hydration\UnmappableInput;
+use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObservesHydration;
+use Throwable;
 
 /**
  * Hydrates an object from mapped array input.
@@ -61,7 +61,7 @@ final class MappedHydrator implements Hydrates
             }
             $this->properties->writeData($this->object, $this->setter, $data);
             return $this->object;
-        } catch (UnmappableInput $exception) {
+        } catch (Throwable $exception) {
             throw CouldNotMap::encountered($exception, $this->class);
         } finally {
             $this->object = null;
