@@ -6,10 +6,10 @@ namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\TestCase;
 use StdClass;
-use Stratadox\Hydration\Hydrator\ArrayHydrator;
+use Stratadox\Hydrator\ArrayHydrator;
 
 /**
- * @covers \Stratadox\Hydration\Hydrator\ArrayHydrator
+ * @covers \Stratadox\Hydrator\ArrayHydrator
  */
 class ArrayHydrator_just_passes_on_the_array extends TestCase
 {

@@ -5,17 +5,17 @@ declare(strict_types = 1);
 namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\TestCase;
-use Stratadox\Hydration\Hydrator\OneOfTheseHydrators;
-use Stratadox\Hydration\Hydrator\SimpleHydrator;
 use Stratadox\Hydration\Test\Asset\Book\Image;
 use Stratadox\Hydration\Test\Asset\Book\Text;
 use Stratadox\Hydrator\CouldNotHydrate;
 use Stratadox\Hydrator\Hydrates;
+use Stratadox\Hydrator\OneOfTheseHydrators;
+use Stratadox\Hydrator\SimpleHydrator;
 use TypeError;
 
 /**
- * @covers \Stratadox\Hydration\Hydrator\OneOfTheseHydrators
- * @covers \Stratadox\Hydration\Hydrator\CannotDecideOnAHydrator
+ * @covers \Stratadox\Hydrator\OneOfTheseHydrators
+ * @covers \Stratadox\Hydrator\CannotDecideOnAHydrator
  */
 class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
 {

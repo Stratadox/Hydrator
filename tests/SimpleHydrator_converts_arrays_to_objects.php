@@ -8,16 +8,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Stratadox\Hydration\Test\Asset\Book\Title;
-use Stratadox\Hydration\Hydrator\SimpleHydrator;
 use Stratadox\Hydration\Test\Asset\FooBar\Bar;
 use Stratadox\Hydration\Test\Asset\FooBar\Foo;
 use Stratadox\Hydration\Test\Asset\FooBar\FooCollection;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObservesHydration;
+use Stratadox\Hydrator\SimpleHydrator;
 
 /**
- * @covers \Stratadox\Hydration\Hydrator\SimpleHydrator
- * @covers \Stratadox\Hydration\Hydrator\BlindObserver
+ * @covers \Stratadox\Hydrator\SimpleHydrator
+ * @covers \Stratadox\Hydrator\BlindObserver
  */
 class SimpleHydrator_converts_arrays_to_objects extends TestCase
 {

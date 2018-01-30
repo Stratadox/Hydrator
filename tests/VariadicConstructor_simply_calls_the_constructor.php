@@ -5,11 +5,11 @@ declare(strict_types = 1);
 namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\TestCase;
-use Stratadox\Hydration\Hydrator\VariadicConstructor;
 use Stratadox\Hydration\Test\Asset\Numbers\CollectionOfIntegers;
+use Stratadox\Hydrator\VariadicConstructor;
 
 /**
- * @covers \Stratadox\Hydration\Hydrator\VariadicConstructor
+ * @covers \Stratadox\Hydrator\VariadicConstructor
  */
 class VariadicConstructor_simply_calls_the_constructor extends TestCase
 {

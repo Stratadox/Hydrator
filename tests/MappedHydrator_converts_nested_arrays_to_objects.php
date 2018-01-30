@@ -7,9 +7,6 @@ namespace Stratadox\Hydrator\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Stratadox\Hydration\Hydrator\MappedHydrator;
-use Stratadox\Hydration\Hydrator\SimpleHydrator;
-use Stratadox\Hydration\Hydrator\VariadicConstructor;
 use Stratadox\Hydration\Test\Asset\Book\Author;
 use Stratadox\Hydration\Test\Asset\Book\Book;
 use Stratadox\Hydration\Test\Asset\Book\Contents;
@@ -21,12 +18,15 @@ use Stratadox\HydrationMapping\MapsProperties;
 use Stratadox\HydrationMapping\MapsProperty;
 use Stratadox\Hydrator\CouldNotHydrate;
 use Stratadox\Hydrator\Hydrates;
+use Stratadox\Hydrator\MappedHydrator;
 use Stratadox\Hydrator\ObservesHydration;
+use Stratadox\Hydrator\SimpleHydrator;
+use Stratadox\Hydrator\VariadicConstructor;
 
 /**
- * @covers \Stratadox\Hydration\Hydrator\MappedHydrator
- * @covers \Stratadox\Hydration\Hydrator\CouldNotMap
- * @covers \Stratadox\Hydration\Hydrator\BlindObserver
+ * @covers \Stratadox\Hydrator\MappedHydrator
+ * @covers \Stratadox\Hydrator\CouldNotMap
+ * @covers \Stratadox\Hydrator\BlindObserver
  */
 class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 {
