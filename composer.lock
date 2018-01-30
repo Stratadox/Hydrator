@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "stratadox/hydrator-contracts",
-            "version": "v0.1",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Stratadox/HydratorContracts.git",
-                "reference": "d43b3b8dce6480a44a4f4fecfa7670e92c946f66"
+                "reference": "c1bbfa077eebce3b20523f3e718c2cb45603bc26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Stratadox/HydratorContracts/zipball/d43b3b8dce6480a44a4f4fecfa7670e92c946f66",
-                "reference": "d43b3b8dce6480a44a4f4fecfa7670e92c946f66",
+                "url": "https://api.github.com/repos/Stratadox/HydratorContracts/zipball/c1bbfa077eebce3b20523f3e718c2cb45603bc26",
+                "reference": "c1bbfa077eebce3b20523f3e718c2cb45603bc26",
                 "shasum": ""
             },
             "require": {
@@ -39,7 +39,7 @@
                     "homepage": "http://www.stratadox.com/"
                 }
             ],
-            "time": "2018-01-30T16:57:31+00:00"
+            "time": "2018-01-30T22:22:34+00:00"
         }
     ],
     "packages-dev": [
