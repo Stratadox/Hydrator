@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Stratadox\Hydration\Hydrator;
 
+use Stratadox\Hydrator\CouldNotHydrate;
 use Stratadox\Hydrator\Hydrates;
-use Stratadox\Hydration\UnmappableInput;
 
 /**
  * Delegates hydration, selecting a hydrator based on an input value.
@@ -17,7 +17,6 @@ final class OneOfTheseHydrators implements Hydrates
 {
     private $decisionKey;
     private $hydratorMap;
-    private $current;
 
     private function __construct(string $decisionKey, array $hydratorMap)
     {
@@ -35,7 +34,7 @@ final class OneOfTheseHydrators implements Hydrates
     }
 
     /**
-     * @throws UnmappableInput
+     * @throws CouldNotHydrate
      * @inheritdoc
      */
     public function fromArray(array $input)
@@ -51,7 +50,7 @@ final class OneOfTheseHydrators implements Hydrates
         return $hydrator->fromArray($input);
     }
 
-    /** @throws UnmappableInput */
+    /** @throws CouldNotHydrate */
     private function hydratorBasedOn(string $key) : Hydrates
     {
         if (!isset($this->hydratorMap[$key])) {
@@ -60,7 +59,7 @@ final class OneOfTheseHydrators implements Hydrates
         return $this->hydratorMap[$key];
     }
 
-    /** @throws UnmappableInput */
+    /** @throws CouldNotHydrate */
     private function keyFromThe(array $input) : string
     {
         if (!isset($input[$this->decisionKey])) {
