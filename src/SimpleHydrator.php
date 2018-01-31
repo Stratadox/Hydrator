@@ -6,6 +6,7 @@ namespace Stratadox\Hydrator;
 
 use Closure;
 use ReflectionClass;
+use Throwable;
 
 /**
  * Hydrates an object from array input.
@@ -33,6 +34,8 @@ final class SimpleHydrator implements Hydrates
     }
 
     /**
+     * Creates a new simple hydrator.
+     *
      * @param string                 $class    The class to hydrate.
      * @param Closure|null           $setter   The closure that writes the values.
      * @param ObservesHydration|null $observer Object that gets updated with the
@@ -45,7 +48,7 @@ final class SimpleHydrator implements Hydrates
         ObservesHydration $observer = null
     ) : self
     {
-        return new SimpleHydrator(
+        return new self(
             new ReflectionClass($class),
             $observer ?: BlindObserver::add(),
             $setter
@@ -62,7 +65,7 @@ final class SimpleHydrator implements Hydrates
                 $this->setter->call($object, $attribute, $value);
             }
             return $object;
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             throw HydrationFailed::encountered($exception, $this->class);
         }
     }

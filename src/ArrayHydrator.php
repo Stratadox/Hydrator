@@ -19,7 +19,7 @@ final class ArrayHydrator implements Hydrates
      */
     public static function create() : self
     {
-        return new ArrayHydrator;
+        return new self;
     }
 
     /** @inheritdoc */

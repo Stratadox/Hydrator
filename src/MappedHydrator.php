@@ -54,7 +54,7 @@ final class MappedHydrator implements Hydrates
         ObservesHydration $observer = null
     ) : self
     {
-        return new MappedHydrator(
+        return new self(
             new ReflectionClass($class),
             $mapped,
             $observer ?: BlindObserver::add(),

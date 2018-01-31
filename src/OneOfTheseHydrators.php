@@ -34,7 +34,7 @@ final class OneOfTheseHydrators implements Hydrates
      */
     public static function decideBasedOnThe(string $key, array $map) : self
     {
-        return new OneOfTheseHydrators($key, $map);
+        return new self($key, $map);
     }
 
     /** @inheritdoc */

@@ -27,7 +27,7 @@ final class VariadicConstructor implements Hydrates
      */
     public static function forThe(string $class) : self
     {
-        return new VariadicConstructor($class);
+        return new self($class);
     }
 
     /** @inheritdoc */
