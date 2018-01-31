@@ -36,7 +36,7 @@ final class SimpleHydrator implements Hydrates
         string $class,
         Closure $setter = null,
         ObservesHydration $observer = null
-    ) : Hydrates
+    ) : self
     {
         return new SimpleHydrator(
             new ReflectionClass($class),

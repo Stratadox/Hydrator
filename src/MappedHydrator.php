@@ -42,7 +42,7 @@ final class MappedHydrator implements Hydrates
         MapsProperties $mapped,
         Closure $setter = null,
         ObservesHydration $observer = null
-    ) : Hydrates
+    ) : self
     {
         return new MappedHydrator(
             new ReflectionClass($class),

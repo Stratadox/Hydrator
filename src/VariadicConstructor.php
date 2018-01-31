@@ -19,7 +19,7 @@ final class VariadicConstructor implements Hydrates
         $this->class = $forTheClass;
     }
 
-    public static function forThe(string $class) : Hydrates
+    public static function forThe(string $class) : self
     {
         return new VariadicConstructor($class);
     }

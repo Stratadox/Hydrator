@@ -12,7 +12,7 @@ namespace Stratadox\Hydrator;
  */
 final class ArrayHydrator implements Hydrates
 {
-    public static function create() : Hydrates
+    public static function create() : self
     {
         return new ArrayHydrator;
     }
