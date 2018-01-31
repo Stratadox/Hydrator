@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Stratadox\Hydrator;
 
 /**
- * NullObject for *not* observing the hydration process.
+ * Null object for *not* observing the hydration process.
  *
  * @package Stratadox\Hydrate
  * @author Stratadox
