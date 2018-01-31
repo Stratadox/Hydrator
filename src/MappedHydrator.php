@@ -63,7 +63,7 @@ final class MappedHydrator implements Hydrates
             }
             return $object;
         } catch (Throwable $exception) {
-            throw CouldNotMap::encountered($exception, $this->class);
+            throw HydrationFailed::encountered($exception, $this->class);
         }
     }
 }

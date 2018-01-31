@@ -48,11 +48,15 @@ final class SimpleHydrator implements Hydrates
     /** @inheritdoc */
     public function fromArray(array $data)
     {
-        $object = $this->class->newInstanceWithoutConstructor();
-        $this->observer->hydrating($object);
-        foreach ($data as $attribute => $value) {
-            $this->setter->call($object, $attribute, $value);
+        try {
+            $object = $this->class->newInstanceWithoutConstructor();
+            $this->observer->hydrating($object);
+            foreach ($data as $attribute => $value) {
+                $this->setter->call($object, $attribute, $value);
+            }
+            return $object;
+        } catch (\Throwable $exception) {
+            throw HydrationFailed::encountered($exception, $this->class);
         }
-        return $object;
     }
 }
