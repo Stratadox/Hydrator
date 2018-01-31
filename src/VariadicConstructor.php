@@ -19,6 +19,12 @@ final class VariadicConstructor implements Hydrates
         $this->class = $forTheClass;
     }
 
+    /**
+     * Creates a new variadic constructor calling hydrator.
+     *
+     * @param string $class The class to hydrate.
+     * @return self         The variadic construction calling hydrator.
+     */
     public static function forThe(string $class) : self
     {
         return new VariadicConstructor($class);

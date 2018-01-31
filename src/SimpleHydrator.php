@@ -32,6 +32,13 @@ final class SimpleHydrator implements Hydrates
         };
     }
 
+    /**
+     * @param string                 $class    The class to hydrate.
+     * @param Closure|null           $setter   The closure that writes the values.
+     * @param ObservesHydration|null $observer Object that gets updated with the
+     *                                         hydrating instance.
+     * @return self                            The mapped hydrator.
+     */
     public static function forThe(
         string $class,
         Closure $setter = null,
