@@ -25,7 +25,7 @@ use Stratadox\Hydrator\VariadicConstructor;
 
 /**
  * @covers \Stratadox\Hydrator\MappedHydrator
- * @covers \Stratadox\Hydrator\CouldNotMap
+ * @covers \Stratadox\Hydrator\HydrationFailed
  * @covers \Stratadox\Hydrator\BlindObserver
  */
 class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
@@ -114,7 +114,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 
         $this->expectException(CouldNotHydrate::class);
         $this->expectExceptionMessage(
-            'Could not map the class `'.Book::class. '`: Original exception message here.'
+            'Could not load the class `'.Book::class. '`: Original exception message here.'
         );
 
         $hydrator->fromArray(['foo' => 'bar']);

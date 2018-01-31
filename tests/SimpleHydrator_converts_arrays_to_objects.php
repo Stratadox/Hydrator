@@ -11,12 +11,14 @@ use Stratadox\Hydration\Test\Asset\Book\Title;
 use Stratadox\Hydration\Test\Asset\FooBar\Bar;
 use Stratadox\Hydration\Test\Asset\FooBar\Foo;
 use Stratadox\Hydration\Test\Asset\FooBar\FooCollection;
+use Stratadox\Hydrator\CouldNotHydrate;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObservesHydration;
 use Stratadox\Hydrator\SimpleHydrator;
 
 /**
  * @covers \Stratadox\Hydrator\SimpleHydrator
+ * @covers \Stratadox\Hydrator\HydrationFailed
  * @covers \Stratadox\Hydrator\BlindObserver
  */
 class SimpleHydrator_converts_arrays_to_objects extends TestCase
@@ -114,6 +116,21 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
             $observer
         );
 
+        $hydrator->fromArray(['foo' => 'bar']);
+    }
+
+    /** @scenario */
+    function throwing_the_expected_exception_when_things_go_wrong()
+    {
+        $hydrator = SimpleHydrator::forThe(
+            '\\stdClass',
+            null
+        );
+
+        $this->expectException(CouldNotHydrate::class);
+        $this->expectExceptionMessage(
+            'Could not load the class `stdClass`: Cannot bind closure to scope of internal class stdClass'
+        );
         $hydrator->fromArray(['foo' => 'bar']);
     }
 
