@@ -10,7 +10,7 @@ namespace Stratadox\Hydrator;
  * @package Stratadox\Hydrate
  * @author Stratadox
  */
-class BlindObserver implements ObservesHydration
+final class BlindObserver implements ObservesHydration
 {
     /**
      * Creates a new blind observer.
