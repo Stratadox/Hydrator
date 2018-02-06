@@ -4,8 +4,11 @@ declare(strict_types = 1);
 
 namespace Stratadox\Hydrator\Test;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use Stratadox\Hydration\Test\Asset\ExceptionThrower;
 use Stratadox\Hydration\Test\Asset\Numbers\CollectionOfIntegers;
+use Stratadox\Hydrator\CouldNotHydrate;
 use Stratadox\Hydrator\VariadicConstructor;
 
 /**
@@ -31,5 +34,20 @@ class VariadicConstructor_simply_calls_the_constructor extends TestCase
         $this->assertInstanceOf(CollectionOfIntegers::class, $collection);
         $this->assertSame(123, $collection[0]);
         $this->assertSame(456, $collection->offsetGet(1));
+    }
+
+    /** @scenario */
+    function throwing_the_expected_exception_when_things_go_wrong()
+    {
+        $hydrator = VariadicConstructor::forThe(ExceptionThrower::class);
+
+        ExceptionThrower::setMessage('Original exception message here.');
+
+        $this->expectException(CouldNotHydrate::class);
+        $this->expectExceptionMessage(
+            'Could not load the class `'.ExceptionThrower::class. '`: Original exception message here.'
+        );
+
+        $hydrator->fromArray([]);
     }
 }
