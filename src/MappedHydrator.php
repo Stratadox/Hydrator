@@ -69,7 +69,10 @@ final class MappedHydrator implements Hydrates
             $object = $this->class->newInstanceWithoutConstructor();
             $this->observer->hydrating($object);
             foreach ($this->properties as $property) {
-                $this->setter->call($object, $property->name(), $property->value($data));
+                $this->setter->call($object,
+                    $property->name(),
+                    $property->value($data, $object)
+                );
             }
             return $object;
         } catch (Throwable $exception) {
