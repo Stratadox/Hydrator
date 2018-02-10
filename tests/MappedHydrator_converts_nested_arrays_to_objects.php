@@ -184,13 +184,18 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
             ->method('name')->willReturn($property);
         $mapper->expects($this->atLeastOnce())
             ->method('value')
-            ->willReturnCallback(function (array $data) use ($hydrator, $map) {
-                $array = [];
-                foreach ($map as $property => $key) {
-                    $array[$property] = $data[$key];
+            ->willReturnCallback(
+                function (array $data, $owner) use ($hydrator, $map) {
+                    TestCase::assertTrue(is_object($owner),
+                        'Expected the owner to be an object, got '.gettype($owner)
+                    );
+                    $array = [];
+                    foreach ($map as $property => $key) {
+                        $array[$property] = $data[$key];
+                    }
+                    return $hydrator->fromArray($array);
                 }
-                return $hydrator->fromArray($array);
-            });
+            );
         return $mapper;
     }
 
