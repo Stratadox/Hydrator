@@ -19,7 +19,6 @@ before_script:
 script:
   - mkdir -p build/logs
   - vendor/bin/phpunit -c phpunit.xml
-  - vendor/bin/infection
   - ./infection.phar --min-msi=100 --min-covered-msi=100
 
 after_success:
