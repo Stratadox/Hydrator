@@ -32,12 +32,11 @@ final class OneOfTheseHydrators implements Hydrates
      * @param array  $map Map of hydrators as [string $key => Hydrates $hydrator].
      * @return self       The delegating hydrator.
      */
-    public static function decideBasedOnThe(string $key, array $map) : self
+    public static function decideBasedOnThe(string $key, array $map): self
     {
         return new self($key, $map);
     }
 
-    /** @inheritdoc */
     public function fromArray(array $input)
     {
         return $this->hydrateAnInstanceUsing(
@@ -52,7 +51,7 @@ final class OneOfTheseHydrators implements Hydrates
     }
 
     /** @throws CouldNotHydrate */
-    private function hydratorBasedOn(string $key) : Hydrates
+    private function hydratorBasedOn(string $key): Hydrates
     {
         if (!isset($this->hydratorMap[$key])) {
             throw CannotDecideOnAHydrator::withThis($key);
@@ -61,7 +60,7 @@ final class OneOfTheseHydrators implements Hydrates
     }
 
     /** @throws CouldNotHydrate */
-    private function keyFromThe(array $input) : string
+    private function keyFromThe(array $input): string
     {
         if (!isset($input[$this->decisionKey])) {
             throw CannotDecideOnAHydrator::without($this->decisionKey);
@@ -69,6 +68,6 @@ final class OneOfTheseHydrators implements Hydrates
         return $input[$this->decisionKey];
     }
 
-    private function mustBeAString(string $key) : void {}
-    private function mustBeAHydrator(Hydrates $instance) : void {}
+    private function mustBeAString(string $key): void {}
+    private function mustBeAHydrator(Hydrates $instance): void {}
 }

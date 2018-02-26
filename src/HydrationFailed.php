@@ -28,8 +28,7 @@ final class HydrationFailed extends RuntimeException implements CouldNotHydrate
     public static function encountered(
         Throwable $exception,
         ReflectionClass $class
-    ) : self
-    {
+    ): self {
         return new self(
             sprintf('Could not load the class `%s`: %s',
                 $class->getName(),

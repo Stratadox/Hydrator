@@ -46,8 +46,7 @@ final class SimpleHydrator implements Hydrates
         string $class,
         Closure $setter = null,
         ObservesHydration $observer = null
-    ) : self
-    {
+    ): self {
         return new self(
             new ReflectionClass($class),
             $observer ?: BlindObserver::add(),
@@ -55,7 +54,6 @@ final class SimpleHydrator implements Hydrates
         );
     }
 
-    /** @inheritdoc */
     public function fromArray(array $data)
     {
         try {

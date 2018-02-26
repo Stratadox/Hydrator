@@ -17,13 +17,12 @@ final class BlindObserver implements ObservesHydration
      *
      * @return self
      */
-    public static function add() : self
+    public static function add(): self
     {
         return new self;
     }
 
-    /** @inheritdoc */
-    public function hydrating($theInstance) : void
+    public function hydrating($theInstance): void
     {
         // No operation.
     }

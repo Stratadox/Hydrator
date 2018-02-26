@@ -17,12 +17,11 @@ final class ArrayHydrator implements Hydrates
      *
      * @return self
      */
-    public static function create() : self
+    public static function create(): self
     {
         return new self;
     }
 
-    /** @inheritdoc */
     public function fromArray(array $input)
     {
         return $input;

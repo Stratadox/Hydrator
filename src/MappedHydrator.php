@@ -52,8 +52,7 @@ final class MappedHydrator implements Hydrates
         MapsProperties $mapped,
         Closure $setter = null,
         ObservesHydration $observer = null
-    ) : self
-    {
+    ): self {
         return new self(
             new ReflectionClass($class),
             $mapped,
@@ -62,7 +61,6 @@ final class MappedHydrator implements Hydrates
         );
     }
 
-    /** @inheritdoc */
     public function fromArray(array $data)
     {
         try {

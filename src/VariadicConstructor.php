@@ -28,12 +28,11 @@ final class VariadicConstructor implements Hydrates
      * @param string $class The class to hydrate.
      * @return self         The variadic construction calling hydrator.
      */
-    public static function forThe(string $class) : self
+    public static function forThe(string $class): self
     {
         return new self($class);
     }
 
-    /** @inheritdoc */
     public function fromArray(array $input)
     {
         $class = $this->class;
