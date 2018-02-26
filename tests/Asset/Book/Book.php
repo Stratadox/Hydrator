@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Stratadox\Hydration\Test\Asset\Book;
+namespace Stratadox\Hydrator\Test\Asset\Book;
 
 use function sprintf;
 use function strpos;

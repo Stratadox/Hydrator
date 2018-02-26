@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\TestCase;
-use Stratadox\Hydration\Test\Asset\Book\Image;
-use Stratadox\Hydration\Test\Asset\Book\Text;
+use Stratadox\Hydrator\Test\Asset\Book\Image;
+use Stratadox\Hydrator\Test\Asset\Book\Text;
 use Stratadox\Hydrator\CouldNotHydrate;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\OneOfTheseHydrators;

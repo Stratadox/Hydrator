@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Stratadox\Hydration\Test\Asset\FooBar;
+namespace Stratadox\Hydrator\Test\Asset\FooBar;
 
 class Foo
 {

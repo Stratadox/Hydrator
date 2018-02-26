@@ -14,7 +14,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Stratadox\\Hydration\\Test\\": "tests"
+            "Stratadox\\Hydrator\\Test\\": "tests"
         }
     },
     "require": {

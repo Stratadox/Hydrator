@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Stratadox\Hydration\Test\Asset\Numbers;
+namespace Stratadox\Hydrator\Test\Asset\Numbers;
 
 use Stratadox\ImmutableCollection\ImmutableCollection;
 

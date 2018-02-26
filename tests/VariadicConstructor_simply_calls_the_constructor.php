@@ -6,8 +6,8 @@ namespace Stratadox\Hydrator\Test;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Stratadox\Hydration\Test\Asset\ExceptionThrower;
-use Stratadox\Hydration\Test\Asset\Numbers\CollectionOfIntegers;
+use Stratadox\Hydrator\Test\Asset\ExceptionThrower;
+use Stratadox\Hydrator\Test\Asset\Numbers\CollectionOfIntegers;
 use Stratadox\Hydrator\CouldNotHydrate;
 use Stratadox\Hydrator\VariadicConstructor;
 

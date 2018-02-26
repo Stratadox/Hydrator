@@ -6,7 +6,7 @@ namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\AssertionFailedError;
-use Stratadox\Hydration\Test\Asset\FooBar\Foo;
+use Stratadox\Hydrator\Test\Asset\FooBar\Foo;
 
 trait FooBarAssertions
 {

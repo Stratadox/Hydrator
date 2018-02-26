@@ -1,6 +1,6 @@
 <?php
 
-namespace Stratadox\Hydration\Test\Asset\Book;
+namespace Stratadox\Hydrator\Test\Asset\Book;
 
 interface Element
 {
