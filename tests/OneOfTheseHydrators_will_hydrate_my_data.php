@@ -73,7 +73,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         ]);
     }
 
-    private function makeElement() : Hydrates
+    private function makeElement(): Hydrates
     {
         return OneOfTheseHydrators::decideBasedOnThe('type', [
             'text' => SimpleHydrator::forThe(Text::class),

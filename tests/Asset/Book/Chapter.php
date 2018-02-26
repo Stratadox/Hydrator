@@ -20,17 +20,16 @@ class Chapter extends ImmutableCollection
     public static function titled(
         string $title,
         Element ...$elements
-    ) : Chapter
-    {
+    ): Chapter {
         return new static(new Title($title), ...$elements);
     }
 
-    public function title() : Title
+    public function title(): Title
     {
         return $this->title;
     }
 
-    public function text() : Text
+    public function text(): Text
     {
         $text = Text::startEmpty();
         foreach ($this as $element) {
@@ -41,7 +40,7 @@ class Chapter extends ImmutableCollection
         return $text;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return "{$this->title()}\n\n" . implode("\n\n", $this->toArray());
     }

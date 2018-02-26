@@ -11,7 +11,7 @@ class Foo
     private function __construct() {}
     private function __clone() {}
 
-    public function baz() : string
+    public function baz(): string
     {
         return $this->baz;
     }

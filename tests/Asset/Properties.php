@@ -15,12 +15,12 @@ class Properties extends ImmutableCollection implements MapsProperties
         parent::__construct(...$properties);
     }
 
-    public function offsetGet($offset) : MapsProperty
+    public function offsetGet($offset): MapsProperty
     {
         return parent::offsetGet($offset);
     }
 
-    public function current() : MapsProperty
+    public function current(): MapsProperty
     {
         return parent::current();
     }

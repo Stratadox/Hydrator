@@ -15,8 +15,7 @@ trait FooBarAssertions
         string $expectedBaz,
         Foo $theFooInQuestion,
         string $message = ''
-    ) : void
-    {
+    ): void {
         $this->assertSame($expectedBaz, $theFooInQuestion->baz(), $message);
     }
 

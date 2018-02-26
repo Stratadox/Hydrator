@@ -19,17 +19,17 @@ class Contents extends ImmutableCollection
         return new static(...$chapters);
     }
 
-    public function textInChapter(int $index) : Text
+    public function textInChapter(int $index): Text
     {
         return $this->textFromChapterAt($this[$index]);
     }
 
-    public function textFromChapterAt(Chapter $selected) : Text
+    public function textFromChapterAt(Chapter $selected): Text
     {
         return $selected->text();
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return implode("\n\n", $this->toArray());
     }

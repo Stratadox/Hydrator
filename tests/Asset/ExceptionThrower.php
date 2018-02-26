@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Stratadox\Hydrator\Test\Asset;
 
@@ -15,7 +15,7 @@ class ExceptionThrower
         throw new Exception(static::$message);
     }
 
-    public static function setMessage(string $message)
+    public static function setMessage(string $message): void
     {
         static::$message = $message;
     }

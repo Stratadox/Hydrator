@@ -49,37 +49,37 @@ class Book
         return $this->isbn->isVersion13();
     }
 
-    public function title() : Title
+    public function title(): Title
     {
         return $this->title;
     }
 
-    public function author() : Author
+    public function author(): Author
     {
         return $this->author;
     }
 
-    public function isbn() : Isbn
+    public function isbn(): Isbn
     {
         return $this->isbn;
     }
 
-    public function contents() : Contents
+    public function contents(): Contents
     {
         return $this->contents;
     }
 
-    public function format() : string
+    public function format(): string
     {
         return $this->format;
     }
 
-    public function textInChapter(int $number) : Text
+    public function textInChapter(int $number): Text
     {
         return $this->contents->textInChapter($number - 1);
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return sprintf($this->format,
             $this->title(),

@@ -35,12 +35,12 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     private $hydrator;
 
     /**
-     * Checks that the [@see SimpleHydrator] can create an instance of the
-     * [@see Foo] class.
+     * Checks that the @see SimpleHydrator can create an instance of the
+     * @see Foo class.
      *
      * The Foo class represents a simple value object with a simple string value.
      * Its constructor is private, it is not cloneable and has no setters...
-     * Piece of cake for our [@see SimpleHydrator]!
+     * Piece of cake for our @see SimpleHydrator!
      *
      * @test
      */
@@ -60,21 +60,11 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     }
 
     /**
-     * Checks that the [@see SimpleHydrator] can create an instance of the
-     * [@see Bar] class.
+     * Checks that the @see SimpleHydrator can create an instance of the
+     * @see Bar class.
      *
-     * The [@see Bar] class represents a value object that holds references to at
-     * least one [@see Foo] object. That makes it a challenge for our
-     * SimpleHydrator, but its nothing we can't handle.
-     *
-     * Converting an array to a Bar object without any mapping is a slightly
-     * heavier task than what the SimpleHydrator was designed for. It requires
-     * more userland code than [@see I_want_to_map_nested_arrays_to_objects] or
-     * [@see I_want_to_map_plain_arrays_to_lazy_entities] and doesn't load lazily.
-     *
-     * Nonetheless, as we see in this test case, it is possible to hydrate an
-     * object that has relationships to other to-be-hydrated objects using only
-     * the SimpleHydrator (albeit two of them)
+     * The @see Bar class represents a value object that holds references to at
+     * least one @see Foo object.
      *
      * @test
      */
@@ -134,7 +124,7 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
         $hydrator->fromArray(['foo' => 'bar']);
     }
 
-    public function hydrator() : Hydrates
+    public function hydrator(): Hydrates
     {
         return $this->hydrator;
     }

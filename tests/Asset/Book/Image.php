@@ -13,7 +13,7 @@ class Image implements Element
         $this->src = $src;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->src;
     }

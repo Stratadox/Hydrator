@@ -12,12 +12,12 @@ class Bar
     private function __construct() {}
     private function __clone() {}
 
-    public function foos() : FooCollection
+    public function foos(): FooCollection
     {
         return $this->foos;
     }
 
-    public function foo() : Foo
+    public function foo(): Foo
     {
         return $this->foo;
     }

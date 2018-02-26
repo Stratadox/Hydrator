@@ -9,15 +9,15 @@ class Author
     private $firstName;
     private $lastName;
 
-    public function __construct(string $firstName, string $lastName)
+    private function __construct(string $firstName, string $lastName)
     {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
     }
 
-    public static function named(string $firstName, string $lastName)
+    public static function named(string $firstName, string $lastName): self
     {
-        return new static($firstName, $lastName);
+        return new Author($firstName, $lastName);
     }
 
     public function firstName() : string

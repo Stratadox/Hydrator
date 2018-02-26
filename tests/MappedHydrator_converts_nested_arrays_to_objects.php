@@ -22,6 +22,7 @@ use Stratadox\Hydrator\MappedHydrator;
 use Stratadox\Hydrator\ObservesHydration;
 use Stratadox\Hydrator\SimpleHydrator;
 use Stratadox\Hydrator\VariadicConstructor;
+use Throwable;
 
 /**
  * @covers \Stratadox\Hydrator\MappedHydrator
@@ -31,10 +32,10 @@ use Stratadox\Hydrator\VariadicConstructor;
 class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 {
     /**
-     * Checks that the [@see MappedHydrator] can create an instance of the
-     * [@see Book] class.
+     * Checks that the @see MappedHydrator can create an instance of the
+     * @see Book class.
      *
-     * The [@see Book] class represents an entity that represents the aggregate
+     * The @see Book class represents an entity that represents the aggregate
      * root for a whole bunch of related models.
      *
      * @test
@@ -103,12 +104,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
     function throwing_a_custom_exception_when_mapping_failed()
     {
         $exception = new Unmappable('Original exception message here.');
-        $propertyMapping = $this->createMock(MapsProperty::class);
-        $propertyMapping->expects($this->atLeastOnce())
-            ->method('name')->willReturnCallback(function () use ($exception) {
-                throw $exception;
-            });
-        $throw = new Properties($propertyMapping);
+        $throw = new Properties($this->mappingWillThrow($exception));
 
         $hydrator = MappedHydrator::forThe(Book::class, $throw);
 
@@ -120,25 +116,23 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         $hydrator->fromArray(['foo' => 'bar']);
     }
 
-    /**
-     * Sets up the hydrator.
-     *
-     * This sets up one [@see MappedHydrator], which is working together with
-     * several [@see SimpleHydrator]s, one for each of the test assets that are
-     * needed to fully hydrate the [@see Book] class.
-     */
-    private function bookHydrator() : Hydrates
+    private function mappingWillThrow(Throwable $exception): MapsProperty
+    {
+        /** @var MapsProperty|MockObject $propertyMapping */
+        $propertyMapping = $this->createMock(MapsProperty::class);
+        $propertyMapping->expects($this->atLeastOnce())
+            ->method('name')->willReturnCallback(function () use ($exception) {
+                throw $exception;
+            });
+        return $propertyMapping;
+    }
+
+    private function bookHydrator(): Hydrates
     {
         return MappedHydrator::forThe(Book::class, $this->bookMapping());
     }
 
-    /**
-     * Since mapping itself is out of scope for this unit test, the mapping is
-     * defined through mocking the interfaces.
-     *
-     * @return MapsProperties
-     */
-    private function bookMapping() : MapsProperties
+    private function bookMapping(): MapsProperties
     {
         return new Properties(
             $this->mapObjectProperty('isbn',
@@ -167,18 +161,12 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         );
     }
 
-    /**
-     * @param string   $property    Property of the originally mapped object
-     * @param Hydrates $hydrator    Hydrator for the related object
-     * @param array    $map
-     * @return MapsProperty|MockObject
-     */
     private function mapObjectProperty(
         string $property,
         Hydrates $hydrator,
         array $map
-    ) : MockObject
-    {
+    ): MapsProperty {
+        /** @var MapsProperty|MockObject $mapper */
         $mapper = $this->createMock(MapsProperty::class);
         $mapper->expects($this->atLeastOnce())
             ->method('name')->willReturn($property);
@@ -199,13 +187,9 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         return $mapper;
     }
 
-    /**
-     * @param string $property
-     * @param string $key
-     * @return MapsProperty|MockObject
-     */
-    private function mapScalarProperty(string $property, string $key) : MockObject
+    private function mapScalarProperty(string $property, string $key): MapsProperty
     {
+        /** @var MapsProperty|MockObject $mapper */
         $mapper = $this->createMock(MapsProperty::class);
         $mapper->expects($this->atLeastOnce())
             ->method('name')->willReturn($property);
@@ -217,18 +201,12 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         return $mapper;
     }
 
-    /**
-     * @param string   $property      Property of the originally mapped object
-     * @param Hydrates $hydrator      Hydrator for the related object
-     * @param array    $hydrationData
-     * @return MapsProperty|MockObject
-     */
     private function mapEmptyObjectProperty(
         string $property,
         Hydrates $hydrator,
         array $hydrationData = []
-    ) : MockObject
-    {
+    ): MapsProperty {
+        /** @var MapsProperty|MockObject $mapper */
         $mapper = $this->createMock(MapsProperty::class);
         $mapper->expects($this->atLeastOnce())
             ->method('name')->willReturn($property);

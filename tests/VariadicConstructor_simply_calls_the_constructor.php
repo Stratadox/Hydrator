@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Stratadox\Hydrator\Test;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Stratadox\Hydrator\Test\Asset\ExceptionThrower;
 use Stratadox\Hydrator\Test\Asset\Numbers\CollectionOfIntegers;

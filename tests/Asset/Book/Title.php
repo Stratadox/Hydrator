@@ -13,12 +13,12 @@ class Title
         $this->title = $title;
     }
 
-    public function title() : string
+    public function title(): string
     {
         return $this->title;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->title();
     }
