@@ -24,6 +24,6 @@ trait FooBarAssertions
     abstract public static function assertSame(
         $expected,
         $actual,
-        $message = ''
-    );
+        string $message = ''
+    ): void;
 }

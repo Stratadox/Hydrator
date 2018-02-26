@@ -6,8 +6,7 @@
     colors="true"
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    printerClass="rpkamp\FancyTestdoxPrinter">
+    convertWarningsToExceptions="true">
 
     <testsuites>
         <testsuite name="unit">
