@@ -37,7 +37,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
      * The [@see Book] class represents an entity that represents the aggregate
      * root for a whole bunch of related models.
      *
-     * @scenario
+     * @test
      */
     function making_a_Book()
     {
@@ -60,7 +60,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         $this->assertTrue($ourBook->hasInItsTitle("Healthy Hydration"));
     }
 
-    /** @scenario */
+    /** @test */
     function making_another_Book()
     {
         /** @var Book $ourBook */
@@ -80,7 +80,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         $this->assertTrue($ourBook->hasInItsTitle("Hamlet"));
     }
 
-    /** @scenario */
+    /** @test */
     function notifying_the_observers()
     {
         $emptyObject = (new ReflectionClass(Title::class))->newInstanceWithoutConstructor();
@@ -99,7 +99,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         $hydrator->fromArray(['foo' => 'bar']);
     }
 
-    /** @scenario */
+    /** @test */
     function throwing_a_custom_exception_when_mapping_failed()
     {
         $exception = new Unmappable('Original exception message here.');

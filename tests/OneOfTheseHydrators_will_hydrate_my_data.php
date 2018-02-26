@@ -19,7 +19,7 @@ use TypeError;
  */
 class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
 {
-    /** @scenario */
+    /** @test */
     function making_a_Text_Element()
     {
         /** @var Text $element */
@@ -32,7 +32,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         $this->assertSame('Hello World', (string) $element);
     }
 
-    /** @scenario */
+    /** @test */
     function making_an_Image_Element()
     {
         /** @var Image $element */
@@ -45,7 +45,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         $this->assertSame('hello.jpg', (string) $element);
     }
 
-    /** @scenario */
+    /** @test */
     function trying_to_make_an_undefined_class()
     {
         $this->expectException(CouldNotHydrate::class);
@@ -54,7 +54,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         $this->makeElement()->fromArray(['type' => 'invalid']);
     }
 
-    /** @scenario */
+    /** @test */
     function trying_to_use_data_that_misses_the_decision_key()
     {
         $this->expectException(CouldNotHydrate::class);
@@ -63,7 +63,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         $this->makeElement()->fromArray(['text' => 'irrelevant']);
     }
 
-    /** @scenario */
+    /** @test */
     function trying_to_make_an_invalid_hydrator()
     {
         $this->expectException(TypeError::class);

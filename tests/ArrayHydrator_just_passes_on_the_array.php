@@ -13,7 +13,7 @@ use Stratadox\Hydrator\ArrayHydrator;
  */
 class ArrayHydrator_just_passes_on_the_array extends TestCase
 {
-    /** @scenario */
+    /** @test */
     function getting_out_what_was_put_in()
     {
         $foo = new StdClass;

@@ -42,7 +42,7 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
      * Its constructor is private, it is not cloneable and has no setters...
      * Piece of cake for our [@see SimpleHydrator]!
      *
-     * @scenario
+     * @test
      */
     function making_a_Foo()
     {
@@ -76,7 +76,7 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
      * object that has relationships to other to-be-hydrated objects using only
      * the SimpleHydrator (albeit two of them)
      *
-     * @scenario
+     * @test
      */
     function making_a_Bar()
     {
@@ -101,7 +101,7 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
         );
     }
 
-    /** @scenario */
+    /** @test */
     function notifying_the_observers()
     {
         $emptyObject = (new ReflectionClass(Title::class))->newInstanceWithoutConstructor();
@@ -119,7 +119,7 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
         $hydrator->fromArray(['foo' => 'bar']);
     }
 
-    /** @scenario */
+    /** @test */
     function throwing_the_expected_exception_when_things_go_wrong()
     {
         $hydrator = SimpleHydrator::forThe(

@@ -22,7 +22,7 @@ class VariadicConstructor_simply_calls_the_constructor extends TestCase
      *
      * In such cases, we'll simply call the constructor instead.
      *
-     * @scenario
+     * @test
      */
     function instantiating_immutable_collections_through_their_constructor()
     {
@@ -36,7 +36,7 @@ class VariadicConstructor_simply_calls_the_constructor extends TestCase
         $this->assertSame(456, $collection->offsetGet(1));
     }
 
-    /** @scenario */
+    /** @test */
     function throwing_the_expected_exception_when_things_go_wrong()
     {
         $hydrator = VariadicConstructor::forThe(ExceptionThrower::class);
