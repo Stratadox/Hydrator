@@ -109,6 +109,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         $hydrator = MappedHydrator::forThe(Book::class, $throw);
 
         $this->expectException(CouldNotHydrate::class);
+        $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
             'Could not load the class `'.Book::class. '`: Original exception message here.'
         );

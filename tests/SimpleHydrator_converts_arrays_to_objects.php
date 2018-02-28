@@ -118,6 +118,7 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
         );
 
         $this->expectException(CouldNotHydrate::class);
+        $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
             'Could not load the class `stdClass`: Cannot bind closure to scope of internal class stdClass'
         );

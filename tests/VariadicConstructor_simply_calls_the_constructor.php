@@ -43,6 +43,7 @@ class VariadicConstructor_simply_calls_the_constructor extends TestCase
         ExceptionThrower::setMessage('Original exception message here.');
 
         $this->expectException(CouldNotHydrate::class);
+        $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
             'Could not load the class `'.ExceptionThrower::class. '`: Original exception message here.'
         );

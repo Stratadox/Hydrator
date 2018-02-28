@@ -49,6 +49,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
     function trying_to_make_an_undefined_class()
     {
         $this->expectException(CouldNotHydrate::class);
+        $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Invalid class decision key: `invalid`.');
 
         $this->makeElement()->fromArray(['type' => 'invalid']);
@@ -58,6 +59,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
     function trying_to_use_data_that_misses_the_decision_key()
     {
         $this->expectException(CouldNotHydrate::class);
+        $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Missing class decision key: `type`.');
 
         $this->makeElement()->fromArray(['text' => 'irrelevant']);
