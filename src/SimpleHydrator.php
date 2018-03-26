@@ -6,6 +6,7 @@ namespace Stratadox\Hydrator;
 
 use Closure;
 use ReflectionClass;
+use ReflectionException;
 use Throwable;
 
 /**
@@ -41,6 +42,7 @@ final class SimpleHydrator implements Hydrates
      * @param ObservesHydration|null $observer Object that gets updated with the
      *                                         hydrating instance.
      * @return self                            The mapped hydrator.
+     * @throws ReflectionException             When the class does not exist.
      */
     public static function forThe(
         string $class,
@@ -54,6 +56,7 @@ final class SimpleHydrator implements Hydrates
         );
     }
 
+    /** @inheritdoc */
     public function fromArray(array $data)
     {
         try {
@@ -64,7 +67,7 @@ final class SimpleHydrator implements Hydrates
             }
             return $object;
         } catch (Throwable $exception) {
-            throw HydrationFailed::encountered($exception, $this->class);
+            throw HydrationFailed::encountered($exception, $this->class->getName());
         }
     }
 }

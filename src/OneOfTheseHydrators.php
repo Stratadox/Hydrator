@@ -37,6 +37,7 @@ final class OneOfTheseHydrators implements Hydrates
         return new self($key, $map);
     }
 
+    /** @inheritdoc */
     public function fromArray(array $input)
     {
         return $this->hydrateAnInstanceUsing(
@@ -45,12 +46,26 @@ final class OneOfTheseHydrators implements Hydrates
         );
     }
 
+    /**
+     * Delegate the hydration to the given hydrator.
+     *
+     * @param Hydrates $hydrator The hydrator to delegate to.
+     * @param array $input       The input data.
+     * @return mixed|object      The hydrated instance.
+     * @throws CouldNotHydrate   When the input data could not be hydrated.
+     */
     private function hydrateAnInstanceUsing(Hydrates $hydrator, array $input)
     {
         return $hydrator->fromArray($input);
     }
 
-    /** @throws CouldNotHydrate */
+    /**
+     * Selects a hydrator based on a key.
+     *
+     * @param string $key       The key to use for hydrator selection.
+     * @return Hydrates         The hydrator to use.
+     * @throws CouldNotHydrate  When the input data could not be hydrated.
+     */
     private function hydratorBasedOn(string $key): Hydrates
     {
         if (!isset($this->hydratorMap[$key])) {
@@ -59,7 +74,13 @@ final class OneOfTheseHydrators implements Hydrates
         return $this->hydratorMap[$key];
     }
 
-    /** @throws CouldNotHydrate */
+    /**
+     * Retrieves the key from the input data.
+     *
+     * @param array $input
+     * @return string
+     * @throws CouldNotHydrate
+     */
     private function keyFromThe(array $input): string
     {
         if (!isset($input[$this->decisionKey])) {

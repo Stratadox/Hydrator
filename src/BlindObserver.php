@@ -22,6 +22,7 @@ final class BlindObserver implements ObservesHydration
         return new self;
     }
 
+    /** @inheritdoc */
     public function hydrating($theInstance): void
     {
         // No operation.

@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Stratadox\Hydrator;
 
 use Throwable;
-use ReflectionClass as Reflected;
 
 /**
  * Hydrates an object by calling its constructor with squashed array input.
@@ -33,13 +32,14 @@ final class VariadicConstructor implements Hydrates
         return new self($class);
     }
 
+    /** @inheritdoc */
     public function fromArray(array $input)
     {
         $class = $this->class;
         try {
             return new $class(...$input);
         } catch (Throwable $exception) {
-            throw HydrationFailed::encountered($exception, new Reflected($class));
+            throw HydrationFailed::encountered($exception, $class);
         }
     }
 }
