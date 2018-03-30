@@ -27,6 +27,7 @@ Install with composer:
 
 ```php
 <?php
+use Stratadox\Hydrator\SimpleHydrator;
 
 $hydrator = SimpleHydrator::forThe(Foo::class);
 $foo = $hydrator->fromArray([
