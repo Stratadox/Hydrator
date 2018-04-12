@@ -28,8 +28,7 @@ final class SimpleHydrator implements Hydrates
     ) {
         $this->class = $reflector;
         $this->observer = $observer;
-        $this->setter = $setter ?: function (string $attribute, $value)
-        {
+        $this->setter = $setter ?: function (string $attribute, $value) {
             $this->$attribute = $value;
         };
     }
