@@ -7,6 +7,7 @@ namespace Stratadox\Hydrator\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use function sprintf;
 use Stratadox\Hydrator\Test\Asset\Book\Author;
 use Stratadox\Hydrator\Test\Asset\Book\Book;
 use Stratadox\Hydrator\Test\Asset\Book\Contents;
@@ -42,23 +43,23 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
      */
     function making_a_Book()
     {
-        $title = "Fruit Infused Water: 50 Quick & Easy Recipes for Delicious & Healthy Hydration";
+        $title = 'Fruit Infused Water: 50 Quick & Easy Recipes for Delicious & Healthy Hydration';
 
         /** @var Book $ourBook */
         $ourBook = $this->bookHydrator()->fromArray([
-            "id" => '9781493634149',
-            "book_title" => $title,
-            "author_first_name" => "Elle",
-            "author_last_name" => "Garner",
-            "format" => "%s (by %s, ISBN %s)",
+            'id' => '9781493634149',
+            'book_title' => $title,
+            'author_first_name' => 'Elle',
+            'author_last_name' => 'Garner',
+            'format' => '%s (by %s, ISBN %s)',
         ]);
 
         $this->assertSame(
-            "$title (by Elle Garner, ISBN 9781493634149)",
+            sprintf('%s (by Elle Garner, ISBN 9781493634149)', $title),
             (string) $ourBook
         );
-        $this->assertTrue($ourBook->wasWrittenByThe(Author::named("Elle", "Garner")));
-        $this->assertTrue($ourBook->hasInItsTitle("Healthy Hydration"));
+        $this->assertTrue($ourBook->wasWrittenByThe(Author::named('Elle', 'Garner')));
+        $this->assertTrue($ourBook->hasInItsTitle('Healthy Hydration'));
     }
 
     /** @test */
@@ -66,19 +67,19 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
     {
         /** @var Book $ourBook */
         $ourBook = $this->bookHydrator()->fromArray([
-            "id" => '9781420922530',
-            "book_title" => 'Hamlet',
-            "author_first_name" => "William",
-            "author_last_name" => "Shakespeare",
-            "format" => "%s (by %s, ISBN %s)",
+            'id' => '9781420922530',
+            'book_title' => 'Hamlet',
+            'author_first_name' => 'William',
+            'author_last_name' => 'Shakespeare',
+            'format' => '%s (by %s, ISBN %s)',
         ]);
 
         $this->assertSame(
-            "Hamlet (by William Shakespeare, ISBN 9781420922530)",
+            'Hamlet (by William Shakespeare, ISBN 9781420922530)',
             (string) $ourBook
         );
-        $this->assertTrue($ourBook->wasWrittenByThe(Author::named("William", "Shakespeare")));
-        $this->assertTrue($ourBook->hasInItsTitle("Hamlet"));
+        $this->assertTrue($ourBook->wasWrittenByThe(Author::named('William', 'Shakespeare')));
+        $this->assertTrue($ourBook->hasInItsTitle('Hamlet'));
     }
 
     /** @test */
@@ -111,7 +112,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         $this->expectException(CouldNotHydrate::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
-            'Could not load the class `'.Book::class. '`: Original exception message here.'
+            'Could not load the class `' . Book::class . '`: Original exception message here.'
         );
 
         $hydrator->fromArray(['foo' => 'bar']);
@@ -175,8 +176,8 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
             ->method('value')
             ->willReturnCallback(
                 function (array $data, $owner) use ($hydrator, $map) {
-                    TestCase::assertTrue(is_object($owner),
-                        'Expected the owner to be an object, got '.gettype($owner)
+                    TestCase::assertInternalType('object', $owner,
+                        'Expected the owner to be an object'
                     );
                     $array = [];
                     foreach ($map as $property => $key) {

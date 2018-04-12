@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test;
 
@@ -34,16 +34,7 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     /** @var Hydrates */
     private $hydrator;
 
-    /**
-     * Checks that the @see SimpleHydrator can create an instance of the
-     * @see Foo class.
-     *
-     * The Foo class represents a simple value object with a simple string value.
-     * Its constructor is private, it is not cloneable and has no setters...
-     * Piece of cake for our @see SimpleHydrator!
-     *
-     * @test
-     */
+    /** @test */
     function making_a_Foo()
     {
         $foo = $this->makeNewFoo->fromArray([
@@ -59,19 +50,11 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
         );
     }
 
-    /**
-     * Checks that the @see SimpleHydrator can create an instance of the
-     * @see Bar class.
-     *
-     * The @see Bar class represents a value object that holds references to at
-     * least one @see Foo object.
-     *
-     * @test
-     */
+    /** @test */
     function making_a_Bar()
     {
         $bar = $this->makeNewBar->fromArray([
-            'foo' => $this->makeNewFoo->fromArray(['baz' => 'Baz 1']),
+            'foo'  => $this->makeNewFoo->fromArray(['baz' => 'Baz 1']),
             'foos' => new FooCollection(
                 $this->makeNewFoo->fromArray(['baz' => 'Baz 2']),
                 $this->makeNewFoo->fromArray(['baz' => 'Baz 3'])

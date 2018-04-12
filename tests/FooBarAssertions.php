@@ -5,12 +5,12 @@ declare(strict_types = 1);
 namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\Assert;
-use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\ExpectationFailedException;
 use Stratadox\Hydrator\Test\Asset\FooBar\Foo;
 
 trait FooBarAssertions
 {
-    /** @throws AssertionFailedError */
+    /** @throws ExpectationFailedException */
     protected function assertBaz(
         string $expectedBaz,
         Foo $theFooInQuestion,
@@ -19,7 +19,10 @@ trait FooBarAssertions
         $this->assertSame($expectedBaz, $theFooInQuestion->baz(), $message);
     }
 
-    /** @see Assert::assertSame */
+    /**
+     * @see Assert::assertSame
+     * @throws ExpectationFailedException
+     */
     abstract public static function assertSame(
         $expected,
         $actual,

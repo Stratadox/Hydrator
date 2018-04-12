@@ -19,11 +19,22 @@ use TypeError;
  */
 class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
 {
+    /** @var Hydrates */
+    private $makeAnElement;
+
+    protected function setUp(): void
+    {
+        $this->makeAnElement = OneOfTheseHydrators::decideBasedOnThe('type', [
+            'text' => SimpleHydrator::forThe(Text::class),
+            'image' => SimpleHydrator::forThe(Image::class),
+        ]);
+    }
+
     /** @test */
     function making_a_Text_Element()
     {
         /** @var Text $element */
-        $element = $this->makeElement()->fromArray([
+        $element = $this->makeAnElement->fromArray([
             'type' => 'text',
             'text' => 'Hello World'
         ]);
@@ -36,7 +47,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
     function making_an_Image_Element()
     {
         /** @var Image $element */
-        $element = $this->makeElement()->fromArray([
+        $element = $this->makeAnElement->fromArray([
             'type' => 'image',
             'src' => 'hello.jpg'
         ]);
@@ -52,7 +63,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Invalid class decision key: `invalid`.');
 
-        $this->makeElement()->fromArray(['type' => 'invalid']);
+        $this->makeAnElement->fromArray(['type' => 'invalid']);
     }
 
     /** @test */
@@ -62,7 +73,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Missing class decision key: `type`.');
 
-        $this->makeElement()->fromArray(['text' => 'irrelevant']);
+        $this->makeAnElement->fromArray(['text' => 'irrelevant']);
     }
 
     /** @test */
@@ -72,14 +83,6 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
 
         OneOfTheseHydrators::decideBasedOnThe('type', [
             'not-a-hydrator' => $this,
-        ]);
-    }
-
-    private function makeElement(): Hydrates
-    {
-        return OneOfTheseHydrators::decideBasedOnThe('type', [
-            'text' => SimpleHydrator::forThe(Text::class),
-            'image' => SimpleHydrator::forThe(Image::class),
         ]);
     }
 }

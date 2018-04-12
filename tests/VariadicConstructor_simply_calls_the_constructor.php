@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test;
 
@@ -45,7 +45,7 @@ class VariadicConstructor_simply_calls_the_constructor extends TestCase
         $this->expectException(CouldNotHydrate::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
-            'Could not load the class `'.ExceptionThrower::class. '`: Original exception message here.'
+            'Could not load the class `' . ExceptionThrower::class . '`: Original exception message here.'
         );
 
         $hydrator->fromArray([]);
