@@ -7,6 +7,7 @@ namespace Stratadox\Hydrator\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use RuntimeException;
 use stdClass;
 use Stratadox\Hydrator\Test\Asset\Book\Title;
 use Stratadox\Hydrator\Test\Asset\FooBar\Bar;
@@ -120,10 +121,7 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     /** @test */
     function throwing_the_expected_exception_when_things_go_wrong()
     {
-        $hydrator = SimpleHydrator::forThe(
-            '\\stdClass',
-            null
-        );
+        $hydrator = SimpleHydrator::forThe(stdClass::class);
 
         $this->expectException(CouldNotHydrate::class);
         $this->expectExceptionCode(0);
