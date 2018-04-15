@@ -63,9 +63,10 @@ final class SimpleHydrator implements Hydrates
      * @return SimpleHydrator                 The hydrator.
      */
     public static function withInstantiator(
-        ProvidesInstances $instantiator
+        ProvidesInstances $instantiator,
+        Closure $setter = null
     ): self {
-        return new self($instantiator, BlindObserver::add(), null);
+        return new self($instantiator, BlindObserver::add(), $setter);
     }
 
     /** @inheritdoc */
