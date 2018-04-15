@@ -7,6 +7,7 @@ namespace Stratadox\Hydrator\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use stdClass;
 use Stratadox\Hydrator\Test\Asset\Book\Title;
 use Stratadox\Hydrator\Test\Asset\FooBar\Bar;
 use Stratadox\Hydrator\Test\Asset\FooBar\Foo;
@@ -15,6 +16,7 @@ use Stratadox\Hydrator\CouldNotHydrate;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObservesHydration;
 use Stratadox\Hydrator\SimpleHydrator;
+use Stratadox\Instantiator\ProvidesInstances;
 
 /**
  * @covers \Stratadox\Hydrator\SimpleHydrator
@@ -90,6 +92,29 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
         );
 
         $hydrator->fromArray(['foo' => 'bar']);
+    }
+
+    /** @test */
+    function using_a_custom_instantiator()
+    {
+        $object1 = new stdClass();
+        $object2 = new stdClass();
+
+        /** @var ProvidesInstances|MockObject $instantiator */
+        $instantiator = $this->createMock(ProvidesInstances::class);
+        $instantiator->expects($this->exactly(2))
+            ->method('instance')
+            ->willReturnOnConsecutiveCalls($object1, $object2);
+
+        $hydrator = SimpleHydrator::withInstantiator(
+            $instantiator
+        );
+
+        $result1 = $hydrator->fromArray([]);
+        $result2 = $hydrator->fromArray([]);
+
+        $this->assertSame($object1, $result1);
+        $this->assertSame($object2, $result2);
     }
 
     /** @test */

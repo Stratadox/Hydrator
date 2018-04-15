@@ -8,6 +8,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use function sprintf;
+use stdClass;
 use Stratadox\Hydrator\Test\Asset\Book\Author;
 use Stratadox\Hydrator\Test\Asset\Book\Book;
 use Stratadox\Hydrator\Test\Asset\Book\Contents;
@@ -23,6 +24,7 @@ use Stratadox\Hydrator\MappedHydrator;
 use Stratadox\Hydrator\ObservesHydration;
 use Stratadox\Hydrator\SimpleHydrator;
 use Stratadox\Hydrator\VariadicConstructor;
+use Stratadox\Instantiator\ProvidesInstances;
 use Throwable;
 
 /**
@@ -99,6 +101,30 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         );
 
         $hydrator->fromArray(['foo' => 'bar']);
+    }
+
+    /** @test */
+    function using_a_custom_instantiator()
+    {
+        $object1 = new stdClass();
+        $object2 = new stdClass();
+
+        /** @var ProvidesInstances|MockObject $instantiator */
+        $instantiator = $this->createMock(ProvidesInstances::class);
+        $instantiator->expects($this->exactly(2))
+            ->method('instance')
+            ->willReturnOnConsecutiveCalls($object1, $object2);
+
+        $hydrator = MappedHydrator::withInstantiator(
+            $instantiator,
+            new Properties
+        );
+
+        $result1 = $hydrator->fromArray([]);
+        $result2 = $hydrator->fromArray([]);
+
+        $this->assertSame($object1, $result1);
+        $this->assertSame($object2, $result2);
     }
 
     /** @test */
