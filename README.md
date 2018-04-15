@@ -35,6 +35,8 @@ $foo = $hydrator->fromArray([
     'baz' => 'BAZ?',
 ]);
 assert($foo instanceof Foo);
+assert('Bar.' === $foo->bar);
+assert('BAZ?' === $foo->getBaz());
 ```
 
 [(It can do much more!)](https://github.com/Stratadox/Hydrate)
