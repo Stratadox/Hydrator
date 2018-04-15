@@ -5,9 +5,10 @@ declare(strict_types = 1);
 namespace Stratadox\Hydrator;
 
 use Closure;
-use ReflectionClass;
-use ReflectionException;
 use Stratadox\HydrationMapping\MapsProperties;
+use Stratadox\Instantiator\CannotInstantiateThis;
+use Stratadox\Instantiator\Instantiator;
+use Stratadox\Instantiator\ProvidesInstances;
 use Throwable;
 
 /**
@@ -18,18 +19,18 @@ use Throwable;
  */
 final class MappedHydrator implements Hydrates
 {
-    private $class;
+    private $make;
     private $properties;
     private $setter;
     private $observer;
 
     private function __construct(
-        ReflectionClass $reflector,
+        ProvidesInstances $instances,
         MapsProperties $mapped,
         ObservesHydration $observer,
         ?Closure $setter
     ) {
-        $this->class = $reflector;
+        $this->make = $instances;
         $this->properties = $mapped;
         $this->observer = $observer;
         $this->setter = $setter ?: function (string $attribute, $value) {
@@ -46,7 +47,7 @@ final class MappedHydrator implements Hydrates
      * @param ObservesHydration|null $observer Object that gets updated with the
      *                                         hydrating instance.
      * @return self                            The mapped hydrator.
-     * @throws ReflectionException             When the class does not exist.
+     * @throws CannotInstantiateThis           When the class is not instantiable.
      */
     public static function forThe(
         string $class,
@@ -55,7 +56,7 @@ final class MappedHydrator implements Hydrates
         ObservesHydration $observer = null
     ): self {
         return new self(
-            new ReflectionClass($class),
+            Instantiator::forThe($class),
             $mapped,
             $observer ?: BlindObserver::add(),
             $setter
@@ -66,7 +67,7 @@ final class MappedHydrator implements Hydrates
     public function fromArray(array $data)
     {
         try {
-            $object = $this->class->newInstanceWithoutConstructor();
+            $object = $this->make->instance();
             $this->observer->hydrating($object);
             foreach ($this->properties as $property) {
                 $this->setter->call($object,
@@ -76,7 +77,7 @@ final class MappedHydrator implements Hydrates
             }
             return $object;
         } catch (Throwable $exception) {
-            throw HydrationFailed::encountered($exception, $this->class->getName());
+            throw HydrationFailed::encountered($exception, $this->make->class());
         }
     }
 }

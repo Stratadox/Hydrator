@@ -5,8 +5,9 @@ declare(strict_types = 1);
 namespace Stratadox\Hydrator;
 
 use Closure;
-use ReflectionClass;
-use ReflectionException;
+use Stratadox\Instantiator\CannotInstantiateThis;
+use Stratadox\Instantiator\Instantiator;
+use Stratadox\Instantiator\ProvidesInstances;
 use Throwable;
 
 /**
@@ -17,16 +18,16 @@ use Throwable;
  */
 final class SimpleHydrator implements Hydrates
 {
-    private $class;
+    private $make;
     private $setter;
     private $observer;
 
     private function __construct(
-        ReflectionClass $reflector,
+        ProvidesInstances $instances,
         ObservesHydration $observer,
         ?Closure $setter
     ) {
-        $this->class = $reflector;
+        $this->make = $instances;
         $this->observer = $observer;
         $this->setter = $setter ?: function (string $attribute, $value) {
             $this->$attribute = $value;
@@ -41,7 +42,7 @@ final class SimpleHydrator implements Hydrates
      * @param ObservesHydration|null $observer Object that gets updated with the
      *                                         hydrating instance.
      * @return self                            The mapped hydrator.
-     * @throws ReflectionException             When the class does not exist.
+     * @throws CannotInstantiateThis           When the class is not instantiable.
      */
     public static function forThe(
         string $class,
@@ -49,7 +50,7 @@ final class SimpleHydrator implements Hydrates
         ObservesHydration $observer = null
     ): self {
         return new self(
-            new ReflectionClass($class),
+            Instantiator::forThe($class),
             $observer ?: BlindObserver::add(),
             $setter
         );
@@ -59,14 +60,14 @@ final class SimpleHydrator implements Hydrates
     public function fromArray(array $data)
     {
         try {
-            $object = $this->class->newInstanceWithoutConstructor();
+            $object = $this->make->instance();
             $this->observer->hydrating($object);
             foreach ($data as $attribute => $value) {
                 $this->setter->call($object, $attribute, $value);
             }
             return $object;
         } catch (Throwable $exception) {
-            throw HydrationFailed::encountered($exception, $this->class->getName());
+            throw HydrationFailed::encountered($exception, $this->make->class());
         }
     }
 }
