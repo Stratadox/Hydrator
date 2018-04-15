@@ -134,6 +134,30 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     }
 
     /** @test */
+    function using_a_custom_instantiator_and_custom_setter()
+    {
+        $title = new Title('N/A');
+
+        /** @var ProvidesInstances|MockObject $instantiator */
+        $instantiator = $this->createMock(ProvidesInstances::class);
+        $instantiator->expects($this->exactly(2))
+            ->method('instance')
+            ->willReturn($title);
+
+        $hydrator = SimpleHydrator::withInstantiator(
+            $instantiator,
+            function (string $property, $value): void {
+                $this->$property = ucfirst($value) . '!';
+            }
+        );
+
+        $hydrationResult = $hydrator->fromArray(['title' => 'foo']);
+
+        $this->assertSame($hydrationResult, $title);
+        $this->assertEquals('Foo!', $title);
+    }
+
+    /** @test */
     function throwing_the_expected_exception_when_things_go_wrong()
     {
         $hydrator = SimpleHydrator::forThe(stdClass::class);
