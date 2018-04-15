@@ -26,6 +26,7 @@ use Stratadox\Hydrator\SimpleHydrator;
 use Stratadox\Hydrator\VariadicConstructor;
 use Stratadox\Instantiator\ProvidesInstances;
 use Throwable;
+use function ucfirst;
 
 /**
  * @covers \Stratadox\Hydrator\MappedHydrator
@@ -85,6 +86,22 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
     }
 
     /** @test */
+    function using_a_custom_setter()
+    {
+        $hydrator = MappedHydrator::forThe(
+            Title::class,
+            new Properties($this->mapScalarProperty('title')),
+            function (string $property, $value): void {
+                $this->$property = ucfirst($value) . '!';
+            }
+        );
+
+        $title = $hydrator->fromArray(['title' => 'foo']);
+
+        $this->assertEquals('Foo!', $title);
+    }
+
+    /** @test */
     function notifying_the_observers()
     {
         $emptyObject = (new ReflectionClass(Title::class))->newInstanceWithoutConstructor();
@@ -125,6 +142,36 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 
         $this->assertSame($object1, $result1);
         $this->assertSame($object2, $result2);
+    }
+
+    /** @test */
+    function using_custom_everything()
+    {
+        $title = new Title('N/A');
+
+        /** @var ObservesHydration|MockObject $observer */
+        $observer = $this->createMock(ObservesHydration::class);
+        $observer->expects($this->once())->method('hydrating')->with($title);
+
+        /** @var ProvidesInstances|MockObject $instantiator */
+        $instantiator = $this->createMock(ProvidesInstances::class);
+        $instantiator->expects($this->once())
+            ->method('instance')
+            ->willReturn($title);
+
+        $hydrator = MappedHydrator::withInstantiator(
+            $instantiator,
+            new Properties($this->mapScalarProperty('title')),
+            function (string $property, $value): void {
+                $this->$property = ucfirst($value) . '!';
+            },
+            $observer
+        );
+
+        $hydrationResult = $hydrator->fromArray(['title' => 'foo']);
+
+        $this->assertSame($hydrationResult, $title);
+        $this->assertSame('Foo!', (string) $title);
     }
 
     /** @test */
@@ -215,8 +262,9 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
         return $mapper;
     }
 
-    private function mapScalarProperty(string $property, string $key): MapsProperty
+    private function mapScalarProperty(string $property, string $key = null): MapsProperty
     {
+        $key = $key ?: $property;
         /** @var MapsProperty|MockObject $mapper */
         $mapper = $this->createMock(MapsProperty::class);
         $mapper->expects($this->atLeastOnce())

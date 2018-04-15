@@ -78,6 +78,21 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     }
 
     /** @test */
+    function using_a_custom_setter()
+    {
+        $hydrator = SimpleHydrator::forThe(
+            Title::class,
+            function (string $property, $value): void {
+                $this->$property = ucfirst($value) . '!';
+            }
+        );
+
+        $title = $hydrator->fromArray(['title' => 'foo']);
+
+        $this->assertEquals('Foo!', $title);
+    }
+
+    /** @test */
     function notifying_the_observers()
     {
         $emptyObject = (new ReflectionClass(Title::class))->newInstanceWithoutConstructor();
