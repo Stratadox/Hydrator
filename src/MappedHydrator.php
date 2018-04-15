@@ -68,13 +68,23 @@ final class MappedHydrator implements Hydrates
      *
      * @param ProvidesInstances $instantiator The instance provider to use.
      * @param MapsProperties    $mapped       The mappings for the properties.
+     * @param Closure|null           $setter   The closure that writes the values.
+     * @param ObservesHydration|null $observer Object that gets updated with the
+     *                                         hydrating instance.
      * @return MappedHydrator                 The mapped hydrator.
      */
     public static function withInstantiator(
         ProvidesInstances $instantiator,
-        MapsProperties $mapped
+        MapsProperties $mapped,
+        Closure $setter = null,
+        ObservesHydration $observer = null
     ): self {
-        return new self($instantiator, $mapped, BlindObserver::add(), null);
+        return new self(
+            $instantiator,
+            $mapped,
+            $observer ?: BlindObserver::add(),
+            $setter
+        );
     }
 
     /** @inheritdoc */
