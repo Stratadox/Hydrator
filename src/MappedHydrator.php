@@ -63,6 +63,20 @@ final class MappedHydrator implements Hydrates
         );
     }
 
+    /**
+     * Creates a new mapped hydrator with an instantiator.
+     *
+     * @param ProvidesInstances $instantiator The instance provider to use.
+     * @param MapsProperties    $mapped       The mappings for the properties.
+     * @return MappedHydrator                 The mapped hydrator.
+     */
+    public static function withInstantiator(
+        ProvidesInstances $instantiator,
+        MapsProperties $mapped
+    ): self {
+        return new self($instantiator, $mapped, BlindObserver::add(), null);
+    }
+
     /** @inheritdoc */
     public function fromArray(array $data)
     {

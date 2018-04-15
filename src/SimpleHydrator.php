@@ -41,7 +41,7 @@ final class SimpleHydrator implements Hydrates
      * @param Closure|null           $setter   The closure that writes the values.
      * @param ObservesHydration|null $observer Object that gets updated with the
      *                                         hydrating instance.
-     * @return self                            The mapped hydrator.
+     * @return self                            The hydrator.
      * @throws CannotInstantiateThis           When the class is not instantiable.
      */
     public static function forThe(
@@ -54,6 +54,18 @@ final class SimpleHydrator implements Hydrates
             $observer ?: BlindObserver::add(),
             $setter
         );
+    }
+
+    /**
+     * Creates a new simple hydrator with an instantiator.
+     *
+     * @param ProvidesInstances $instantiator The instance provider to use.
+     * @return SimpleHydrator                 The hydrator.
+     */
+    public static function withInstantiator(
+        ProvidesInstances $instantiator
+    ): self {
+        return new self($instantiator, BlindObserver::add(), null);
     }
 
     /** @inheritdoc */
