@@ -134,13 +134,17 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     }
 
     /** @test */
-    function using_a_custom_instantiator_and_custom_setter()
+    function using_custom_everything()
     {
         $title = new Title('N/A');
 
+        /** @var ObservesHydration|MockObject $observer */
+        $observer = $this->createMock(ObservesHydration::class);
+        $observer->expects($this->once())->method('hydrating')->with($title);
+
         /** @var ProvidesInstances|MockObject $instantiator */
         $instantiator = $this->createMock(ProvidesInstances::class);
-        $instantiator->expects($this->exactly(2))
+        $instantiator->expects($this->once())
             ->method('instance')
             ->willReturn($title);
 
@@ -148,7 +152,8 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
             $instantiator,
             function (string $property, $value): void {
                 $this->$property = ucfirst($value) . '!';
-            }
+            },
+            $observer
         );
 
         $hydrationResult = $hydrator->fromArray(['title' => 'foo']);
