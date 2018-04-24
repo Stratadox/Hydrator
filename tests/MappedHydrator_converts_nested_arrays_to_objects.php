@@ -1,15 +1,19 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use function sprintf;
 use stdClass;
+use Stratadox\HydrationMapping\MapsProperties;
+use Stratadox\HydrationMapping\MapsProperty;
 use Stratadox\Hydrator\CannotHydrate;
+use Stratadox\Hydrator\Hydrates;
+use Stratadox\Hydrator\MappedHydrator;
+use Stratadox\Hydrator\ObservesHydration;
+use Stratadox\Hydrator\SimpleHydrator;
 use Stratadox\Hydrator\Test\Asset\Book\Author;
 use Stratadox\Hydrator\Test\Asset\Book\Book;
 use Stratadox\Hydrator\Test\Asset\Book\Contents;
@@ -18,15 +22,10 @@ use Stratadox\Hydrator\Test\Asset\Book\Title;
 use Stratadox\Hydrator\Test\Asset\FooBar\Foo;
 use Stratadox\Hydrator\Test\Asset\Properties;
 use Stratadox\Hydrator\Test\Asset\Unmappable;
-use Stratadox\HydrationMapping\MapsProperties;
-use Stratadox\HydrationMapping\MapsProperty;
-use Stratadox\Hydrator\Hydrates;
-use Stratadox\Hydrator\MappedHydrator;
-use Stratadox\Hydrator\ObservesHydration;
-use Stratadox\Hydrator\SimpleHydrator;
 use Stratadox\Hydrator\VariadicConstructor;
 use Stratadox\Instantiator\ProvidesInstances;
 use Throwable;
+use function sprintf;
 use function ucfirst;
 
 /**
@@ -38,6 +37,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 {
     /**
      * Checks that the @see MappedHydrator can create an instance of the
+     *
      * @see Book class.
      *
      * The @see Book class represents an entity that represents the aggregate
@@ -51,11 +51,11 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 
         /** @var Book $ourBook */
         $ourBook = $this->bookHydrator()->fromArray([
-            'id' => '9781493634149',
-            'book_title' => $title,
+            'id'                => '9781493634149',
+            'book_title'        => $title,
             'author_first_name' => 'Elle',
-            'author_last_name' => 'Garner',
-            'format' => '%s (by %s, ISBN %s)',
+            'author_last_name'  => 'Garner',
+            'format'            => '%s (by %s, ISBN %s)',
         ]);
 
         $this->assertSame(
@@ -71,11 +71,11 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
     {
         /** @var Book $ourBook */
         $ourBook = $this->bookHydrator()->fromArray([
-            'id' => '9781420922530',
-            'book_title' => 'Hamlet',
+            'id'                => '9781420922530',
+            'book_title'        => 'Hamlet',
             'author_first_name' => 'William',
-            'author_last_name' => 'Shakespeare',
-            'format' => '%s (by %s, ISBN %s)',
+            'author_last_name'  => 'Shakespeare',
+            'format'            => '%s (by %s, ISBN %s)',
         ]);
 
         $this->assertSame(
@@ -236,7 +236,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
                 SimpleHydrator::forThe(Author::class),
                 [
                     'firstName' => 'author_first_name',
-                    'lastName' => 'author_last_name',
+                    'lastName'  => 'author_last_name',
                 ]
             ),
             $this->mapEmptyObjectProperty('contents',

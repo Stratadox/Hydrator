@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test;
@@ -8,14 +7,14 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use stdClass;
-use Stratadox\Hydrator\Test\Asset\Book\Title;
-use Stratadox\Hydrator\Test\Asset\FooBar\Bar;
-use Stratadox\Hydrator\Test\Asset\FooBar\Foo;
-use Stratadox\Hydrator\Test\Asset\FooBar\FooCollection;
 use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObservesHydration;
 use Stratadox\Hydrator\SimpleHydrator;
+use Stratadox\Hydrator\Test\Asset\Book\Title;
+use Stratadox\Hydrator\Test\Asset\FooBar\Bar;
+use Stratadox\Hydrator\Test\Asset\FooBar\Foo;
+use Stratadox\Hydrator\Test\Asset\FooBar\FooCollection;
 use Stratadox\Instantiator\ProvidesInstances;
 
 /**

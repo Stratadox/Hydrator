@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\TestCase;
+use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\Test\Asset\ExceptionThrower;
 use Stratadox\Hydrator\Test\Asset\Numbers\CollectionOfIntegers;
-use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\VariadicConstructor;
 
 /**

@@ -1,6 +1,5 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test\Asset\Book;
 
@@ -43,14 +42,16 @@ class Isbn
 
     private function removeThePrettyFormattingOfThe(string $code): string
     {
-        return str_replace(' ', '', str_replace('_', '', $code));
+        return str_replace([' ', '_'], '', $code);
     }
 
     private function detectTheVersionOf(string $theCode): int
     {
         switch (strlen($theCode)) {
-            case 10: return static::VERSION_10;
-            case 13: return static::VERSION_13;
+            case 10:
+                return static::VERSION_10;
+            case 13:
+                return static::VERSION_13;
         }
         throw new IsbnMustBeValid('Unrecognised isbn version.');
     }

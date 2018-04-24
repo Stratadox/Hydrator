@@ -1,16 +1,15 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\TestCase;
 use Stratadox\Hydrator\CannotHydrate;
-use Stratadox\Hydrator\Test\Asset\Book\Image;
-use Stratadox\Hydrator\Test\Asset\Book\Text;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\OneOfTheseHydrators;
 use Stratadox\Hydrator\SimpleHydrator;
+use Stratadox\Hydrator\Test\Asset\Book\Image;
+use Stratadox\Hydrator\Test\Asset\Book\Text;
 use TypeError;
 
 /**
@@ -25,7 +24,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
     protected function setUp(): void
     {
         $this->makeAnElement = OneOfTheseHydrators::decideBasedOnThe('type', [
-            'text' => SimpleHydrator::forThe(Text::class),
+            'text'  => SimpleHydrator::forThe(Text::class),
             'image' => SimpleHydrator::forThe(Image::class),
         ]);
     }
@@ -49,7 +48,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
         /** @var Image $element */
         $element = $this->makeAnElement->fromArray([
             'type' => 'image',
-            'src' => 'hello.jpg'
+            'src'  => 'hello.jpg'
         ]);
 
         $this->assertInstanceOf(Image::class, $element);
@@ -70,7 +69,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
     {
         $this->assertSame(Image::class, $this->makeAnElement->classFor([
             'type' => 'image',
-            'src' => 'hello.jpg'
+            'src'  => 'hello.jpg'
         ]));
     }
 

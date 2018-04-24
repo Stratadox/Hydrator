@@ -1,11 +1,10 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test\Asset\Book;
 
-use function implode;
 use Stratadox\ImmutableCollection\ImmutableCollection;
+use function implode;
 
 class Chapter extends ImmutableCollection
 {
