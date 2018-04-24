@@ -58,7 +58,7 @@ final class MappedHydrator implements Hydrates
         return new self(
             Instantiator::forThe($class),
             $mapped,
-            $observer ?: BlindObserver::add(),
+            $observer ?: BlindObserver::asDefault(),
             $setter
         );
     }
@@ -82,7 +82,7 @@ final class MappedHydrator implements Hydrates
         return new self(
             $instantiator,
             $mapped,
-            $observer ?: BlindObserver::add(),
+            $observer ?: BlindObserver::asDefault(),
             $setter
         );
     }

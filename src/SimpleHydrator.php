@@ -50,7 +50,7 @@ final class SimpleHydrator implements Hydrates
     ): self {
         return new self(
             Instantiator::forThe($class),
-            $observer ?: BlindObserver::add(),
+            $observer ?: BlindObserver::asDefault(),
             $setter
         );
     }
@@ -72,7 +72,7 @@ final class SimpleHydrator implements Hydrates
     ): self {
         return new self(
             $instantiator,
-            $observer ?: BlindObserver::add(),
+            $observer ?: BlindObserver::asDefault(),
             $setter
         );
     }
