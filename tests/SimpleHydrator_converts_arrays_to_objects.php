@@ -7,13 +7,12 @@ namespace Stratadox\Hydrator\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use RuntimeException;
 use stdClass;
 use Stratadox\Hydrator\Test\Asset\Book\Title;
 use Stratadox\Hydrator\Test\Asset\FooBar\Bar;
 use Stratadox\Hydrator\Test\Asset\FooBar\Foo;
 use Stratadox\Hydrator\Test\Asset\FooBar\FooCollection;
-use Stratadox\Hydrator\CouldNotHydrate;
+use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObservesHydration;
 use Stratadox\Hydrator\SimpleHydrator;
@@ -176,7 +175,7 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     {
         $hydrator = SimpleHydrator::forThe(stdClass::class);
 
-        $this->expectException(CouldNotHydrate::class);
+        $this->expectException(CannotHydrate::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
             'Could not load the class `stdClass`: Cannot bind closure to scope of internal class stdClass'

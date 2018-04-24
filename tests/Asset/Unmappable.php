@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace Stratadox\Hydrator\Test\Asset;
 
 use RuntimeException;
-use Stratadox\Hydrator\CouldNotHydrate;
+use Stratadox\Hydrator\CannotHydrate;
 
-class Unmappable extends RuntimeException implements CouldNotHydrate
+class Unmappable extends RuntimeException implements CannotHydrate
 {
 }

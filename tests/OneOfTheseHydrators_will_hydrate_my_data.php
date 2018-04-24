@@ -5,9 +5,9 @@ declare(strict_types = 1);
 namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\TestCase;
+use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\Test\Asset\Book\Image;
 use Stratadox\Hydrator\Test\Asset\Book\Text;
-use Stratadox\Hydrator\CouldNotHydrate;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\OneOfTheseHydrators;
 use Stratadox\Hydrator\SimpleHydrator;
@@ -77,7 +77,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
     /** @test */
     function trying_to_make_an_undefined_class()
     {
-        $this->expectException(CouldNotHydrate::class);
+        $this->expectException(CannotHydrate::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Invalid class decision key: `invalid`.');
 
@@ -87,7 +87,7 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
     /** @test */
     function trying_to_use_data_that_misses_the_decision_key()
     {
-        $this->expectException(CouldNotHydrate::class);
+        $this->expectException(CannotHydrate::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Missing class decision key: `type`.');
 

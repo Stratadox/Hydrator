@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use function sprintf;
 use stdClass;
+use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\Test\Asset\Book\Author;
 use Stratadox\Hydrator\Test\Asset\Book\Book;
 use Stratadox\Hydrator\Test\Asset\Book\Contents;
@@ -19,7 +20,6 @@ use Stratadox\Hydrator\Test\Asset\Properties;
 use Stratadox\Hydrator\Test\Asset\Unmappable;
 use Stratadox\HydrationMapping\MapsProperties;
 use Stratadox\HydrationMapping\MapsProperty;
-use Stratadox\Hydrator\CouldNotHydrate;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\MappedHydrator;
 use Stratadox\Hydrator\ObservesHydration;
@@ -192,7 +192,7 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 
         $hydrator = MappedHydrator::forThe(Book::class, $throw);
 
-        $this->expectException(CouldNotHydrate::class);
+        $this->expectException(CannotHydrate::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
             'Could not load the class `' . Book::class . '`: Original exception message here.'
