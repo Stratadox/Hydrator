@@ -163,6 +163,15 @@ class SimpleHydrator_converts_arrays_to_objects extends TestCase
     }
 
     /** @test */
+    function knowing_which_class_to_produce()
+    {
+        $this->assertSame(
+            Foo::class,
+            SimpleHydrator::forThe(Foo::class)->classFor([])
+        );
+    }
+
+    /** @test */
     function throwing_the_expected_exception_when_things_go_wrong()
     {
         $hydrator = SimpleHydrator::forThe(stdClass::class);

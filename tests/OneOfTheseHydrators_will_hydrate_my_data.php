@@ -57,6 +57,24 @@ class OneOfTheseHydrators_will_hydrate_my_data extends TestCase
     }
 
     /** @test */
+    function determining_that_it_will_be_the_Text_class()
+    {
+        $this->assertSame(Text::class, $this->makeAnElement->classFor([
+            'type' => 'text',
+            'text' => 'Hello World'
+        ]));
+    }
+
+    /** @test */
+    function determining_that_it_will_be_the_Image_class()
+    {
+        $this->assertSame(Image::class, $this->makeAnElement->classFor([
+            'type' => 'image',
+            'src' => 'hello.jpg'
+        ]));
+    }
+
+    /** @test */
     function trying_to_make_an_undefined_class()
     {
         $this->expectException(CouldNotHydrate::class);

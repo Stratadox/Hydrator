@@ -22,4 +22,10 @@ class ArrayHydrator_just_passes_on_the_array extends TestCase
             ArrayHydrator::create()->fromArray(['foo' => $foo])
         );
     }
+
+    /** @test */
+    function hydrating_arrays()
+    {
+        $this->assertSame('array', ArrayHydrator::create()->classFor([]));
+    }
 }

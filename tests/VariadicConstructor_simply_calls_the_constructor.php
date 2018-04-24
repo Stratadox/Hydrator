@@ -36,6 +36,15 @@ class VariadicConstructor_simply_calls_the_constructor extends TestCase
     }
 
     /** @test */
+    function knowing_which_class_to_produce()
+    {
+        $this->assertSame(
+            CollectionOfIntegers::class,
+            VariadicConstructor::forThe(CollectionOfIntegers::class)->classFor([])
+        );
+    }
+
+    /** @test */
     function throwing_the_expected_exception_when_things_go_wrong()
     {
         $hydrator = VariadicConstructor::forThe(ExceptionThrower::class);

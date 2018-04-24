@@ -14,6 +14,7 @@ use Stratadox\Hydrator\Test\Asset\Book\Book;
 use Stratadox\Hydrator\Test\Asset\Book\Contents;
 use Stratadox\Hydrator\Test\Asset\Book\Isbn;
 use Stratadox\Hydrator\Test\Asset\Book\Title;
+use Stratadox\Hydrator\Test\Asset\FooBar\Foo;
 use Stratadox\Hydrator\Test\Asset\Properties;
 use Stratadox\Hydrator\Test\Asset\Unmappable;
 use Stratadox\HydrationMapping\MapsProperties;
@@ -172,6 +173,15 @@ class MappedHydrator_converts_nested_arrays_to_objects extends TestCase
 
         $this->assertSame($hydrationResult, $title);
         $this->assertSame('Foo!', (string) $title);
+    }
+
+    /** @test */
+    function knowing_which_class_to_produce()
+    {
+        $this->assertSame(
+            Foo::class,
+            MappedHydrator::forThe(Foo::class, new Properties)->classFor([])
+        );
     }
 
     /** @test */
