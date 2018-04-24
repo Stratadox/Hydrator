@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Stratadox\Hydrator;
 
 use InvalidArgumentException;
+use function sprintf as withMessage;
 
 /**
  * Notifies the client code that the class decision could not be made.
@@ -22,7 +23,7 @@ final class CannotDecideOnAHydrator extends InvalidArgumentException implements 
      */
     public static function withThis(string $hydratorKey): CannotHydrate
     {
-        return new self(sprintf(
+        return new CannotDecideOnAHydrator(withMessage(
             'Invalid class decision key: `%s`.',
             $hydratorKey
         ));
@@ -37,7 +38,7 @@ final class CannotDecideOnAHydrator extends InvalidArgumentException implements 
      */
     public static function without(string $decisionKey): CannotHydrate
     {
-        return new self(sprintf(
+        return new CannotDecideOnAHydrator(withMessage(
             'Missing class decision key: `%s`.',
             $decisionKey
         ));

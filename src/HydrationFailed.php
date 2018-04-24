@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Stratadox\Hydrator;
 
 use RuntimeException;
-use function sprintf;
+use function sprintf as withMessage;
 use Throwable;
 
 /**
@@ -27,13 +27,10 @@ final class HydrationFailed extends RuntimeException implements CannotHydrate
         Throwable $exception,
         string $class
     ): CannotHydrate {
-        return new self(
-            sprintf('Could not load the class `%s`: %s',
-                $class,
-                $exception->getMessage()
-            ),
-            0,
-            $exception
-        );
+        return new HydrationFailed(withMessage(
+            'Could not load the class `%s`: %s',
+            $class,
+            $exception->getMessage()
+        ), 0, $exception);
     }
 }
