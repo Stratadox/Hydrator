@@ -21,12 +21,12 @@ final class HydrationFailed extends RuntimeException implements CannotHydrate
      *
      * @param Throwable $exception The exception that was thrown.
      * @param string    $class     The class that was being hydrated.
-     * @return self                The new exception to throw.
+     * @return CannotHydrate       The new exception to throw.
      */
     public static function encountered(
         Throwable $exception,
         string $class
-    ): self {
+    ): CannotHydrate {
         return new self(
             sprintf('Could not load the class `%s`: %s',
                 $class,

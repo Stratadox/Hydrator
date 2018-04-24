@@ -46,7 +46,7 @@ final class MappedHydrator implements Hydrates
      * @param Closure|null           $setter   The closure that writes the values.
      * @param ObservesHydration|null $observer Object that gets updated with the
      *                                         hydrating instance.
-     * @return self                            The mapped hydrator.
+     * @return Hydrates                        The mapped hydrator.
      * @throws CannotInstantiateThis           When the class is not instantiable.
      */
     public static function forThe(
@@ -54,7 +54,7 @@ final class MappedHydrator implements Hydrates
         MapsProperties $mapped,
         Closure $setter = null,
         ObservesHydration $observer = null
-    ): self {
+    ): Hydrates {
         return new self(
             Instantiator::forThe($class),
             $mapped,
@@ -71,14 +71,14 @@ final class MappedHydrator implements Hydrates
      * @param Closure|null           $setter       The closure that writes the values.
      * @param ObservesHydration|null $observer     Object that gets updated with the
      *                                             hydrating instance.
-     * @return MappedHydrator                      The mapped hydrator.
+     * @return Hydrates                            The mapped hydrator.
      */
     public static function withInstantiator(
         ProvidesInstances $instantiator,
         MapsProperties $mapped,
         Closure $setter = null,
         ObservesHydration $observer = null
-    ): self {
+    ): Hydrates {
         return new self(
             $instantiator,
             $mapped,

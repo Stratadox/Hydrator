@@ -22,9 +22,9 @@ final class BlindObserver implements ObservesHydration
     /**
      * Creates a new blind observer.
      *
-     * @return self
+     * @return ObservesHydration
      */
-    public static function asDefault(): self
+    public static function asDefault(): ObservesHydration
     {
         if (is_null(self::$cache)) {
             self::$cache = new self;

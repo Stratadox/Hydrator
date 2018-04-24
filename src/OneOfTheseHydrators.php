@@ -29,9 +29,9 @@ final class OneOfTheseHydrators implements Hydrates
      *
      * @param string $key The key in which the decision key is stored.
      * @param array  $map Map of hydrators as [string $key => Hydrates $hydrator].
-     * @return self       The delegating hydrator.
+     * @return Hydrates   The delegating hydrator.
      */
-    public static function decideBasedOnThe(string $key, array $map): self
+    public static function decideBasedOnThe(string $key, array $map): Hydrates
     {
         return new self($key, $map);
     }

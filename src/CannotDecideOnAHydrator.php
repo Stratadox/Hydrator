@@ -18,9 +18,9 @@ final class CannotDecideOnAHydrator extends InvalidArgumentException implements 
      * not a key that was registered with the class mapping.
      *
      * @param string $hydratorKey The key that was found in the input data.
-     * @return self               The exception object.
+     * @return CannotHydrate      The exception object.
      */
-    public static function withThis(string $hydratorKey): self
+    public static function withThis(string $hydratorKey): CannotHydrate
     {
         return new self(sprintf(
             'Invalid class decision key: `%s`.',
@@ -33,9 +33,9 @@ final class CannotDecideOnAHydrator extends InvalidArgumentException implements 
      * expected, does not exist in the input data.
      *
      * @param string $decisionKey The key that should contain the decision key.
-     * @return self               The exception object.
+     * @return CannotHydrate      The exception object.
      */
-    public static function without(string $decisionKey): self
+    public static function without(string $decisionKey): CannotHydrate
     {
         return new self(sprintf(
             'Missing class decision key: `%s`.',

@@ -14,9 +14,9 @@ final class ArrayHydrator implements Hydrates
     /**
      * Creates a new array hydrator.
      *
-     * @return self
+     * @return Hydrates
      */
-    public static function create(): self
+    public static function create(): Hydrates
     {
         return new self;
     }
