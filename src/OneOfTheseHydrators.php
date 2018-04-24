@@ -75,9 +75,9 @@ final class OneOfTheseHydrators implements Hydrates
      * @return string            The class for this data.
      * @throws CannotHydrate     In very unlikely cases.
      */
-    private function decideOnAClassUsing(Hydrates $hydrates, array $input): string
+    private function decideOnAClassUsing(Hydrates $hydrator, array $input): string
     {
-        return $hydrates->classFor($input);
+        return $hydrator->classFor($input);
     }
 
     /**
