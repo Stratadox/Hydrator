@@ -1,6 +1,5 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
@@ -10,7 +9,7 @@ use InvalidArgumentException;
  * Notifies the client code that the class decision could not be made.
  *
  * @package Stratadox\Hydrate
- * @author Stratadox
+ * @author  Stratadox
  */
 final class CannotDecideOnAHydrator extends InvalidArgumentException implements CannotHydrate
 {

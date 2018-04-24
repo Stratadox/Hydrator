@@ -1,6 +1,5 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
@@ -8,7 +7,7 @@ namespace Stratadox\Hydrator;
  * Delegates hydration, selecting a hydrator based on an input value.
  *
  * @package Stratadox\Hydrate
- * @author Stratadox
+ * @author  Stratadox
  */
 final class OneOfTheseHydrators implements Hydrates
 {
@@ -59,7 +58,7 @@ final class OneOfTheseHydrators implements Hydrates
      * Delegate the hydration to the given hydrator.
      *
      * @param Hydrates $hydrator The hydrator to delegate to.
-     * @param array $input       The input data.
+     * @param array    $input    The input data.
      * @return mixed|object      The hydrated instance.
      * @throws CannotHydrate     When the input data could not be hydrated.
      */
@@ -72,7 +71,7 @@ final class OneOfTheseHydrators implements Hydrates
      * Ask the hydrator for this input which class it would hydrate.
      *
      * @param Hydrates $hydrator The hydrator to delegate to.
-     * @param array $input       The input data.
+     * @param array    $input    The input data.
      * @return string            The class for this data.
      * @throws CannotHydrate     In very unlikely cases.
      */
@@ -84,9 +83,9 @@ final class OneOfTheseHydrators implements Hydrates
     /**
      * Selects a hydrator based on a key.
      *
-     * @param string $key       The key to use for hydrator selection.
-     * @return Hydrates         The hydrator to use.
-     * @throws CannotHydrate    When the input data could not be hydrated.
+     * @param string $key    The key to use for hydrator selection.
+     * @return Hydrates      The hydrator to use.
+     * @throws CannotHydrate When the selection key is invalid.
      */
     private function hydratorBasedOn(string $key): Hydrates
     {
@@ -99,9 +98,9 @@ final class OneOfTheseHydrators implements Hydrates
     /**
      * Retrieves the key from the input data.
      *
-     * @param array $input
-     * @return string
-     * @throws CannotHydrate  
+     * @param array $input   The input data.
+     * @return string        The key to use in selecting a hydrator.
+     * @throws CannotHydrate When the key is not present in the input data.
      */
     private function keyFromThe(array $input): string
     {
@@ -111,6 +110,11 @@ final class OneOfTheseHydrators implements Hydrates
         return $input[$this->decisionKey];
     }
 
-    private function mustBeAString(string $key): void {}
-    private function mustBeAHydrator(Hydrates $instance): void {}
+    private function mustBeAString(string $key): void
+    {
+    }
+
+    private function mustBeAHydrator(Hydrates $instance): void
+    {
+    }
 }

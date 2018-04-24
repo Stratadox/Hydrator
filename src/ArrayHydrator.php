@@ -1,6 +1,5 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
@@ -8,7 +7,7 @@ namespace Stratadox\Hydrator;
  * Hydrates an array. Since the input is already array, do nothing, really.
  *
  * @package Stratadox\Hydrate
- * @author Stratadox
+ * @author  Stratadox
  */
 final class ArrayHydrator implements Hydrates
 {

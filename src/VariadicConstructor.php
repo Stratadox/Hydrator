@@ -1,6 +1,5 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
@@ -10,7 +9,7 @@ use Throwable;
  * Hydrates an object by calling its constructor with squashed array input.
  *
  * @package Stratadox\Hydrate
- * @author Stratadox
+ * @author  Stratadox
  */
 final class VariadicConstructor implements Hydrates
 {

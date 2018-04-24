@@ -1,6 +1,5 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
@@ -14,7 +13,7 @@ use Throwable;
  * Hydrates an object from array input.
  *
  * @package Stratadox\Hydrate
- * @author Stratadox
+ * @author  Stratadox
  */
 final class SimpleHydrator implements Hydrates
 {

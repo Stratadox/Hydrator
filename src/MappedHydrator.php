@@ -1,11 +1,11 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
 use Closure;
 use Stratadox\HydrationMapping\MapsProperties;
+use Stratadox\HydrationMapping\UnmappableInput;
 use Stratadox\Instantiator\CannotInstantiateThis;
 use Stratadox\Instantiator\Instantiator;
 use Stratadox\Instantiator\ProvidesInstances;
@@ -15,7 +15,7 @@ use Throwable;
  * Hydrates an object from mapped array input.
  *
  * @package Stratadox\Hydrate
- * @author Stratadox
+ * @author  Stratadox
  */
 final class MappedHydrator implements Hydrates
 {
@@ -66,12 +66,12 @@ final class MappedHydrator implements Hydrates
     /**
      * Creates a new mapped hydrator with an instantiator.
      *
-     * @param ProvidesInstances $instantiator The instance provider to use.
-     * @param MapsProperties    $mapped       The mappings for the properties.
-     * @param Closure|null           $setter   The closure that writes the values.
-     * @param ObservesHydration|null $observer Object that gets updated with the
-     *                                         hydrating instance.
-     * @return MappedHydrator                 The mapped hydrator.
+     * @param ProvidesInstances      $instantiator The instance provider to use.
+     * @param MapsProperties         $mapped       The mappings for the properties.
+     * @param Closure|null           $setter       The closure that writes the values.
+     * @param ObservesHydration|null $observer     Object that gets updated with the
+     *                                             hydrating instance.
+     * @return MappedHydrator                      The mapped hydrator.
      */
     public static function withInstantiator(
         ProvidesInstances $instantiator,
@@ -91,15 +91,7 @@ final class MappedHydrator implements Hydrates
     public function fromArray(array $data)
     {
         try {
-            $object = $this->make->instance();
-            $this->observer->hydrating($object);
-            foreach ($this->properties as $property) {
-                $this->setter->call($object,
-                    $property->name(),
-                    $property->value($data, $object)
-                );
-            }
-            return $object;
+            return $this->makeFrom($data);
         } catch (Throwable $exception) {
             throw HydrationFailed::encountered($exception, $this->make->class());
         }
@@ -109,5 +101,26 @@ final class MappedHydrator implements Hydrates
     public function classFor(array $input): string
     {
         return $this->make->class();
+    }
+
+    /**
+     * Produces the hydrated instance.
+     *
+     * @param array $data   The input data.
+     * @return mixed|object The hydrated instance.
+     * @throws CannotInstantiateThis
+     * @throws UnmappableInput
+     */
+    private function makeFrom(array $data)
+    {
+        $object = $this->make->instance();
+        $this->observer->hydrating($object);
+        foreach ($this->properties as $property) {
+            $this->setter->call($object,
+                $property->name(),
+                $property->value($data, $object)
+            );
+        }
+        return $object;
     }
 }

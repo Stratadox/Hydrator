@@ -1,6 +1,5 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
@@ -8,7 +7,7 @@ namespace Stratadox\Hydrator;
  * Null object for *not* observing the hydration process.
  *
  * @package Stratadox\Hydrate
- * @author Stratadox
+ * @author  Stratadox
  */
 final class BlindObserver implements ObservesHydration
 {
