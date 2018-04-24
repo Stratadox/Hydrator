@@ -92,4 +92,10 @@ final class SimpleHydrator implements Hydrates
             throw HydrationFailed::encountered($exception, $this->make->class());
         }
     }
+
+    /** @inheritdoc */
+    public function classFor(array $input): string
+    {
+        return $this->make->class();
+    }
 }

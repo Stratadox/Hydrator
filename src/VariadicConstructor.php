@@ -42,4 +42,10 @@ final class VariadicConstructor implements Hydrates
             throw HydrationFailed::encountered($exception, $class);
         }
     }
+
+    /** @inheritdoc */
+    public function classFor(array $input): string
+    {
+        return $this->class;
+    }
 }

@@ -12,7 +12,7 @@ use InvalidArgumentException;
  * @package Stratadox\Hydrate
  * @author Stratadox
  */
-final class CannotDecideOnAHydrator extends InvalidArgumentException implements CouldNotHydrate
+final class CannotDecideOnAHydrator extends InvalidArgumentException implements CannotHydrate
 {
     /**
      * Notifies the client code that the decision key found in the input data is

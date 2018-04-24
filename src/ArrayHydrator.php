@@ -27,4 +27,10 @@ final class ArrayHydrator implements Hydrates
     {
         return $input;
     }
+
+    /** @inheritdoc */
+    public function classFor(array $input): string
+    {
+        return 'array';
+    }
 }

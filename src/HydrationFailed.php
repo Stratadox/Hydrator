@@ -14,7 +14,7 @@ use Throwable;
  * @package Stratadox\Hydrate
  * @author Stratadox
  */
-final class HydrationFailed extends RuntimeException implements CouldNotHydrate
+final class HydrationFailed extends RuntimeException implements CannotHydrate
 {
     /**
      * Notifies the client code that an exception was encountered during the
