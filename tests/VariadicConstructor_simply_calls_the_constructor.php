@@ -6,8 +6,10 @@ namespace Stratadox\Hydrator\Test;
 
 use PHPUnit\Framework\TestCase;
 use Stratadox\Hydrator\CannotHydrate;
+use Stratadox\Hydrator\Test\Asset\BasicCollection;
 use Stratadox\Hydrator\Test\Asset\ExceptionThrower;
 use Stratadox\Hydrator\Test\Asset\Numbers\CollectionOfIntegers;
+use Stratadox\Hydrator\Test\Asset\Numbers\CollectionWithPrivateConstructor;
 use Stratadox\Hydrator\VariadicConstructor;
 
 /**
@@ -31,6 +33,32 @@ class VariadicConstructor_simply_calls_the_constructor extends TestCase
         $collection = $hydrator->fromArray([123, 456]);
 
         $this->assertInstanceOf(CollectionOfIntegers::class, $collection);
+        $this->assertSame(123, $collection[0]);
+        $this->assertSame(456, $collection->offsetGet(1));
+    }
+
+    /** @test */
+    function instantiating_collections_with_private_constructors()
+    {
+        $hydrator = VariadicConstructor::forThe(CollectionWithPrivateConstructor::class);
+
+        /** @var CollectionWithPrivateConstructor $collection */
+        $collection = $hydrator->fromArray([123, 456]);
+
+        $this->assertInstanceOf(CollectionWithPrivateConstructor::class, $collection);
+        $this->assertSame(123, $collection[0]);
+        $this->assertSame(456, $collection->offsetGet(1));
+    }
+
+    /** @test */
+    function instantiating_collections_with_inherited_constructors()
+    {
+        $hydrator = VariadicConstructor::forThe(BasicCollection::class);
+
+        /** @var BasicCollection $collection */
+        $collection = $hydrator->fromArray([123, 456]);
+
+        $this->assertInstanceOf(BasicCollection::class, $collection);
         $this->assertSame(123, $collection[0]);
         $this->assertSame(456, $collection->offsetGet(1));
     }
