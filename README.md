@@ -23,24 +23,6 @@ Install with composer:
 
 `composer require stratadox/hydrator`
 
-## Basic Usage
-
-```php
-<?php
-use Stratadox\Hydrator\SimpleHydrator;
-
-$hydrator = SimpleHydrator::forThe(Foo::class);
-$foo = $hydrator->fromArray([
-    'bar' => 'Bar.',
-    'baz' => 'BAZ?',
-]);
-assert($foo instanceof Foo);
-assert('Bar.' === $foo->bar);
-assert('BAZ?' === $foo->getBaz());
-```
-
-[(It can do much more!)](https://github.com/Stratadox/Hydrate)
-
 ## What is this?
 
 The `Hydrator` package exists in the context of object deserialization.
@@ -51,52 +33,48 @@ To *hydrate* an object, means to assign values to its properties.
 An object that [`Hydrates`](https://github.com/Stratadox/HydratorContracts/blob/master/src/Hydrates.php)
 can populate the fields of other objects.
 
-Hydration works in tandem with [`Instantiation`](https://github.com/Stratadox/Instantiator);
+Hydration generally works in tandem with [`Instantiation`](https://github.com/Stratadox/Instantiator);
 the process of creating empty objects.
 
-### How does it work?
+## Basic Usage
 
-Rather than relying on reflection, this package leverages the speed and elegance 
-of [Closure binding](http://php.net/manual/en/closure.call.php) to assign values.
+```php
+<?php
+use Stratadox\Hydrator\ObjectHydrator;
 
-### What does it do?
+$hydrator = ObjectHydrator::default();
+$thing = new Thing;
 
-It takes an input array, and transforms it into a fully hydrated object.
+$hydrator->writeTo($thing, [
+    'foo' => 'Bar.',
+    'bar' => 'BAZ?',
+]);
 
-This can be done in several ways:
+assert('Bar.' === $thing->foo);
+assert('BAZ?' === $thing->getBar());
+```
 
-#### Simple hydration
+The default hydrator requires the hydrated object to have access to all of its 
+own properties.
 
-The most basic hydrator, `SimpleHydrator`, will simply assign each key/value pair
-in the input array to a property/value in the object.
+When that's not the case, for instance when some properties are private to the 
+parent, a `reflective` hydrator is available:
+```php
+<?php
+use Stratadox\Hydrator\ObjectHydrator;
 
-#### Mapped hydration
+$hydrator = ObjectHydrator::reflective();
+```
 
-When the input array and the property values are not a 1-to-1 match, the 
-`MappedHydrator` can be used instead. This more advanced hydrator takes a list
-of [`Property Mappings`](https://github.com/Stratadox/HydrationMapping) to 
-determine what values are assigned to which properties.
+For collection objects, the `CollectionHydrator` should be used:
+```php
+<?php
+use Stratadox\Hydrator\CollectionHydrator;
 
-#### Collections
+$hydrator = CollectionHydrator::default();
+$collection = new SplFixedArray;
 
-Collections can be hydrated with either the `ArrayHydrator`, when the items are 
-contained in an array, or by using the `VariadicContructor`, for items that are 
-contained in, for instance, an [`ImmutableCollection`](https://github.com/Stratadox/ImmutableCollection).
+$hydrator->writeTo($collection, ['foo', 'bar']);
 
-#### Abstractions
-
-The `OneOfTheseHydrators` class is practical when mapping abstract classes or 
-interfaces. It defers hydration to one of several hydrators based on the value 
-of one of the keys in the input array. This functionality is useful when 
-implementing, for example, a [single table inheritance](https://www.martinfowler.com/eaaCatalog/singleTableInheritance.html) 
-mapping.
-
-# Hydrate
-
-This package is part of the [Hydrate Module](https://github.com/Stratadox/Hydrate).
-
-The `Hydrate` module is an umbrella for several hydration-related packages.
-Together, they form a powerful toolset for converting input data into an object structure.
-
-Although these packages are designed to work together, they can also be used independently.
-The only hard dependencies of this `Hydrator` module are an instantiator and a set of packages dedicated only to interfaces.
+assert(2 === count($collection));
+```
