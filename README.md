@@ -26,11 +26,11 @@ Install with composer:
 ## What is this?
 
 The `Hydrator` package exists in the context of object deserialization.
-It is useful when loading objects from a data source, such as a database or an API. 
+It is useful when loading objects from a data source.
 
 To *hydrate* an object, means to assign values to its properties.
 
-An object that [`Hydrates`](https://github.com/Stratadox/HydratorContracts/blob/master/src/Hydrates.php)
+An object that [`Hydrates`](https://github.com/Stratadox/HydratorContracts)
 can populate the fields of other objects.
 
 Hydration generally works in tandem with [`Instantiation`](https://github.com/Stratadox/Instantiator);
