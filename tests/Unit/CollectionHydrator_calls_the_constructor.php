@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test\Unit;
 
+use function array_map;
+use function implode;
 use PHPUnit\Framework\TestCase;
+use function random_int;
+use function range;
 use ReflectionClass;
 use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\CollectionHydrator;
@@ -16,20 +20,28 @@ use Stratadox\Hydrator\Test\Fixture\InconstructibleCollection;
  */
 class CollectionHydrator_calls_the_constructor extends TestCase
 {
-    /** @test */
-    function instantiating_immutable_collections_through_their_constructor()
-    {
+    private const TESTS = 25;
+
+    /**
+     * @test
+     * @dataProvider integers
+     */
+    function instantiating_immutable_collections_through_their_constructor(
+        int ...$elements
+    ) {
         $hydrator = CollectionHydrator::default();
 
         /** @var CollectionOfIntegers $collection */
         $collection = (new ReflectionClass(CollectionOfIntegers::class))
             ->newInstanceWithoutConstructor();
 
-        $hydrator->writeTo($collection, [123, 456]);
+        $hydrator->writeTo($collection, $elements);
 
         $this->assertInstanceOf(CollectionOfIntegers::class, $collection);
-        $this->assertSame(123, $collection[0]);
-        $this->assertSame(456, $collection->offsetGet(1));
+        foreach ($elements as $position => $expected) {
+            $this->assertSame($expected, $collection[$position]);
+            $this->assertSame($expected, $collection->offsetGet($position));
+        }
     }
 
     /** @test */
@@ -49,5 +61,17 @@ class CollectionHydrator_calls_the_constructor extends TestCase
         );
 
         $hydrator->writeTo($collection, ['foo', 'bar']);
+    }
+
+    public function integers(): array
+    {
+        $sets = [];
+        for ($i = self::TESTS; $i > 0; --$i) {
+            $integers = array_map(function (): int {
+                return random_int(-1000, 1000);
+            }, range(0, random_int(1, 10)));
+            $sets[implode(',', $integers)] = $integers;
+        }
+        return $sets;
     }
 }
