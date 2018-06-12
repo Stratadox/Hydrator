@@ -42,16 +42,16 @@ final class ReflectiveHydrator implements Hydrates
     }
 
     private function write(
-        ReflectionClass $object,
+        ReflectionClass $class,
         object $target,
         string $name,
         $value
     ): void {
-        while ($object && !$object->hasProperty($name)) {
-            $object = $object->getParentClass();
+        while ($class && !$class->hasProperty($name)) {
+            $class = $class->getParentClass();
         }
         // @todo if !object, write as public?
-        $property = $object->getProperty($name);
+        $property = $class->getProperty($name);
         $property->setAccessible(true);
         $property->setValue($target, $value);
     }
