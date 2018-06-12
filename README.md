@@ -61,9 +61,9 @@ When that's not the case, for instance when some properties are private to the
 parent, a `reflective` hydrator is available:
 ```php
 <?php
-use Stratadox\Hydrator\ObjectHydrator;
+use Stratadox\Hydrator\ReflectiveHydrator;
 
-$hydrator = ObjectHydrator::reflective();
+$hydrator = ReflectiveHydrator::default();
 ```
 
 For collection objects, the `CollectionHydrator` should be used:

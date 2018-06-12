@@ -5,12 +5,9 @@ namespace Stratadox\Hydrator\Test\Unit;
 
 use Exception;
 use Faker\Factory;
-use Faker\Generator;
-use Faker\UniqueGenerator;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Stratadox\Hydrator\CannotHydrate;
-use Stratadox\Hydrator\Test\Fixture\ChildWithoutPropertyAccess;
 use Stratadox\Hydrator\Test\Fixture\Colour;
 use Stratadox\Hydrator\ObjectHydrator;
 use Stratadox\Hydrator\Test\Fixture\Popo;
@@ -41,25 +38,6 @@ class ObjectHydrator_writes_array_values_to_properties extends TestCase
 
         $this->assertTrue($actualColour->equals($expectedColour));
         $this->assertFalse($actualColour->equals($unexpectedColour));
-    }
-
-    /**
-     * @test
-     * @dataProvider privatePropertyInheritance
-     */
-    function hydrating_the_private_property_of_the_parent_through_reflection(
-        string $value,
-        ChildWithoutPropertyAccess $expected,
-        ChildWithoutPropertyAccess $unexpected
-    ) {
-        /** @var ChildWithoutPropertyAccess $actual */
-        $actual = (new ReflectionClass(ChildWithoutPropertyAccess::class))
-            ->newInstanceWithoutConstructor();
-
-        ObjectHydrator::reflective()->writeTo($actual, ['property' => $value]);
-
-        $this->assertTrue($actual->equals($expected));
-        $this->assertFalse($actual->equals($unexpected));
     }
 
     /**
@@ -102,42 +80,20 @@ class ObjectHydrator_writes_array_values_to_properties extends TestCase
         return $sets;
     }
 
-    public function privatePropertyInheritance(): array
-    {
-        $random = Factory::create()->unique();
-        $sets = [];
-        for ($i = self::TESTS; $i > 0; --$i) {
-            $value = $this->randomString();
-            $other = $this->randomString();
-            $sets["$value / $other"] = [
-                $value,
-                ChildWithoutPropertyAccess::onlyWriteAtConstruction($value),
-                ChildWithoutPropertyAccess::onlyWriteAtConstruction($other)
-            ];
-        }
-        return $sets;
-    }
-
     public function namesAndValues(): array
     {
         $random = Factory::create()->unique();
         $sets = [];
         for ($i = self::TESTS; $i > 0; --$i) {
             $name = $random->word;
-            $value = $this->randomString();
+            $value = $random->randomElement([
+                $random->word,
+                $random->sentence,
+                $random->email,
+                $random->name
+            ]);
             $sets["$name => $value"] = [$name, $value];
         }
         return $sets;
-    }
-
-    private function randomString(): string
-    {
-        $random = Factory::create();
-        return $random->randomElement([
-            $random->word,
-            $random->sentence,
-            $random->email,
-            $random->name
-        ]);
     }
 }
