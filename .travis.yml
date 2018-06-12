@@ -21,6 +21,8 @@ script:
   - vendor/bin/phpunit -c phpunit.xml --testdox
   - vendor/bin/phpstan analyse src tests --level=7
   - ./infection.phar --min-msi=100 --min-covered-msi=100
+  - touch build/logs/infection-log.txt
+  - cat build/logs/infection-log.txt
 
 after_success:
   - travis_retry php vendor/bin/php-coveralls
