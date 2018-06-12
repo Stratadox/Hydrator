@@ -33,13 +33,12 @@ final class ReflectiveHydrator implements Hydrates
     }
 
     /** @inheritdoc */
-    public function writeTo(object $target, array $data): object
+    public function writeTo(object $target, array $data): void
     {
         $object = new ReflectionObject($target);
         foreach ($data as $name => $value) {
             $this->write($object, $target, $name, $value);
         }
-        return $target;
     }
 
     private function write(

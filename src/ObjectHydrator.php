@@ -53,7 +53,7 @@ final class ObjectHydrator implements Hydrates
     }
 
     /** @inheritdoc */
-    public function writeTo(object $target, array $data): object
+    public function writeTo(object $target, array $data): void
     {
         foreach ($data as $attribute => $value) {
             try {
@@ -62,6 +62,5 @@ final class ObjectHydrator implements Hydrates
                 throw HydrationFailed::encountered($exception, $target);
             }
         }
-        return $target;
     }
 }

@@ -25,14 +25,13 @@ final class CollectionHydrator implements Hydrates
     }
 
     /** @inheritdoc */
-    public function writeTo(object $collection, array $input): object
+    public function writeTo(object $collection, array $input): void
     {
         try {
             $this->write($collection, $input);
         } catch (Throwable $exception) {
             throw HydrationFailed::encountered($exception, $collection);
         }
-        return $collection;
     }
 
     /** @throws ReflectionException */
