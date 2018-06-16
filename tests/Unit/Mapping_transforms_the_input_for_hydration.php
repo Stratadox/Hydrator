@@ -7,6 +7,7 @@ use Faker\Factory;
 use Faker\Generator;
 use PHPUnit\Framework\TestCase;
 use Stratadox\HydrationMapping\MapsProperties;
+use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\Mapping;
 use Stratadox\Hydrator\ObjectHydrator;
@@ -14,9 +15,11 @@ use Stratadox\Hydrator\ReflectiveHydrator;
 use Stratadox\Hydrator\Test\Fixture\Popo;
 use Stratadox\Hydrator\Test\Fixture\Properties;
 use Stratadox\Hydrator\Test\Fixture\Rename;
+use Stratadox\Hydrator\Test\Fixture\Throwing;
 
 /**
  * @covers \Stratadox\Hydrator\Mapping
+ * @covers \Stratadox\Hydrator\HydrationFailed
  */
 class Mapping_transforms_the_input_for_hydration extends TestCase
 {
@@ -31,13 +34,30 @@ class Mapping_transforms_the_input_for_hydration extends TestCase
         array $expectedProperties
     ) {
         $object = new Popo;
-        $hydrator = Mapping::for($hydrator, $propertyMappings);
+        $mappedHydrator = Mapping::for($hydrator, $propertyMappings);
 
-        $hydrator->writeTo($object, $inputData);
+        $mappedHydrator->writeTo($object, $inputData);
 
         foreach ($expectedProperties as $name => $value) {
             $this->assertAttributeEquals($value, $name, $object);
         }
+    }
+
+    /**
+     * @test
+     * @dataProvider exceptionMessages
+     */
+    function throwing_the_right_exception(Hydrates $hydrator, string $message)
+    {
+        $mappedHydrator = Mapping::for($hydrator, Properties::use(
+            Throwing::withMessage($message)
+        ));
+
+        $popo = Popo::class;
+        $this->expectException(CannotHydrate::class);
+        $this->expectExceptionMessage("Could not hydrate the `$popo`: $message");
+
+        $mappedHydrator->writeTo(new Popo, ['foo' => 'bar']);
     }
 
     public function inputData(): array
@@ -53,6 +73,23 @@ class Mapping_transforms_the_input_for_hydration extends TestCase
             $data[$name . ' with prefix mapping'] = $this->prefixMapping($hydrator, $random);
         }
         return $data;
+    }
+
+    public function exceptionMessages(): array
+    {
+        $random = Factory::create();
+        $sets = [];
+        for ($i = 10; $i > 0; --$i) {
+            $message = $random->sentence;
+            $sets[$message] = [
+                $random->randomElement([
+                    ObjectHydrator::default(),
+                    ReflectiveHydrator::default()
+                ]),
+                $message
+            ];
+        }
+        return $sets;
     }
 
     private function camelCaseMapping(Hydrates $hydrator, Generator $random): array

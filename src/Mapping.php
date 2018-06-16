@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Stratadox\Hydrator;
 
 use Stratadox\HydrationMapping\MapsProperties;
+use Stratadox\HydrationMapping\UnmappableInput;
 
 final class Mapping implements Hydrates
 {
@@ -29,8 +30,12 @@ final class Mapping implements Hydrates
     public function writeTo(object $target, array $input): void
     {
         $data = [];
-        foreach ($this->properties as $property) {
-            $data[$property->name()] = $property->value($input, $target);
+        try {
+            foreach ($this->properties as $property) {
+                $data[$property->name()] = $property->value($input, $target);
+            }
+        } catch (UnmappableInput $exception) {
+            throw HydrationFailed::encountered($exception, $target);
         }
         $this->hydrator->writeTo($target, $data);
     }
