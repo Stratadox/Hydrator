@@ -50,7 +50,10 @@ final class ReflectiveHydrator implements Hydrates
         while ($class && !$class->hasProperty($name)) {
             $class = $class->getParentClass();
         }
-        // @todo if !object, write as public?
+        if (!$class) {
+            $target->$name = $value;
+            return;
+        }
         $property = $class->getProperty($name);
         $property->setAccessible(true);
         $property->setValue($target, $value);

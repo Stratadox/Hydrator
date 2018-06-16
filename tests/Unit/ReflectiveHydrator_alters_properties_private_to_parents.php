@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Stratadox\Hydrator\ReflectiveHydrator;
 use Stratadox\Hydrator\Test\Fixture\ChildWithoutPropertyAccess;
+use Stratadox\Hydrator\Test\Fixture\Popo;
 
 /**
  * @covers \Stratadox\Hydrator\ReflectiveHydrator
@@ -33,6 +34,16 @@ class ReflectiveHydrator_alters_properties_private_to_parents extends TestCase
 
         $this->assertTrue($actual->equals($expected));
         $this->assertFalse($actual->equals($unexpected));
+    }
+
+    /** @test */
+    function writing_properties_as_public_when_they_are_not_defined()
+    {
+        $object = new Popo;
+        ReflectiveHydrator::default()->writeTo($object, ['foo' => 'bar']);
+
+        $this->assertAttributeEquals('bar', 'foo', $object);
+        $this->assertSame('bar', $object->foo);
     }
 
     public function privatePropertyInheritance(): array
