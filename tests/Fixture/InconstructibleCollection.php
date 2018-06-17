@@ -8,7 +8,7 @@ use function implode;
 use function sprintf;
 use Stratadox\ImmutableCollection\ImmutableCollection;
 
-class InconstructibleCollection extends ImmutableCollection
+final class InconstructibleCollection extends ImmutableCollection
 {
     public function __construct(string ...$items)
     {

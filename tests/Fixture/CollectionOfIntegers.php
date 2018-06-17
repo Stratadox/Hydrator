@@ -6,7 +6,7 @@ namespace Stratadox\Hydrator\Test\Fixture;
 use function count;
 use Stratadox\ImmutableCollection\ImmutableCollection;
 
-class CollectionOfIntegers extends ImmutableCollection
+final class CollectionOfIntegers extends ImmutableCollection
 {
     private function __construct(int ...$integers)
     {
@@ -16,6 +16,11 @@ class CollectionOfIntegers extends ImmutableCollection
     public static function with(int ...$integers): CollectionOfIntegers
     {
         return new CollectionOfIntegers(...$integers);
+    }
+
+    public static function empty(): CollectionOfIntegers
+    {
+        return new CollectionOfIntegers;
     }
 
     public function current(): int

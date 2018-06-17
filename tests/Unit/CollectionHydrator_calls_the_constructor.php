@@ -9,11 +9,12 @@ use function implode;
 use PHPUnit\Framework\TestCase;
 use function random_int;
 use function range;
-use ReflectionClass;
 use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\CollectionHydrator;
 use Stratadox\Hydrator\Test\Fixture\CollectionOfIntegers;
 use Stratadox\Hydrator\Test\Fixture\InconstructibleCollection;
+use function strlen;
+use function unserialize;
 
 /**
  * @covers \Stratadox\Hydrator\CollectionHydrator
@@ -31,13 +32,10 @@ class CollectionHydrator_calls_the_constructor extends TestCase
     ) {
         $hydrator = CollectionHydrator::default();
 
-        /** @var CollectionOfIntegers $collection */
-        $collection = (new ReflectionClass(CollectionOfIntegers::class))
-            ->newInstanceWithoutConstructor();
+        $collection = CollectionOfIntegers::empty();
 
         $hydrator->writeTo($collection, $elements);
 
-        $this->assertInstanceOf(CollectionOfIntegers::class, $collection);
         foreach ($elements as $position => $expected) {
             $this->assertSame($expected, $collection[$position]);
             $this->assertSame($expected, $collection->offsetGet($position));
@@ -51,8 +49,11 @@ class CollectionHydrator_calls_the_constructor extends TestCase
         $class = InconstructibleCollection::class;
 
         /** @var InconstructibleCollection $collection */
-        $collection = (new ReflectionClass(InconstructibleCollection::class))
-            ->newInstanceWithoutConstructor();
+        $collection = unserialize(sprintf(
+            'O:%d:"%s":0:{}',
+            strlen($class),
+            $class
+        ));
 
         $this->expectException(CannotHydrate::class);
         $this->expectExceptionCode(0);
