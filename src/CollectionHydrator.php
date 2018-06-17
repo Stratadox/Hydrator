@@ -19,6 +19,11 @@ final class CollectionHydrator implements Hydrates
     {
     }
 
+    /**
+     * Produces a collection hydrator.
+     *
+     * @return Hydrates A hydrator that calls the constructor through reflection.
+     */
     public static function default(): Hydrates
     {
         return new CollectionHydrator;

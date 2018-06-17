@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
+/**
+ * Base class for decorating hydrators with observable functionality.
+ *
+ * @author Stratadox
+ */
 abstract class Observe implements Hydrates
 {
     private $hydrator;
@@ -16,6 +21,13 @@ abstract class Observe implements Hydrates
         $this->observer = $observer;
     }
 
+    /**
+     * Attaches an observer to a hydrator.
+     *
+     * @param Hydrates          $hydrator The hydrator to observe.
+     * @param ObservesHydration $observer The observer to attach.
+     * @return Hydrates                   The decorated hydrator.
+     */
     public static function hydrating(
         Hydrates $hydrator,
         ObservesHydration $observer

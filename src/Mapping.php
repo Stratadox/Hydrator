@@ -6,6 +6,11 @@ namespace Stratadox\Hydrator;
 use Stratadox\HydrationMapping\MapsProperties;
 use Stratadox\HydrationMapping\UnmappableInput;
 
+/**
+ * Applies hydration mapping to the input data before hydrating.
+ *
+ * @author Stratadox
+ */
 final class Mapping implements Hydrates
 {
     private $hydrator;
@@ -19,6 +24,13 @@ final class Mapping implements Hydrates
         $this->properties = $properties;
     }
 
+    /**
+     * Enables hydration mapping for a hydrator.
+     *
+     * @param Hydrates       $hydrator   The hydrator to decorate with mapping.
+     * @param MapsProperties $properties The mapping to apply to the input data.
+     * @return Hydrates                  A decorated hydrator that maps the data.
+     */
     public static function for(
         Hydrates $hydrator,
         MapsProperties $properties
