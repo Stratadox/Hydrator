@@ -14,6 +14,7 @@ use Stratadox\Hydrator\Test\Fixture\Popo;
 
 /**
  * @covers \Stratadox\Hydrator\ObserveBefore
+ * @covers \Stratadox\Hydrator\Observe
  */
 class ObserveBefore_calls_an_observer_before_hydrating extends TestCase
 {
