@@ -36,8 +36,9 @@ can populate the fields of other objects.
 Hydration generally works in tandem with [`Instantiation`](https://github.com/Stratadox/Instantiator);
 the process of creating empty objects.
 
-## Basic Usage
+## How to use this?
 
+The most basic usage looks like this:
 ```php
 <?php
 use Stratadox\Hydrator\ObjectHydrator;
@@ -46,12 +47,12 @@ $hydrator = ObjectHydrator::default();
 $thing = new Thing;
 
 $hydrator->writeTo($thing, [
-    'foo' => 'Bar.',
-    'bar' => 'BAZ?',
+    'foo'      => 'Bar.',
+    'property' => 'value',
 ]);
 
-assert('Bar.' === $thing->foo);
-assert('BAZ?' === $thing->getBar());
+assert($thing->foo === 'Bar.');
+assert($thing->getProperty() === 'value');
 ```
 
 The default hydrator requires the hydrated object to have access to all of its 
@@ -78,3 +79,35 @@ $hydrator->writeTo($collection, ['foo', 'bar']);
 
 assert(2 === count($collection));
 ```
+
+## What else can it do?
+
+The hydrators can be decorated to extend their capabilities.
+
+### Mapping
+
+To transform the input data with [hydration mapping](https://github.com/Stratadox/HydrationMapping),
+the `Mapping` decorator can be used:
+```php
+$hydrator = Mapping::for(ObjectHydrator::default(), Properties::map(
+    StringValue::inProperty('title'),
+    IntegerValue::inProperty('rating'),
+    StringValue::inPropertyWithDifferentKey('isbn', 'id')
+));
+```
+
+### Observing
+
+The hydration process can be observed in two ways: before or after hydrating.
+
+To observe the hydration process right before hydration begins, use:
+```php
+$hydrator = ObserveBefore::hydrating(ObjectHydrator::default(), $observer);
+```
+To observe the hydration process right after hydration is done, use:
+```php
+$hydrator = ObserveAfter::hydrating(ObjectHydrator::default(), $observer);
+```
+
+The observer must be an object that [`Observes Hydration`](https://github.com/Stratadox/HydratorContracts/blob/master/src/ObservesHydration.php).
+It will receive both the object instance and the input data.
