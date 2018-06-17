@@ -5,6 +5,7 @@ namespace Stratadox\Hydrator;
 
 use ReflectionClass;
 use ReflectionObject;
+use Throwable;
 
 /**
  * Hydrates an inheriting object from array input.
@@ -37,7 +38,11 @@ final class ReflectiveHydrator implements Hydrates
     {
         $object = new ReflectionObject($target);
         foreach ($data as $name => $value) {
-            $this->write($object, $target, $name, $value);
+            try {
+                $this->write($object, $target, $name, $value);
+            } catch (Throwable $exception) {
+                throw HydrationFailed::encountered($exception, $target);
+            }
         }
     }
 

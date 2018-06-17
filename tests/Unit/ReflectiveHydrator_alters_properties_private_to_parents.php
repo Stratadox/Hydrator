@@ -6,8 +6,10 @@ namespace Stratadox\Hydrator\Test\Unit;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\ReflectiveHydrator;
 use Stratadox\Hydrator\Test\Fixture\ChildWithoutPropertyAccess;
+use Stratadox\Hydrator\Test\Fixture\NoMagic;
 use Stratadox\Hydrator\Test\Fixture\Popo;
 
 /**
@@ -44,6 +46,21 @@ class ReflectiveHydrator_alters_properties_private_to_parents extends TestCase
 
         $this->assertAttributeEquals('bar', 'foo', $object);
         $this->assertSame('bar', $object->foo);
+    }
+
+    /** @test */
+    function throwing_custom_exceptions()
+    {
+        $object = new NoMagic;
+        $hydrator = ReflectiveHydrator::default();
+
+        $noMagic = NoMagic::class;
+        $this->expectException(CannotHydrate::class);
+        $this->expectExceptionMessage(
+            "Could not hydrate the `$noMagic`: Thou shalt not write to foo."
+        );
+
+        $hydrator->writeTo($object, ['foo' => 'bar']);
     }
 
     public function privatePropertyInheritance(): array
