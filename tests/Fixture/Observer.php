@@ -21,7 +21,7 @@ final class Observer implements ObservesHydration
         return $this->instances;
     }
 
-    public function observedInstance(int $i): object
+    public function observedInstance(int $i = 0): object
     {
         return $this->instances[$i];
     }
@@ -31,7 +31,7 @@ final class Observer implements ObservesHydration
         return $this->dataSets;
     }
 
-    public function observedDataSet(int $i): array
+    public function observedDataSet(int $i = 0): array
     {
         return $this->dataSets[$i];
     }

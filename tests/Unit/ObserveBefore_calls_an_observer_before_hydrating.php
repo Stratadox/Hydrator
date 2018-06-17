@@ -33,8 +33,8 @@ class ObserveBefore_calls_an_observer_before_hydrating extends TestCase
         $this->assertCount(1, $observer->observedInstances());
         $this->assertCount(1, $observer->observedDataSets());
 
-        $this->assertSame($object, $observer->observedInstance(0));
-        $this->assertSame(['foo' => 'bar'], $observer->observedDataSet(0));
+        $this->assertSame($object, $observer->observedInstance());
+        $this->assertSame(['foo' => 'bar'], $observer->observedDataSet());
 
         $this->assertAttributeEquals('bar', 'foo', $object);
     }
