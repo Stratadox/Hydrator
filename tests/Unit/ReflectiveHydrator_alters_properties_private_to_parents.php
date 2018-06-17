@@ -6,6 +6,7 @@ namespace Stratadox\Hydrator\Test\Unit;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use ReflectionProperty;
 use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\ReflectiveHydrator;
 use Stratadox\Hydrator\Test\Fixture\ChildWithoutPropertyAccess;
@@ -45,7 +46,7 @@ class ReflectiveHydrator_alters_properties_private_to_parents extends TestCase
         ReflectiveHydrator::default()->writeTo($object, ['foo' => 'bar']);
 
         $this->assertAttributeEquals('bar', 'foo', $object);
-        $this->assertSame('bar', $object->foo);
+        $this->assertTrue((new ReflectionProperty($object, 'foo'))->isPublic());
     }
 
     /** @test */
