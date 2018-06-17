@@ -94,6 +94,13 @@ $hydrator = Mapping::for(ObjectHydrator::default(), Properties::map(
     IntegerValue::inProperty('rating'),
     StringValue::inPropertyWithDifferentKey('isbn', 'id')
 ));
+
+$book = new Book;
+$hydrator->writeTo($book, [
+    'title'  => 'This is a book.',
+    'rating' => 3,
+    'isbn'   => '0000000001'
+]);
 ```
 
 ### Observing
