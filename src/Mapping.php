@@ -16,7 +16,7 @@ final class Mapping implements Hydrates
     private $hydrator;
     private $properties;
 
-    public function __construct(
+    private function __construct(
         Hydrates $hydrator,
         MapsProperties $properties
     ) {
