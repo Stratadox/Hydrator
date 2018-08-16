@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test\Unit;
 
-use function array_map;
-use function implode;
 use PHPUnit\Framework\TestCase;
-use function random_int;
-use function range;
 use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\CollectionHydrator;
+use Stratadox\Hydrator\Test\Data\RandomIntegers;
+use Stratadox\Hydrator\Test\Data\TwentyFiveRandomSamples;
 use Stratadox\Hydrator\Test\Fixture\CollectionOfIntegers;
 use Stratadox\Hydrator\Test\Fixture\InconstructibleCollection;
 use function strlen;
@@ -21,7 +19,7 @@ use function unserialize;
  */
 class CollectionHydrator_calls_the_constructor extends TestCase
 {
-    private const TESTS = 25;
+    use RandomIntegers, TwentyFiveRandomSamples;
 
     /**
      * @test
@@ -62,17 +60,5 @@ class CollectionHydrator_calls_the_constructor extends TestCase
         );
 
         $hydrator->writeTo($collection, ['foo', 'bar']);
-    }
-
-    public function integers(): array
-    {
-        $sets = [];
-        for ($i = self::TESTS; $i > 0; --$i) {
-            $integers = array_map(function (): int {
-                return random_int(-1000, 1000);
-            }, range(0, random_int(1, 10)));
-            $sets[implode(',', $integers)] = $integers;
-        }
-        return $sets;
     }
 }

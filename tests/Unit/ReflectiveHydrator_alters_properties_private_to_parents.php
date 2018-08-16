@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test\Unit;
 
-use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionProperty;
 use Stratadox\Hydrator\CannotHydrate;
 use Stratadox\Hydrator\ReflectiveHydrator;
+use Stratadox\Hydrator\Test\Data\ObjectsWithPropertiesTheyCannotAccess;
+use Stratadox\Hydrator\Test\Data\TwentyFiveRandomSamples;
 use Stratadox\Hydrator\Test\Fixture\ChildWithoutPropertyAccess;
 use Stratadox\Hydrator\Test\Fixture\NoMagic;
 use Stratadox\Hydrator\Test\Fixture\Popo;
@@ -18,11 +19,11 @@ use Stratadox\Hydrator\Test\Fixture\Popo;
  */
 class ReflectiveHydrator_alters_properties_private_to_parents extends TestCase
 {
-    private const TESTS = 25;
+    use ObjectsWithPropertiesTheyCannotAccess, TwentyFiveRandomSamples;
 
     /**
      * @test
-     * @dataProvider privatePropertyInheritance
+     * @dataProvider objectsWithPropertiesTheyCannotAccess
      */
     function hydrating_the_private_property_of_the_parent_through_reflection(
         string $value,
@@ -62,31 +63,5 @@ class ReflectiveHydrator_alters_properties_private_to_parents extends TestCase
         );
 
         $hydrator->writeTo($object, ['foo' => 'bar']);
-    }
-
-    public function privatePropertyInheritance(): array
-    {
-        $sets = [];
-        for ($i = self::TESTS; $i > 0; --$i) {
-            $value = $this->randomString();
-            $other = $this->randomString();
-            $sets["$value / $other"] = [
-                $value,
-                ChildWithoutPropertyAccess::onlyWriteAtConstruction($value),
-                ChildWithoutPropertyAccess::onlyWriteAtConstruction($other)
-            ];
-        }
-        return $sets;
-    }
-
-    private function randomString(): string
-    {
-        $random = Factory::create();
-        return $random->randomElement([
-            $random->word,
-            $random->sentence,
-            $random->email,
-            $random->name
-        ]);
     }
 }

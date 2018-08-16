@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Stratadox\Hydrator\Hydrates;
 use Stratadox\Hydrator\ObjectHydrator;
 use Stratadox\Hydrator\ObserveAfter;
-use Stratadox\Hydrator\ReflectiveHydrator;
+use Stratadox\Hydrator\Test\Data\Hydrators;
 use Stratadox\Hydrator\Test\Fixture\Observer;
 use Stratadox\Hydrator\Test\Fixture\Popo;
 
@@ -18,6 +18,8 @@ use Stratadox\Hydrator\Test\Fixture\Popo;
  */
 class ObserveAfter_calls_an_observer_after_hydrating extends TestCase
 {
+    use Hydrators;
+
     /**
      * @test
      * @dataProvider hydrators
@@ -53,7 +55,6 @@ class ObserveAfter_calls_an_observer_after_hydrating extends TestCase
 
         try {
             $observedHydrator->writeTo($object, ['foo' => 'bar']);
-            $this->fail();
         } catch (Exception $exception) {
             $popo = Popo::class;
             $this->assertSame(
@@ -62,14 +63,8 @@ class ObserveAfter_calls_an_observer_after_hydrating extends TestCase
             );
 
             $this->assertCount(0, $observer->observedInstances());
+            return;
         }
-    }
-
-    public function hydrators(): array
-    {
-        return [
-            'Object hydrator' => [ObjectHydrator::default()],
-            'Reflective hydrator' => [ReflectiveHydrator::default()],
-        ];
+        $this->fail();
     }
 }
