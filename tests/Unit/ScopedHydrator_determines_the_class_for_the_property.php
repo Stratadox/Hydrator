@@ -2,6 +2,7 @@
 
 namespace Stratadox\Hydrator\Test\Unit;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Stratadox\Hydrator\CannotHydrate;
@@ -60,6 +61,40 @@ class ScopedHydrator_determines_the_class_for_the_property extends TestCase
         ]);
 
         $this->assertSame($expectation, $object->property());
+    }
+
+    /**
+     * @test
+     * @dataProvider objectsWithPropertiesThatAlsoExistInBothParents
+     */
+    function using_a_custom_scope_prefix(
+        string $expectation,
+        string $myValue,
+        string $parentValue,
+        string $grandParentValue
+    ) {
+        /** @var GrandChildWithPrivateProperty $object */
+        $object = (new ReflectionClass(GrandChildWithPrivateProperty::class))
+            ->newInstanceWithoutConstructor();
+
+        ScopedHydrator::prefixedWith('.')->writeTo($object, [
+            'property' => $myValue,
+            '.property' => $parentValue,
+            '..property' => $grandParentValue,
+        ]);
+
+        $this->assertSame($expectation, $object->property());
+    }
+
+    /** @test */
+    function not_allowing_empty_prefixes()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'The prefix for the scoped hydrator cannot be empty.'
+        );
+
+        ScopedHydrator::prefixedWith('');
     }
 
     /** @test */

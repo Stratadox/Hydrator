@@ -35,6 +35,11 @@ final class ScopedHydrator implements Hydrates
     {
         $this->prefix = $prefix;
         $this->prefixLength = strlen($prefix);
+        if (!$this->prefixLength) {
+            throw new InvalidArgumentException(
+                'The prefix for the scoped hydrator cannot be empty.'
+            );
+        }
     }
 
     /**
@@ -45,6 +50,17 @@ final class ScopedHydrator implements Hydrates
     public static function default(): Hydrates
     {
         return new self('parent.');
+    }
+
+    /**
+     * Produce a scoped hydrator with a custom prefix.
+     *
+     * @param string $prefix  The prefix to determine the parental scope.
+     * @return ScopedHydrator A hydrator that uses the custom prefix.
+     */
+    public static function prefixedWith(string $prefix): self
+    {
+        return new self($prefix);
     }
 
     /** @inheritdoc */
