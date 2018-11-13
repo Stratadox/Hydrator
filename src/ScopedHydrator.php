@@ -83,10 +83,7 @@ final class ScopedHydrator implements Hydrates
         $value
     ): void {
         $name = $propertyName;
-        while (true) {
-            if (strpos($name, $this->prefix) !== 0) {
-                break;
-            }
+        while (strpos($name, $this->prefix) === 0) {
             $name = substr($name, $this->prefixLength);
             $class = $class->getParentClass();
         }
