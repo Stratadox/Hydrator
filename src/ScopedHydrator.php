@@ -86,12 +86,12 @@ final class ScopedHydrator implements Hydrates
         while (strpos($name, $this->prefix) === 0) {
             $name = substr($name, $this->prefixLength);
             $class = $class->getParentClass();
-        }
-        if (!$class) {
-            throw new InvalidArgumentException(sprintf(
-                'It has no %s.',
-                $propertyName
-            ));
+            if (!$class) {
+                throw new InvalidArgumentException(sprintf(
+                    'It has no %s.',
+                    $propertyName
+                ));
+            }
         }
         $property = $class->getProperty($name);
         $property->setAccessible(true);

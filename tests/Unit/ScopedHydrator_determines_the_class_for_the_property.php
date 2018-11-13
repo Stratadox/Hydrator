@@ -113,4 +113,21 @@ class ScopedHydrator_determines_the_class_for_the_property extends TestCase
             'parent.parent.property' => 'foo',
         ]);
     }
+
+    /** @test */
+    function throwing_an_exception_when_the_scope_is_not_resolvable_at_all()
+    {
+        /** @var ChildWithPrivateProperty $object */
+        $object = (new ReflectionClass(ChildWithPrivateProperty::class))
+            ->newInstanceWithoutConstructor();
+
+        $class = ChildWithPrivateProperty::class;
+        $this->expectException(CannotHydrate::class);
+        $this->expectExceptionMessage(
+            "Could not hydrate the `$class`: It has no ^^^property."
+        );
+        ScopedHydrator::prefixedWith('^')->writeTo($object, [
+            '^^^property' => 'foo',
+        ]);
+    }
 }
