@@ -13,6 +13,8 @@ use Throwable;
  * Slower than the default object hydrator, but useful in the context of
  * inheritance, when some of the properties are private to the parent class and
  * therefore inaccessible through simple closure binding.
+ * @todo actually, it can be done, by binding the closure with a class scope.
+ * @todo find out if that improves performance
  *
  * @package Stratadox\Hydrate
  * @author  Stratadox
