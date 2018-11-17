@@ -13,7 +13,7 @@ use Throwable;
  * @package Stratadox\Hydrate
  * @author  Stratadox
  */
-final class CollectionHydrator implements Hydrates
+final class ImmutableCollectionHydrator implements Hydrates
 {
     private function __construct()
     {
@@ -26,7 +26,7 @@ final class CollectionHydrator implements Hydrates
      */
     public static function default(): Hydrates
     {
-        return new CollectionHydrator;
+        return new ImmutableCollectionHydrator();
     }
 
     /** @inheritdoc */

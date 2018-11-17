@@ -6,7 +6,7 @@ namespace Stratadox\Hydrator\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Stratadox\Hydrator\CannotHydrate;
-use Stratadox\Hydrator\CollectionHydrator;
+use Stratadox\Hydrator\ImmutableCollectionHydrator;
 use Stratadox\Hydrator\Test\Data\RandomIntegers;
 use Stratadox\Hydrator\Test\Data\TwentyFiveRandomSamples;
 use Stratadox\Hydrator\Test\Fixture\CollectionOfIntegers;
@@ -15,9 +15,9 @@ use function strlen;
 use function unserialize;
 
 /**
- * @covers \Stratadox\Hydrator\CollectionHydrator
+ * @covers \Stratadox\Hydrator\ImmutableCollectionHydrator
  */
-class CollectionHydrator_calls_the_constructor extends TestCase
+class ImmutableCollectionHydrator_calls_the_constructor extends TestCase
 {
     use RandomIntegers, TwentyFiveRandomSamples;
 
@@ -28,7 +28,7 @@ class CollectionHydrator_calls_the_constructor extends TestCase
     function instantiating_immutable_collections_through_their_constructor(
         int ...$elements
     ) {
-        $hydrator = CollectionHydrator::default();
+        $hydrator = ImmutableCollectionHydrator::default();
 
         $collection = CollectionOfIntegers::empty();
 
@@ -43,7 +43,7 @@ class CollectionHydrator_calls_the_constructor extends TestCase
     /** @test */
     function converting_constructor_exceptions_to_CannotHydrate()
     {
-        $hydrator = CollectionHydrator::default();
+        $hydrator = ImmutableCollectionHydrator::default();
         $class = InconstructibleCollection::class;
 
         /** @var InconstructibleCollection $collection */
