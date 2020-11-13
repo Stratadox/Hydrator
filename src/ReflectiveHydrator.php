@@ -4,22 +4,22 @@ declare(strict_types=1);
 namespace Stratadox\Hydrator;
 
 use ReflectionClass;
+use ReflectionException;
 use ReflectionObject;
 use Throwable;
 
 /**
- * Hydrates an inheriting object from array input.
+ * Hydrator an inheriting object from array input.
  *
  * Slower than the default object hydrator, but useful in the context of
  * inheritance, when some of the properties are private to the parent class and
  * therefore inaccessible through simple closure binding.
- * @todo actually, it can be done, by binding the closure with a class scope.
+ * @todo it can be done, by binding the closure with a class scope.
  * @todo find out if that improves performance
  *
- * @package Stratadox\Hydrate
  * @author  Stratadox
  */
-final class ReflectiveHydrator implements Hydrates
+final class ReflectiveHydrator implements Hydrator
 {
     private function __construct()
     {
@@ -28,9 +28,9 @@ final class ReflectiveHydrator implements Hydrates
     /**
      * Produce a reflective hydrator.
      *
-     * @return Hydrates A hydrator that uses reflection to write properties.
+     * @return Hydrator A hydrator that uses reflection to write properties.
      */
-    public static function default(): Hydrates
+    public static function default(): Hydrator
     {
         return new ReflectiveHydrator;
     }
@@ -43,11 +43,15 @@ final class ReflectiveHydrator implements Hydrates
             try {
                 $this->write($object, $target, $name, $value);
             } catch (Throwable $exception) {
-                throw HydrationFailed::encountered($exception, $target);
+                throw HydrationFailed::encountered($exception, $target, $data);
             }
         }
     }
 
+    /**
+     * @var ReflectionClass|bool $class
+     * @throws ReflectionException
+     */
     private function write(
         ReflectionClass $class,
         object $target,

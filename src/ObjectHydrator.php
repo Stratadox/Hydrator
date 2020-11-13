@@ -7,7 +7,7 @@ use Closure;
 use Throwable;
 
 /**
- * Hydrates an object from array input.
+ * Hydrator an object from array input.
  *
  * Faster than a reflective object hydrator, but limited to properties that
  * can be accessed by the instance itself. That means this method cannot be
@@ -17,7 +17,7 @@ use Throwable;
  * @package Stratadox\Hydrate
  * @author  Stratadox
  */
-final class ObjectHydrator implements Hydrates
+final class ObjectHydrator implements Hydrator
 {
     private $setter;
 
@@ -32,9 +32,9 @@ final class ObjectHydrator implements Hydrates
     /**
      * Produces an object hydrator with a default setter.
      *
-     * @return Hydrates A hydrator that uses closure binding to write properties.
+     * @return Hydrator A hydrator that uses closure binding to write properties.
      */
-    public static function default(): Hydrates
+    public static function default(): Hydrator
     {
         return new self(null);
     }
@@ -43,23 +43,23 @@ final class ObjectHydrator implements Hydrates
      * Produces an object hydrator with a custom setter.
      *
      * @param Closure   $setter The closure that writes the values.
-     * @return Hydrates         A hydrator that uses a custom closure to write
+     * @return Hydrator         A hydrator that uses a custom closure to write
      *                          properties.
      */
     public static function using(
         Closure $setter
-    ): Hydrates {
+    ): Hydrator {
         return new self($setter);
     }
 
     /** @inheritdoc */
-    public function writeTo(object $target, array $data): void
+    public function writeTo(object $target, array $input): void
     {
-        foreach ($data as $attribute => $value) {
+        foreach ($input as $attribute => $value) {
             try {
                 $this->setter->call($target, $attribute, $value);
             } catch (Throwable $exception) {
-                throw HydrationFailed::encountered($exception, $target);
+                throw HydrationFailed::encountered($exception, $target, $input);
             }
         }
     }

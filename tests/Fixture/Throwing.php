@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Stratadox\Hydrator\Test\Fixture;
 
 use Exception;
-use Stratadox\HydrationMapping\MapsProperty;
-use Stratadox\HydrationMapping\UnmappableInput;
+use Stratadox\HydrationMapping\Mapping;
+use Stratadox\HydrationMapping\MappingFailure;
 
-final class Throwing implements MapsProperty
+final class Throwing implements Mapping
 {
     private $message;
 
@@ -16,7 +16,7 @@ final class Throwing implements MapsProperty
         $this->message = $message;
     }
 
-    public static function withMessage(string $message): Throwing
+    public static function withMessage(string $message): Mapping
     {
         return new self($message);
     }
@@ -28,6 +28,11 @@ final class Throwing implements MapsProperty
 
     public function value(array $data, $owner = null)
     {
-        throw new class($this->message) extends Exception implements UnmappableInput {};
+        throw new class($this->message) extends Exception implements MappingFailure {
+            public function hydrationData(): array
+            {
+                return [];
+            }
+        };
     }
 }

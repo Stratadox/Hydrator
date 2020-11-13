@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test\Fixture;
 
-use Stratadox\Hydrator\ObservesHydration;
+use Stratadox\Hydrator\HydrationObserver;
 
-final class Observer implements ObservesHydration
+final class Observer implements HydrationObserver
 {
     private $instances = [];
     private $dataSets = [];

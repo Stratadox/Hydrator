@@ -5,19 +5,12 @@ declare(strict_types=1);
 namespace Stratadox\Hydrator\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Stratadox\Hydrator\CannotHydrate;
+use Stratadox\Hydrator\HydrationFailure;
 use Stratadox\Hydrator\MutableCollectionHydrator;
 use Stratadox\Hydrator\Test\Data\RandomIntegers;
 use Stratadox\Hydrator\Test\Data\TwentyFiveRandomSamples;
 use Stratadox\Hydrator\Test\Fixture\ArrayObjectWithNumbers;
-use Stratadox\Hydrator\Test\Fixture\CollectionOfIntegers;
-use Stratadox\Hydrator\Test\Fixture\InconstructibleCollection;
-use function strlen;
-use function unserialize;
 
-/**
- * @covers \Stratadox\Hydrator\MutableCollectionHydrator
- */
 class MutableCollectionHydrator_writes_the_values extends TestCase
 {
     use RandomIntegers, TwentyFiveRandomSamples;
@@ -36,8 +29,8 @@ class MutableCollectionHydrator_writes_the_values extends TestCase
         $hydrator->writeTo($collection, $elements);
 
         foreach ($elements as $position => $expected) {
-            $this->assertSame($expected, $collection[$position]);
-            $this->assertSame($expected, $collection->offsetGet($position));
+            self::assertSame($expected, $collection[$position]);
+            self::assertSame($expected, $collection->offsetGet($position));
         }
     }
 
@@ -49,7 +42,7 @@ class MutableCollectionHydrator_writes_the_values extends TestCase
 
         $collection = ArrayObjectWithNumbers::empty();
 
-        $this->expectException(CannotHydrate::class);
+        $this->expectException(HydrationFailure::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
             "Could not hydrate the `$class`: Input must be numeric."

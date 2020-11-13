@@ -4,16 +4,15 @@ declare(strict_types=1);
 namespace Stratadox\Hydrator;
 
 use ReflectionException;
-use ReflectionMethod as Reflected;
+use ReflectionMethod;
 use Throwable;
 
 /**
  * Hydrates a collection by calling its constructor with squashed array input.
  *
- * @package Stratadox\Hydrate
  * @author  Stratadox
  */
-final class ImmutableCollectionHydrator implements Hydrates
+final class ImmutableCollectionHydrator implements Hydrator
 {
     private function __construct()
     {
@@ -22,9 +21,9 @@ final class ImmutableCollectionHydrator implements Hydrates
     /**
      * Produces a collection hydrator.
      *
-     * @return Hydrates A hydrator that calls the constructor through reflection.
+     * @return Hydrator A hydrator that calls the constructor through reflection.
      */
-    public static function default(): Hydrates
+    public static function default(): Hydrator
     {
         return new ImmutableCollectionHydrator();
     }
@@ -35,14 +34,14 @@ final class ImmutableCollectionHydrator implements Hydrates
         try {
             $this->write($collection, $input);
         } catch (Throwable $exception) {
-            throw HydrationFailed::encountered($exception, $collection);
+            throw HydrationFailed::encountered($exception, $collection, $input);
         }
     }
 
     /** @throws ReflectionException */
     private function write(object $collection, array $input): void
     {
-        $constructor = new Reflected($collection, '__construct');
+        $constructor = new ReflectionMethod($collection, '__construct');
         $constructor->setAccessible(true);
         $constructor->invoke($collection, ...$input);
     }

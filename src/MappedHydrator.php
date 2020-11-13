@@ -3,22 +3,22 @@ declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
-use Stratadox\HydrationMapping\MapsProperties;
-use Stratadox\HydrationMapping\UnmappableInput;
+use Stratadox\HydrationMapping\Mapping;
+use Stratadox\HydrationMapping\MappingFailure;
 
 /**
  * Applies hydration mapping to the input data before hydrating.
  *
  * @author Stratadox
  */
-final class Mapping implements Hydrates
+final class MappedHydrator implements Hydrator
 {
     private $hydrator;
     private $properties;
 
     private function __construct(
-        Hydrates $hydrator,
-        MapsProperties $properties
+        Hydrator $hydrator,
+        Mapping ...$properties
     ) {
         $this->hydrator = $hydrator;
         $this->properties = $properties;
@@ -27,15 +27,15 @@ final class Mapping implements Hydrates
     /**
      * Enables hydration mapping for a hydrator.
      *
-     * @param Hydrates       $hydrator   The hydrator to decorate with mapping.
-     * @param MapsProperties $properties The mapping to apply to the input data.
-     * @return Hydrates                  A decorated hydrator that maps the data.
+     * @param Hydrator       $hydrator   The hydrator to decorate with mapping.
+     * @param Mapping     ...$properties The mapping to apply to the input data.
+     * @return Hydrator                  A decorated hydrator that maps the data.
      */
-    public static function for(
-        Hydrates $hydrator,
-        MapsProperties $properties
-    ): Hydrates {
-        return new Mapping($hydrator, $properties);
+    public static function using(
+        Hydrator $hydrator,
+        Mapping ...$properties
+    ): Hydrator {
+        return new MappedHydrator($hydrator, ...$properties);
     }
 
     /** @inheritdoc */
@@ -46,8 +46,8 @@ final class Mapping implements Hydrates
             foreach ($this->properties as $property) {
                 $data[$property->name()] = $property->value($input, $target);
             }
-        } catch (UnmappableInput $exception) {
-            throw HydrationFailed::encountered($exception, $target);
+        } catch (MappingFailure $exception) {
+            throw HydrationFailed::encountered($exception, $target, $input);
         }
         $this->hydrator->writeTo($target, $data);
     }

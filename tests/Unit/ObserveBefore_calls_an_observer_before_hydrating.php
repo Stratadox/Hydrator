@@ -5,17 +5,13 @@ namespace Stratadox\Hydrator\Test\Unit;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Stratadox\Hydrator\Hydrates;
+use Stratadox\Hydrator\Hydrator;
 use Stratadox\Hydrator\ObjectHydrator;
 use Stratadox\Hydrator\ObserveBefore;
 use Stratadox\Hydrator\Test\Data\Hydrators;
 use Stratadox\Hydrator\Test\Fixture\Observer;
 use Stratadox\Hydrator\Test\Fixture\Popo;
 
-/**
- * @covers \Stratadox\Hydrator\ObserveBefore
- * @covers \Stratadox\Hydrator\Observe
- */
 class ObserveBefore_calls_an_observer_before_hydrating extends TestCase
 {
     use Hydrators;
@@ -24,7 +20,7 @@ class ObserveBefore_calls_an_observer_before_hydrating extends TestCase
      * @test
      * @dataProvider hydrators
      */
-    function notifying_the_observer_upon_hydration(Hydrates $hydrator)
+    function notifying_the_observer_upon_hydration(Hydrator $hydrator)
     {
         $observer = new Observer;
         $observedHydrator = ObserveBefore::hydrating($hydrator, $observer);
@@ -32,13 +28,13 @@ class ObserveBefore_calls_an_observer_before_hydrating extends TestCase
 
         $observedHydrator->writeTo($object, ['foo' => 'bar']);
 
-        $this->assertCount(1, $observer->observedInstances());
-        $this->assertCount(1, $observer->observedDataSets());
+        self::assertCount(1, $observer->observedInstances());
+        self::assertCount(1, $observer->observedDataSets());
 
-        $this->assertSame($object, $observer->observedInstance());
-        $this->assertSame(['foo' => 'bar'], $observer->observedDataSet());
+        self::assertSame($object, $observer->observedInstance());
+        self::assertSame(['foo' => 'bar'], $observer->observedDataSet());
 
-        $this->assertAttributeEquals('bar', 'foo', $object);
+        self::assertAttributeEquals('bar', 'foo', $object);
     }
 
     /** @test */
@@ -57,15 +53,15 @@ class ObserveBefore_calls_an_observer_before_hydrating extends TestCase
             $observedHydrator->writeTo($object, ['foo' => 'bar']);
         } catch (Exception $exception) {
             $popo = Popo::class;
-            $this->assertSame(
+            self::assertSame(
                 "Could not hydrate the `$popo`: Expected",
                 $exception->getMessage()
             );
 
-            $this->assertCount(1, $observer->observedInstances());
-            $this->assertSame($object, $observer->observedInstance(0));
+            self::assertCount(1, $observer->observedInstances());
+            self::assertSame($object, $observer->observedInstance(0));
             return;
         }
-        $this->fail();
+        self::fail();
     }
 }

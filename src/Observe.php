@@ -8,14 +8,14 @@ namespace Stratadox\Hydrator;
  *
  * @author Stratadox
  */
-abstract class Observe implements Hydrates
+abstract class Observe implements Hydrator
 {
     private $hydrator;
     private $observer;
 
     private function __construct(
-        Hydrates $hydrator,
-        ObservesHydration $observer
+        Hydrator $hydrator,
+        HydrationObserver $observer
     ) {
         $this->hydrator = $hydrator;
         $this->observer = $observer;
@@ -24,18 +24,18 @@ abstract class Observe implements Hydrates
     /**
      * Attaches an observer to a hydrator.
      *
-     * @param Hydrates          $hydrator The hydrator to observe.
-     * @param ObservesHydration $observer The observer to attach.
-     * @return Hydrates                   The decorated hydrator.
+     * @param Hydrator          $hydrator The hydrator to observe.
+     * @param HydrationObserver $observer The observer to attach.
+     * @return Hydrator                   The decorated hydrator.
      */
     public static function hydrating(
-        Hydrates $hydrator,
-        ObservesHydration $observer
-    ): Hydrates {
+        Hydrator $hydrator,
+        HydrationObserver $observer
+    ): Hydrator {
         return new static($hydrator, $observer);
     }
 
-    /** @throws CannotHydrate */
+    /** @throws HydrationFailure */
     final protected function hydrate(object $target, array $input): void
     {
         $this->hydrator->writeTo($target, $input);

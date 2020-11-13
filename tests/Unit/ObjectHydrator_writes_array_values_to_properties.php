@@ -6,7 +6,7 @@ namespace Stratadox\Hydrator\Test\Unit;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Stratadox\Hydrator\CannotHydrate;
+use Stratadox\Hydrator\HydrationFailure;
 use Stratadox\Hydrator\ObjectHydrator;
 use Stratadox\Hydrator\Test\Data\Colours;
 use Stratadox\Hydrator\Test\Data\PropertyNamesWithValues;
@@ -14,10 +14,6 @@ use Stratadox\Hydrator\Test\Data\TwentyFiveRandomSamples;
 use Stratadox\Hydrator\Test\Fixture\Colour;
 use Stratadox\Hydrator\Test\Fixture\Popo;
 
-/**
- * @covers \Stratadox\Hydrator\ObjectHydrator
- * @covers \Stratadox\Hydrator\HydrationFailed
- */
 class ObjectHydrator_writes_array_values_to_properties extends TestCase
 {
     use Colours, PropertyNamesWithValues, TwentyFiveRandomSamples;
@@ -37,8 +33,8 @@ class ObjectHydrator_writes_array_values_to_properties extends TestCase
 
         ObjectHydrator::default()->writeTo($actualColour, ['hexCode' => $code]);
 
-        $this->assertTrue($actualColour->equals($expectedColour));
-        $this->assertFalse($actualColour->equals($unexpectedColour));
+        self::assertTrue($actualColour->equals($expectedColour));
+        self::assertFalse($actualColour->equals($unexpectedColour));
     }
 
     /**
@@ -56,7 +52,7 @@ class ObjectHydrator_writes_array_values_to_properties extends TestCase
             throw new Exception("Not setting `$name` to `$value`.");
         });
 
-        $this->expectException(CannotHydrate::class);
+        $this->expectException(HydrationFailure::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
             "Could not hydrate the `$popo`: Not setting `$name` to `$value`."

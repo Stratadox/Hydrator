@@ -4,6 +4,7 @@ namespace Stratadox\Hydrator;
 
 use InvalidArgumentException;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionObject;
 use function sprintf;
 use function strlen;
@@ -12,7 +13,7 @@ use function substr;
 use Throwable;
 
 /**
- * Hydrates properties in a specific scope by deconstructing the input.
+ * Hydrator properties in a specific scope by deconstructing the input.
  *
  * Useful in the specific case where a child class has a private property, while
  * its parent(s) also have a private property by that very same name.
@@ -26,7 +27,7 @@ use Throwable;
  * @package Stratadox\Hydrate
  * @author  Stratadox
  */
-final class ScopedHydrator implements Hydrates
+final class ScopedHydrator implements Hydrator
 {
     private $prefix;
     private $prefixLength;
@@ -45,9 +46,9 @@ final class ScopedHydrator implements Hydrates
     /**
      * Produce a scoped hydrator.
      *
-     * @return Hydrates A hydrator that uses prefixes to determine the scopes.
+     * @return Hydrator A hydrator that uses prefixes to determine the scopes.
      */
-    public static function default(): Hydrates
+    public static function default(): Hydrator
     {
         return new self('parent.');
     }
@@ -71,11 +72,15 @@ final class ScopedHydrator implements Hydrates
             try {
                 $this->write($object, $target, $name, $value);
             } catch (Throwable $exception) {
-                throw HydrationFailed::encountered($exception, $target);
+                throw HydrationFailed::encountered($exception, $target, $data);
             }
         }
     }
 
+    /**
+     * @var ReflectionClass|bool $class
+     * @throws ReflectionException
+     */
     private function write(
         ReflectionClass $class,
         object $target,

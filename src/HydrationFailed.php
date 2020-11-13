@@ -3,35 +3,52 @@ declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
-use function get_class as theClassOfThe;
+use function get_class;
 use RuntimeException;
-use function sprintf as withMessage;
+use function sprintf;
 use Throwable;
 
 /**
  * Notifies the client code that the hydration of an object failed.
  *
- * @package Stratadox\Hydrate
  * @author  Stratadox
  */
-final class HydrationFailed extends RuntimeException implements CannotHydrate
+final class HydrationFailed extends RuntimeException implements HydrationFailure
 {
+    private $hydrationData;
+
+    private function __construct(
+        string $message,
+        int $code,
+        Throwable $previous,
+        array $data
+    ) {
+        parent::__construct($message, $code, $previous);
+        $this->hydrationData = $data;
+    }
+
     /**
      * Notifies the client code that an exception was encountered during the
      * hydration process.
      *
      * @param Throwable $exception The exception that was thrown.
      * @param object    $target    The object that was being hydrated.
-     * @return CannotHydrate       The exception to throw.
+     * @return HydrationFailure    The exception to throw.
      */
     public static function encountered(
         Throwable $exception,
-        object $target
-    ): CannotHydrate {
-        return new HydrationFailed(withMessage(
+        object $target,
+        array $data
+    ): HydrationFailure {
+        return new self(sprintf(
             'Could not hydrate the `%s`: %s',
-            theClassOfThe($target),
+            get_class($target),
             $exception->getMessage()
-        ), 0, $exception);
+        ), 0, $exception, $data);
+    }
+
+    public function hydrationData(): array
+    {
+        return $this->hydrationData;
     }
 }

@@ -4,13 +4,12 @@ declare(strict_types=1);
 namespace Stratadox\Hydrator\Test\Integration;
 
 use PHPUnit\Framework\TestCase;
-use Stratadox\Hydrator\Mapping;
+use Stratadox\Hydrator\MappedHydrator;
 use Stratadox\Hydrator\ObjectHydrator;
 use Stratadox\Hydrator\ObserveAfter;
 use Stratadox\Hydrator\ObserveBefore;
 use Stratadox\Hydrator\Test\Fixture\Observer;
 use Stratadox\Hydrator\Test\Fixture\Popo;
-use Stratadox\Hydrator\Test\Fixture\Properties;
 use Stratadox\Hydrator\Test\Fixture\Rename;
 
 /**
@@ -25,16 +24,12 @@ class Combining_decorators extends TestCase
         $innerAfterObserver = new Observer;
         $outerBeforeObserver = new Observer;
         $outerAfterObserver = new Observer;
-        $mapping = Properties::use(
-            Rename::between('data_foo', 'foo'),
-            Rename::between('data_bar', 'bar')
-        );
         $object = new Popo;
 
         $hydrator =
             ObserveAfter::hydrating(
                 ObserveBefore::hydrating(
-                    Mapping::for(
+                    MappedHydrator::using(
                         ObserveAfter::hydrating(
                             ObserveBefore::hydrating(
                                 ObjectHydrator::default(),
@@ -42,7 +37,8 @@ class Combining_decorators extends TestCase
                             ),
                             $innerAfterObserver
                         ),
-                        $mapping
+                        Rename::between('data_foo', 'foo'),
+                        Rename::between('data_bar', 'bar')
                     ),
                     $outerBeforeObserver
                 ),

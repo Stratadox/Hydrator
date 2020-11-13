@@ -5,16 +5,13 @@ namespace Stratadox\Hydrator\Test\Unit;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Stratadox\Hydrator\CannotHydrate;
+use Stratadox\Hydrator\HydrationFailure;
 use Stratadox\Hydrator\ScopedHydrator;
 use Stratadox\Hydrator\Test\Data\ObjectsWithPropertiesTheyCannotAccess;
 use Stratadox\Hydrator\Test\Data\TwentyFiveRandomSamples;
 use Stratadox\Hydrator\Test\Fixture\ChildWithPrivateProperty;
 use Stratadox\Hydrator\Test\Fixture\GrandChildWithPrivateProperty;
 
-/**
- * @covers \Stratadox\Hydrator\ScopedHydrator
- */
 class ScopedHydrator_determines_the_class_for_the_property extends TestCase
 {
     use ObjectsWithPropertiesTheyCannotAccess, TwentyFiveRandomSamples;
@@ -37,7 +34,7 @@ class ScopedHydrator_determines_the_class_for_the_property extends TestCase
             'parent.property' => $parentValue,
         ]);
 
-        $this->assertSame($expectation, $object->property());
+        self::assertSame($expectation, $object->property());
     }
 
     /**
@@ -60,7 +57,7 @@ class ScopedHydrator_determines_the_class_for_the_property extends TestCase
             'parent.parent.property' => $grandParentValue,
         ]);
 
-        $this->assertSame($expectation, $object->property());
+        self::assertSame($expectation, $object->property());
     }
 
     /**
@@ -83,7 +80,7 @@ class ScopedHydrator_determines_the_class_for_the_property extends TestCase
             '..property' => $grandParentValue,
         ]);
 
-        $this->assertSame($expectation, $object->property());
+        self::assertSame($expectation, $object->property());
     }
 
     /** @test */
@@ -105,7 +102,7 @@ class ScopedHydrator_determines_the_class_for_the_property extends TestCase
             ->newInstanceWithoutConstructor();
 
         $class = ChildWithPrivateProperty::class;
-        $this->expectException(CannotHydrate::class);
+        $this->expectException(HydrationFailure::class);
         $this->expectExceptionMessage(
             "Could not hydrate the `$class`: It has no parent.parent.property."
         );
@@ -122,7 +119,7 @@ class ScopedHydrator_determines_the_class_for_the_property extends TestCase
             ->newInstanceWithoutConstructor();
 
         $class = ChildWithPrivateProperty::class;
-        $this->expectException(CannotHydrate::class);
+        $this->expectException(HydrationFailure::class);
         $this->expectExceptionMessage(
             "Could not hydrate the `$class`: It has no ^^^property."
         );

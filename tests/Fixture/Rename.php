@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Stratadox\Hydrator\Test\Fixture;
 
-use Stratadox\HydrationMapping\MapsProperty;
+use Stratadox\HydrationMapping\Mapping;
 
-final class Rename implements MapsProperty
+final class Rename implements Mapping
 {
     private $from;
     private $to;
@@ -16,7 +16,7 @@ final class Rename implements MapsProperty
         $this->to = $to;
     }
 
-    public static function between(string $from, string $to): MapsProperty
+    public static function between(string $from, string $to): Mapping
     {
         return new Rename($from, $to);
     }

@@ -5,10 +5,9 @@ namespace Stratadox\Hydrator\Test\Data;
 
 use Faker\Factory;
 use Faker\Generator;
-use Stratadox\Hydrator\Hydrates;
+use Stratadox\Hydrator\Hydrator;
 use Stratadox\Hydrator\ObjectHydrator;
 use Stratadox\Hydrator\ReflectiveHydrator;
-use Stratadox\Hydrator\Test\Fixture\Properties;
 use Stratadox\Hydrator\Test\Fixture\Rename;
 
 trait MappedHydratorsWithHydrationData
@@ -29,16 +28,16 @@ trait MappedHydratorsWithHydrationData
     }
 
 
-    private function camelCaseMapping(Hydrates $hydrator, Generator $random): array
+    private function camelCaseMapping(Hydrator $hydrator, Generator $random): array
     {
         $theirFirstName = $random->firstName;
         $theirLastName = $random->lastName;
         return [
             $hydrator,
-            Properties::use(
+            [
                 Rename::between('first_name', 'firstName'),
                 Rename::between('last_name', 'lastName')
-            ),
+            ],
             [
                 'first_name' => $theirFirstName,
                 'last_name'  => $theirLastName,
@@ -50,16 +49,16 @@ trait MappedHydratorsWithHydrationData
         ];
     }
 
-    private function prefixMapping(Hydrates $hydrator, Generator $random): array
+    private function prefixMapping(Hydrator $hydrator, Generator $random): array
     {
         $randomWordForFoo = $random->word;
         $randomSentenceForBar = $random->sentence;
         return [
             $hydrator,
-            Properties::use(
+            [
                 Rename::between('foo', 'my_foo'),
                 Rename::between('bar', 'my_bar')
-            ),
+            ],
             [
                 'foo' => $randomWordForFoo,
                 'bar'  => $randomSentenceForBar,

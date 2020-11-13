@@ -6,7 +6,7 @@ namespace Stratadox\Hydrator\Test\Unit;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionProperty;
-use Stratadox\Hydrator\CannotHydrate;
+use Stratadox\Hydrator\HydrationFailure;
 use Stratadox\Hydrator\ReflectiveHydrator;
 use Stratadox\Hydrator\Test\Data\ObjectsWithPropertiesTheyCannotAccess;
 use Stratadox\Hydrator\Test\Data\TwentyFiveRandomSamples;
@@ -14,9 +14,6 @@ use Stratadox\Hydrator\Test\Fixture\ChildWithoutPropertyAccess;
 use Stratadox\Hydrator\Test\Fixture\NoMagic;
 use Stratadox\Hydrator\Test\Fixture\Popo;
 
-/**
- * @covers \Stratadox\Hydrator\ReflectiveHydrator
- */
 class ReflectiveHydrator_alters_properties_private_to_parents extends TestCase
 {
     use ObjectsWithPropertiesTheyCannotAccess, TwentyFiveRandomSamples;
@@ -36,8 +33,8 @@ class ReflectiveHydrator_alters_properties_private_to_parents extends TestCase
 
         ReflectiveHydrator::default()->writeTo($actual, ['property' => $value]);
 
-        $this->assertTrue($actual->equals($expected));
-        $this->assertFalse($actual->equals($unexpected));
+        self::assertTrue($actual->equals($expected));
+        self::assertFalse($actual->equals($unexpected));
     }
 
     /** @test */
@@ -46,8 +43,8 @@ class ReflectiveHydrator_alters_properties_private_to_parents extends TestCase
         $object = new Popo;
         ReflectiveHydrator::default()->writeTo($object, ['foo' => 'bar']);
 
-        $this->assertAttributeEquals('bar', 'foo', $object);
-        $this->assertTrue((new ReflectionProperty($object, 'foo'))->isPublic());
+        self::assertEquals('bar', $object->foo ?? '');
+        self::assertTrue((new ReflectionProperty($object, 'foo'))->isPublic());
     }
 
     /** @test */
@@ -57,7 +54,7 @@ class ReflectiveHydrator_alters_properties_private_to_parents extends TestCase
         $hydrator = ReflectiveHydrator::default();
 
         $noMagic = NoMagic::class;
-        $this->expectException(CannotHydrate::class);
+        $this->expectException(HydrationFailure::class);
         $this->expectExceptionMessage(
             "Could not hydrate the `$noMagic`: Thou shalt not write to foo."
         );
