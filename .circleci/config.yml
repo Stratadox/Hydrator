@@ -34,4 +34,4 @@ jobs:
       - run: ./infection.phar --min-msi=90 --min-covered-msi=100
       - run: touch build/logs/infection-log.txt
       - run: cat build/logs/infection-log.txt
-      - run: php ./vendor/php-coveralls/php-coveralls/bin/php-coveralls
+#      - run: php ./vendor/php-coveralls/php-coveralls/bin/php-coveralls
