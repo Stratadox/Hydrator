@@ -1,7 +1,7 @@
 # Hydrator
 
 [![Build Status](https://circleci.com/gh/Stratadox/Hydrator.svg?style=shield)](https://app.circleci.com/pipelines/github/Stratadox/Hydrator)
-[![Coverage Status](https://coveralls.io/repos/github/Stratadox/Hydrator/badge.svg?branch=master)](https://coveralls.io/github/Stratadox/Hydrator?branch=master)
+[![codecov](https://codecov.io/gh/Stratadox/Hydrator/branch/master/graph/badge.svg)](https://codecov.io/gh/Stratadox/Hydrator)
 [![Infection Minimum](https://img.shields.io/badge/msi-100-brightgreen.svg)](https://travis-ci.org/Stratadox/Hydrator)
 [![PhpStan Level](https://img.shields.io/badge/phpstan-7-brightgreen.svg)](https://travis-ci.org/Stratadox/Hydrator)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Stratadox/Hydrator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Stratadox/Hydrator/?branch=master)
