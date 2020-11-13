@@ -2,8 +2,8 @@
 
 [![Build Status](https://circleci.com/gh/Stratadox/Hydrator.svg?style=shield)](https://app.circleci.com/pipelines/github/Stratadox/Hydrator)
 [![codecov](https://codecov.io/gh/Stratadox/Hydrator/branch/master/graph/badge.svg)](https://codecov.io/gh/Stratadox/Hydrator)
-[![Infection Minimum](https://img.shields.io/badge/msi-100-brightgreen.svg)](https://travis-ci.org/Stratadox/Hydrator)
-[![PhpStan Level](https://img.shields.io/badge/phpstan-7-brightgreen.svg)](https://travis-ci.org/Stratadox/Hydrator)
+[![Infection Minimum](https://img.shields.io/badge/msi-100-brightgreen.svg)](https://app.circleci.com/pipelines/github/Stratadox/Hydrator)
+[![PhpStan Level](https://img.shields.io/badge/phpstan-8-brightgreen.svg)](https://app.circleci.com/pipelines/github/Stratadox/Hydrator)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Stratadox/Hydrator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Stratadox/Hydrator/?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d257cc1d20eeeba2a95c/maintainability)](https://codeclimate.com/github/Stratadox/Hydrator/maintainability)
 [![Latest Stable Version](https://poser.pugx.org/stratadox/hydrator/v/stable)](https://packagist.org/packages/stratadox/hydrator)
