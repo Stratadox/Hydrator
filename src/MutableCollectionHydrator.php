@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Stratadox\Hydrator;
 
+use ArrayAccess;
 use Throwable;
+use function assert;
 
 /**
  * Hydrates a collection by calling its constructor with squashed array input.
@@ -30,13 +32,14 @@ final class MutableCollectionHydrator implements Hydrator
     public function writeTo(object $collection, array $input): void
     {
         try {
+            assert($collection instanceof ArrayAccess);
             $this->write($collection, $input);
         } catch (Throwable $exception) {
             throw HydrationFailed::encountered($exception, $collection, $input);
         }
     }
 
-    private function write(object $collection, array $input): void
+    private function write(ArrayAccess $collection, array $input): void
     {
         foreach ($input as $key => $value) {
             $collection[$key] = $value;
