@@ -3,6 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
 version: 2
+orbs:
+  codecov: codecov/codecov@1.0.2
 jobs:
   build:
     docker:
@@ -34,4 +36,7 @@ jobs:
       - run: ./infection.phar --min-msi=90 --min-covered-msi=100
       - run: touch build/logs/infection-log.txt
       - run: cat build/logs/infection-log.txt
-#      - run: php ./vendor/php-coveralls/php-coveralls/bin/php-coveralls
+      - store_artifacts:
+          path: build/logs/clover.xml
+      - codecov/upload:
+          file: build/logs/clover.xml
