@@ -29,7 +29,9 @@ use Throwable;
  */
 final class ScopedHydrator implements Hydrator
 {
+    /** @var string */
     private $prefix;
+    /** @var int */
     private $prefixLength;
 
     private function __construct(string $prefix)
@@ -78,6 +80,7 @@ final class ScopedHydrator implements Hydrator
     }
 
     /**
+     * @param mixed $value
      * @var ReflectionClass|bool $class
      * @throws ReflectionException
      */

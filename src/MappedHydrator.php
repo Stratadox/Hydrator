@@ -13,7 +13,9 @@ use Stratadox\HydrationMapping\MappingFailure;
  */
 final class MappedHydrator implements Hydrator
 {
+    /** @var Hydrator */
     private $hydrator;
+    /** @var Mapping[] */
     private $properties;
 
     private function __construct(

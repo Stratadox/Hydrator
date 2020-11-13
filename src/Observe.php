@@ -10,10 +10,12 @@ namespace Stratadox\Hydrator;
  */
 abstract class Observe implements Hydrator
 {
+    /** @var Hydrator */
     private $hydrator;
+    /** @var HydrationObserver */
     private $observer;
 
-    private function __construct(
+    final private function __construct(
         Hydrator $hydrator,
         HydrationObserver $observer
     ) {

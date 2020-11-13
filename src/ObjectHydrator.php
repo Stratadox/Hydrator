@@ -19,6 +19,7 @@ use Throwable;
  */
 final class ObjectHydrator implements Hydrator
 {
+    /** @var Closure */
     private $setter;
 
     private function __construct(

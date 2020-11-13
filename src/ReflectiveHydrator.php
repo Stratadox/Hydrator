@@ -49,6 +49,7 @@ final class ReflectiveHydrator implements Hydrator
     }
 
     /**
+     * @param mixed $value
      * @var ReflectionClass|bool $class
      * @throws ReflectionException
      */

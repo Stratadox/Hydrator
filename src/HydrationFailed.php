@@ -15,6 +15,7 @@ use Throwable;
  */
 final class HydrationFailed extends RuntimeException implements HydrationFailure
 {
+    /** @var array */
     private $hydrationData;
 
     private function __construct(
@@ -33,6 +34,7 @@ final class HydrationFailed extends RuntimeException implements HydrationFailure
      *
      * @param Throwable $exception The exception that was thrown.
      * @param object    $target    The object that was being hydrated.
+     * @param mixed[]   $data      The hydration data that was supplied.
      * @return HydrationFailure    The exception to throw.
      */
     public static function encountered(

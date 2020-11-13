@@ -18,7 +18,7 @@ before_script:
 script:
   - mkdir -p build/logs
   - vendor/bin/phpunit -c phpunit.xml --testdox
-  - vendor/bin/phpstan analyse src tests --level=7
+  - vendor/bin/phpstan analyse -c phpstan.neon
   - ./infection.phar --min-msi=90 --min-covered-msi=100
   - touch build/logs/infection-log.txt
   - cat build/logs/infection-log.txt
