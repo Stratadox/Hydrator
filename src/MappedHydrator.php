@@ -49,7 +49,7 @@ final class MappedHydrator implements Hydrator
                 $data[$property->name()] = $property->value($input, $target);
             }
         } catch (MappingFailure $exception) {
-            throw HydrationFailed::encountered($exception, $target, $input);
+            throw HydrationFailed::encountered($exception, $target);
         }
         $this->hydrator->writeTo($target, $data);
     }

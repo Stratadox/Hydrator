@@ -60,7 +60,7 @@ final class ObjectHydrator implements Hydrator
             try {
                 $this->setter->call($target, $attribute, $value);
             } catch (Throwable $exception) {
-                throw HydrationFailed::encountered($exception, $target, $input);
+                throw HydrationFailed::encountered($exception, $target);
             }
         }
     }

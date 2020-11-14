@@ -35,7 +35,7 @@ final class MutableCollectionHydrator implements Hydrator
             assert($collection instanceof ArrayAccess);
             $this->write($collection, $input);
         } catch (Throwable $exception) {
-            throw HydrationFailed::encountered($exception, $collection, $input);
+            throw HydrationFailed::encountered($exception, $collection);
         }
     }
 

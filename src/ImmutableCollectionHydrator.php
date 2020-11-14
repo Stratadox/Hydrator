@@ -34,7 +34,7 @@ final class ImmutableCollectionHydrator implements Hydrator
         try {
             $this->write($collection, $input);
         } catch (Throwable $exception) {
-            throw HydrationFailed::encountered($exception, $collection, $input);
+            throw HydrationFailed::encountered($exception, $collection);
         }
     }
 

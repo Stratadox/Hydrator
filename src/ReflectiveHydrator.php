@@ -43,7 +43,7 @@ final class ReflectiveHydrator implements Hydrator
             try {
                 $this->write($object, $target, $name, $value);
             } catch (Throwable $exception) {
-                throw HydrationFailed::encountered($exception, $target, $data);
+                throw HydrationFailed::encountered($exception, $target);
             }
         }
     }
