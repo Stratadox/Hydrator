@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd1fa539626c9a3a168afbd3798e038e",
+    "content-hash": "c6b0159fd835fab56f555252b9413a7d",
     "packages": [
         {
             "name": "stratadox/hydration-mapping-contracts",
-            "version": "v0.3",
+            "version": "v0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Stratadox/HydrationMappingContracts.git",
-                "reference": "f8445ca3102694c819f31e0992208696b24077a8"
+                "reference": "6693b655d635507d54c0f4f040e1a6cf663bc296"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Stratadox/HydrationMappingContracts/zipball/f8445ca3102694c819f31e0992208696b24077a8",
-                "reference": "f8445ca3102694c819f31e0992208696b24077a8",
+                "url": "https://api.github.com/repos/Stratadox/HydrationMappingContracts/zipball/6693b655d635507d54c0f4f040e1a6cf663bc296",
+                "reference": "6693b655d635507d54c0f4f040e1a6cf663bc296",
                 "shasum": ""
             },
             "require": {
@@ -41,9 +41,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Stratadox/HydrationMappingContracts/issues",
-                "source": "https://github.com/Stratadox/HydrationMappingContracts/tree/v0.3"
+                "source": "https://github.com/Stratadox/HydrationMappingContracts/tree/v0.4"
             },
-            "time": "2020-11-12T19:03:35+00:00"
+            "time": "2020-11-14T11:31:18+00:00"
         },
         {
             "name": "stratadox/hydrator-contracts",
@@ -655,16 +655,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.54",
+            "version": "0.12.55",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "45c7b999a4b7dd9ac5558bdaaf23dcebbef88223"
+                "reference": "4382b2b2059ec7e5135d07685ec1e3e16ae32d16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/45c7b999a4b7dd9ac5558bdaaf23dcebbef88223",
-                "reference": "45c7b999a4b7dd9ac5558bdaaf23dcebbef88223",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4382b2b2059ec7e5135d07685ec1e3e16ae32d16",
+                "reference": "4382b2b2059ec7e5135d07685ec1e3e16ae32d16",
                 "shasum": ""
             },
             "require": {
@@ -695,7 +695,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.54"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.55"
             },
             "funding": [
                 {
@@ -711,7 +711,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-05T13:36:26+00:00"
+            "time": "2020-11-14T10:20:35+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

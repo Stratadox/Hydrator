@@ -21,7 +21,7 @@
         "php": ">=7.2",
         "stratadox/hydrator-contracts": "^0.8",
         "stratadox/instantiator": "^0.2",
-        "stratadox/hydration-mapping-contracts": "^0.3"
+        "stratadox/hydration-mapping-contracts": "^0.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.1",
